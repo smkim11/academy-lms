@@ -1,0 +1,117 @@
+@charset "UTF-8";
+
+/* 노멀라이즈 */
+body, ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 변수 */
+:root {
+  --side-bar-width: 250px;
+  --top-bar-height: 100px;
+}
+
+/* 전체 배경 */
+body {
+  background-color: #f9f9f9;  /* 밝은 배경으로 수정 */
+  font-family: sans-serif;
+  padding-top: var(--top-bar-height);
+  padding-left: var(--side-bar-width);
+  box-sizing: border-box;
+}
+
+/* 상단 바 */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--top-bar-height);
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px 0 calc(var(--side-bar-width) + 30px);
+  box-sizing: border-box;
+  z-index: 1000;
+}
+.top-bar .user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.3;
+}
+
+.user-info .user-name {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-right: 15px;
+}
+
+.edit-profile{
+  margin-right: 5px;
+ }
+.user-info .edit-profile {
+  font-size: 0.85rem;
+  color: #888;
+  text-decoration: underline;
+  margin-top: 2px;
+  cursor: pointer;
+}
+
+.user-info .edit-profile:hover {
+  color: #555;
+}
+
+
+
+/* 왼쪽 사이드바 */
+.side-bar {
+  position: fixed;
+  top: var(--top-bar-height);
+  left: 0;
+  width: var(--side-bar-width);
+  height: calc(100vh - var(--top-bar-height));
+  background-color: #333;
+  color: white;
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+
+/* 메뉴 스타일 */
+.side-bar ul > li > a {
+  display: block;
+  padding: 15px 20px;
+  font-size: 1rem;
+  font-weight: normal;
+  color: white;
+  transition: 0.3s;
+}
+
+.side-bar ul > li:hover > a {
+  background-color: #444;
+}
+
+
+/* 본문 */
+main {
+  padding: 30px;
+}
+
+main h1 {
+  color: #333;
+}
+
+main p {
+  color: #555;
+}
