@@ -1,5 +1,11 @@
 package com.example.academylms.dto;
 
-public class QnaAnswer {
+import lombok.Data;
 
+@Data
+public class QnaAnswer {
+	private int answerId;
+	private int qnaId;
+	private String answer;
+	private String lastUpdate;
 }
