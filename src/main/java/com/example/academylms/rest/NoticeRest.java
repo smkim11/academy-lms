@@ -1,5 +1,5 @@
 package com.example.academylms.rest;
 
-public class BoardRest {
+public class NoticeRest {
 
 }
