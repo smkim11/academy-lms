@@ -6,29 +6,51 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-	<h2>Q&A 목록</h2>
-	<table border="1" width="100%">
-	    <tr>
-	        <th>번호</th>
-	        <th>질문</th>
-	        <th>공개 여부</th>
-	        <th>작성일</th>
-	    </tr>
-	    <c:forEach var="qna" items="${qnaList}">
-	        <tr>
-	            <td>${qna.qnaId}</td>
-	            <td>${qna.question}</td>
-	            <td>
-	                <c:choose>
-	                    <c:when test="${qna.isPublic == 1}">공개</c:when>
-	                    <c:otherwise>비공개</c:otherwise>
-	                </c:choose>
-	            </td>
-	            <td>${qna.lastUpdate}</td>
-	        </tr>
-	    </c:forEach>
-	</table>
+<!-- 상단바 + 사이드바(네비게이션) -->
+	<div class="top-bar">
+	  <div class="logo">MyLMS</div>
+	  <div class="user-info">
+	    <div class="user-name">홍길동님</div>
+	    <a class="edit-profile" href="/mypage">개인정보 수정</a>
+	  </div>
+	</div>
+	<div class="side-bar">
+	  <ul>
+	    <li><a href="#">대시보드</a></li>
+	    <li><a href="#">강의목록</a></li>
+	    <li><a href="#">수강관리</a></li>
+	    <li><a href="#">설정</a></li>
+	  </ul>
+	</div>
+	
+	
+	<main>
+		<h2>Q&A 게시판</h2>
+		<table border="1" width="100%">
+		    <tr>
+		        <th>번호</th>
+		        <th>제목</th>
+		        <th>공개 여부</th>
+		        <th>작성일</th>
+		    </tr>
+		    <c:forEach var="qna" items="${qnaList}">
+		        <tr>
+		            <td>${qna.qnaId}</td>
+		            <td><a href="/qnaOne?id=${qna.qnaId}">${qna.title}</a></td>
+		            <td>
+		                <c:choose>
+		                    <c:when test="${qna.isPublic == 1}">공개</c:when>
+		                    <c:otherwise>비공개</c:otherwise>
+		                </c:choose>
+		            </td>
+		            <td>${qna.lastUpdate}</td>
+		        </tr>
+		    </c:forEach>
+		</table>
+	</main>
+
 </body>
 </html>

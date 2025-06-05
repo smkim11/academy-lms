@@ -2,11 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.academylms.mapper.QnaMapper">
     <select id="selectQnaList" resultType="com.example.academylms.dto.Qna">
-        SELECT qna_id AS qnaId,
+        SELECT title, 
+        	   qna_id AS qnaId,
                question,
                is_public AS isPublic,
                last_update AS lastUpdate
         FROM qna
         ORDER BY qna_id DESC
     </select>
+    
+    <select id="selectQnaOne" resultType="com.example.academylms.dto.Qna">
+	    SELECT title, 
+	           qna_id AS qnaId,
+	           question,
+	           is_public AS isPublic,
+	           last_update AS lastUpdate
+	    FROM qna
+	    WHERE qna_id = #{qnaId}
+	</select>
+	
+	<select id="findEnrollmentId" resultType="int">
+	  SELECT enrollment_id
+	  FROM lecture_enrollment
+	  WHERE student_id = #{studentId} AND lecture_id = #{lectureId}
+	</select>
+	
+	<insert id="insertQna" parameterType="com.example.academylms.dto.Qna">
+	  INSERT INTO qna (title, enrollment_id, question, is_public)
+	  VALUES (#{enrollmentId}, #{question}, #{isPublic})
+	</insert>
 </mapper>
