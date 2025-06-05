@@ -1,5 +1,5 @@
 package com.example.academylms.mapper;
 
-public interface BoardMapper {
+public interface NoticeMapper {
 
 }

@@ -1,5 +1,5 @@
 package com.example.academylms.service;
 
-public class BoardService {
+public class NoticeService {
 
 }

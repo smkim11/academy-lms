@@ -1,5 +1,5 @@
 package com.example.academylms.controller;
 
-public class BoardController {
+public class NoticeController {
 
 }
