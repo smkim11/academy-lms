@@ -1,5 +1,12 @@
 package com.example.academylms.mapper;
 
-public interface QnaMapper {
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.academylms.dto.Qna;
+
+@Mapper
+public interface QnaMapper {
+    List<Qna> selectQnaList();
 }

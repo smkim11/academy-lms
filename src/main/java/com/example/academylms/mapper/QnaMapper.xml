@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.academylms.mapper.QnaMapper"></mapper>
+<mapper namespace="com.example.academylms.mapper.QnaMapper">
+    <select id="selectQnaList" resultType="com.example.academylms.dto.Qna">
+        SELECT qna_id AS qnaId,
+               question,
+               is_public AS isPublic,
+               last_update AS lastUpdate
+        FROM qna
+        ORDER BY qna_id DESC
+    </select>
+</mapper>
