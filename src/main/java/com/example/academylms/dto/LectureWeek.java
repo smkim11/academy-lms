@@ -1,5 +1,11 @@
 package com.example.academylms.dto;
 
-public class LectureWeek {
+import lombok.Data;
 
+@Data
+public class LectureWeek {
+	private int weekId;
+	private int lectureId;
+	private int week;
+	private String lastUpdate;
 }
