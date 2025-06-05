@@ -1,5 +1,11 @@
 package com.example.academylms.dto;
 
-public class QuizOption {
+import lombok.Data;
 
+@Data
+public class QuizOption {
+	private int optionId;
+	private int quizId;
+	private String option;
+	private String lastUpdate;
 }

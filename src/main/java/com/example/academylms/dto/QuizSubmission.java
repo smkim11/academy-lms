@@ -1,5 +1,13 @@
 package com.example.academylms.dto;
 
-public class QuizSubmission {
+import lombok.Data;
 
+@Data
+public class QuizSubmission {
+	private int submissionId;
+	private int scoreId;
+	private String answer;
+	private int isCorrect;
+	private String lastUpdate;
+	
 }
