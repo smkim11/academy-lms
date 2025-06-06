@@ -99,7 +99,7 @@
 
 </head>
 <body>
-  <form action="/loginForm" id="LoginForm">
+  <form action="/loginForm" id="loginForm" method="post">
     <h1>로그인</h1>
     <div>
       <label for="id">아이디</label>
@@ -109,7 +109,7 @@
       <label for="password">비밀번호</label>
       <input type="password" id="password" name="password">
     </div>
-    <button type="submit" id="login">로그인하기</button>
+    <button type="button" id="login">로그인하기</button>
   </form>
 </body>
 </html>
