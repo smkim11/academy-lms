@@ -1,3 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.academylms.mapper.BoardMapper"></mapper>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.academylms.mapper.NoticeMapper">
+
+    <select id="selectAllNotices" resultType="com.example.academylms.dto.Notice">
+        SELECT 
+        	notice_id AS noticeId,
+	        lecture_id AS lectureId,
+	        notice_type AS noticeType,
+	        title,
+	        content,
+	        last_update AS lastUpdate
+        FROM notice 
+        ORDER BY last_update DESC
+    </select>
+
+    <select id="selectNoticeById" parameterType="int" resultType="com.example.academylms.dto.Notice">
+        SELECT 
+	        notice_id AS noticeId,
+	        lecture_id AS lectureId,
+	        notice_type AS noticeType,
+	        title,
+	        content,
+	        last_update AS lastUpdate
+	    FROM notice 
+	    WHERE notice_id = #{noticeId}
+    </select>
+
+    <insert id="addNotice" parameterType="com.example.academylms.dto.Notice">
+        INSERT INTO notice (lecture_id, notice_type, title, content, last_update)
+        VALUES (#{lectureId}, #{noticeType}, #{title}, #{content}, NOW())
+    </insert>
+
+    <update id="updateNotice" parameterType="com.example.academylms.dto.Notice">
+        UPDATE notice
+        SET lecture_id = #{lectureId},
+            notice_type = #{noticeType},
+            title = #{title},
+            content = #{content},
+            last_update = NOW()
+        WHERE notice_id = #{noticeId}
+    </update>
+
+    <delete id="deleteNotice" parameterType="int">
+        DELETE FROM notice WHERE notice_id = #{noticeId}
+    </delete>
+
+</mapper>
