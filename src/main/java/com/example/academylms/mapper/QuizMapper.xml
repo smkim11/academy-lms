@@ -1,3 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.academylms.mapper.QuizMapper"></mapper>
+<mapper namespace="com.example.academylms.mapper.QuizMapper">
+
+	<!--강의별 퀴즈 리스트-->
+	<select id="quizListByLectureId" resultType="map">
+		SELECT distinct lw.week_id weekId, lw.week, q.started_at startedAt, q.ended_at endedAt
+		FROM lecture_week lw INNER JOIN quiz q ON lw.week_id = q.week_id
+		WHERE lw.lecture_id= #{lectureId};	
+	</select>
+	
+	<!--퀴즈 문제풀이 페이지-->
+	<select id="quizOne" resultType="map" parameterType="map">
+		SELECT quiz_id quizId, question, type FROM quiz WHERE week_id=#{weekId} LIMIT #{page.beginRow},#{page.rowPerPage};
+	</select>
+	
+	<!--(강의,주차)별 퀴즈 전체 문제수-->
+	<select id="quizTotalCount">
+		SELECT COUNT(*) FROM quiz WHERE week_id=#{weekId}
+	</select>
+	
+	<!--퀴즈(객관식) 보기-->
+	<select id="quizOptionList" resultType="com.example.academylms.dto.QuizOption">
+		SELECT `option` FROM quiz_option WHERE quiz_id=#{quizId}
+	</select>
+	
+	<!--응시기록 확인-->
+	<select id="selectJoinId">
+		SELECT join_id FROM quiz_join WHERE week_id=#{weekId} AND enrollment_id=#{enrollmentId}
+	</select>
+	
+	<!--weekId에 해당하는 lectureId-->
+	<select id="selectLectureIdByweekId">
+		SELECT lecture_id FROM lecture_week WHERE week_id=#{weekId}
+	</select>
+	
+	<!--학생Id와 강의Id에 맞는 enrollmentId-->
+	<select id="selectEnrollmentId">
+		SELECT enrollment_id FROM lecture_enrollment 
+		WHERE student_id=#{studentId} AND lecture_id=#{lectureId}
+	</select>
+	
+	<!--join_id 등록-->
+	<insert id="insertJoinId">
+		INSERT INTO quiz_join(week_id, enrollment_id) VALUES(#{weekId},#{enrollmentId});
+	</insert>
+</mapper>
