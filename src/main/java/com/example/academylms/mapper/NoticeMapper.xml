@@ -14,7 +14,7 @@
 	        content,
 	        create_date AS createDate
         FROM notice 
-        ORDER BY last_update DESC
+        ORDER BY create_date DESC
     </select>
 
     <select id="selectNoticeById" parameterType="int" resultType="com.example.academylms.dto.Notice">
@@ -40,7 +40,7 @@
             notice_type = #{noticeType},
             title = #{title},
             content = #{content},
-            createDate = NOW()
+            create_date = NOW()
         WHERE notice_id = #{noticeId}
     </update>
 

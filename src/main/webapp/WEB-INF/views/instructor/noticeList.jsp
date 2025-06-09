@@ -22,7 +22,7 @@
                     <td>${notice.noticeId}</td>
                     <td>${notice.title}</td>
                     <td>${notice.noticeType}</td>
-                    <td>${notice.lastUpdate}</td>
+                    <td>${notice.createDate}</td>
                     <td class="action-btns">
                         <a href="/instructor/noticeList/${notice.noticeId}">상세보기</a>
                         <a href="/instructor/updateNotice/${notice.noticeId}">수정</a>
