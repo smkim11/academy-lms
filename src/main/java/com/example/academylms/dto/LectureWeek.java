@@ -7,5 +7,5 @@ public class LectureWeek {
 	private int weekId;
 	private int lectureId;
 	private int week;
-	private String lastUpdate;
+	private String createDate;
 }

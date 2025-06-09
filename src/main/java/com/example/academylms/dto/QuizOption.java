@@ -7,5 +7,5 @@ public class QuizOption {
 	private int optionId;
 	private int quizId;
 	private String option;
-	private String lastUpdate;
+	private String createDate;
 }

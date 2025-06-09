@@ -12,5 +12,5 @@ public class Quiz {
 	private String type;
 	private String startedAt;
 	private String endedAt;
-	private String lastUpdate;
+	private String createDate;
 }

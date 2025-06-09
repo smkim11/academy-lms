@@ -7,5 +7,5 @@ public class QnaAnswer {
 	private int answerId;
 	private int qnaId;
 	private String answer;
-	private String lastUpdate;
+	private String createDate;
 }

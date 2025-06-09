@@ -7,5 +7,5 @@ public class StudyGroup {
 	private int groupId;
 	private int lectureId;
 	private int studentId;
-	private String lastUpdate;
+	private String createDate;
 }

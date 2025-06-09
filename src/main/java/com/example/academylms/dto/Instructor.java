@@ -9,5 +9,5 @@ public class Instructor {
 	private String email;
 	private String phone;
 	private String major;
-	private String lastUpdate;
+	private String createDate;
 }

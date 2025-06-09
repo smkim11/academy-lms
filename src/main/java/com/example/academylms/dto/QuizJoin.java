@@ -8,5 +8,5 @@ public class QuizJoin {
 	private int weekId;
 	private int enrollmentId;
 	private int score;
-	private String lastUpdate;
+	private String createDate;
 }

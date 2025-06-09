@@ -12,7 +12,7 @@
 	        notice_type AS noticeType,
 	        title,
 	        content,
-	        last_update AS lastUpdate
+	        create_date AS createDate
         FROM notice 
         ORDER BY last_update DESC
     </select>
@@ -24,13 +24,13 @@
 	        notice_type AS noticeType,
 	        title,
 	        content,
-	        last_update AS lastUpdate
+	        create_date AS createDate
 	    FROM notice 
 	    WHERE notice_id = #{noticeId}
     </select>
 
     <insert id="addNotice" parameterType="com.example.academylms.dto.Notice">
-        INSERT INTO notice (lecture_id, notice_type, title, content, last_update)
+        INSERT INTO notice (lecture_id, notice_type, title, content, create_date)
         VALUES (#{lectureId}, #{noticeType}, #{title}, #{content}, NOW())
     </insert>
 
@@ -40,7 +40,7 @@
             notice_type = #{noticeType},
             title = #{title},
             content = #{content},
-            last_update = NOW()
+            createDate = NOW()
         WHERE notice_id = #{noticeId}
     </update>
 

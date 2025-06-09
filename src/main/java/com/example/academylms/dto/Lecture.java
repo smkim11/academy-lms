@@ -13,5 +13,5 @@ public class Lecture {
 	private String time;
 	private String startedAt;
 	private String endedAt;
-	private String lastUpdate;
+	private String createDate;
 }
