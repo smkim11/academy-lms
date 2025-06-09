@@ -1,5 +1,12 @@
 package com.example.academylms.mapper;
 
-public interface LectureMapper {
+import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
+
+import com.example.academylms.dto.Lecture;
+
+@Mapper
+public interface LectureMapper {
+	List<Lecture> findLecturesByInstructor(int instructorId);
 }

@@ -39,7 +39,7 @@ public class LoginController {
 		session.setAttribute("loginUserId", user2.getUserId());
 		
 		if(user2.getRole().equals("student") ) { // 로그인한 user 역할이 학생일 경우
-			return "redirect:/student/survey";
+			return "redirect:/student/mainPage";
 		} else if(user2.getRole().equals("instructor")) { // 로그인한 user 역할이 강사일경우
 			return "redirect:/instructor/mainPage"; 
 		} else if(user2.getRole().equals("admin")) { // 로그인한 user 역할이 관리자일 경우
