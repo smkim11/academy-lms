@@ -2,10 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.academylms.mapper.LoginMapper">
 <select id="findByLoginInfo" parameterType="com.example.academylms.dto.User" resultType="com.example.academylms.dto.User"> 
-	SELECT id id, password password, role role FROM user WHERE id=#{id} AND password = #{password}; 
+  SELECT 
+    user_id AS userId, 
+    id, 
+    password, 
+    role 
+  FROM user 
+  WHERE id = #{id} AND password = #{password}
 </select>
 
 <select id="findById" parameterType="Integer" resultType="com.example.academylms.dto.User">
-	SELECT id id, PASSWORD password, birth birth, ROLE role, LAST_update lastUpdate FROM user WHERE user_id = #{userId};  
+SELECT user_id userId, id id, PASSWORD password, birth birth, ROLE role, LAST_update lastUpdate FROM user WHERE user_id = #{userId};  
 </select>
+
+<select id="findPassword" parameterType="com.example.academylms.dto.FindUserPassword" resultType="String">
+SELECT  a.email email FROM  user u INNER JOIN admin a ON u.user_id  = a.admin_id WHERE u.id=#{id} and a.email=#{email}
+
+UNION 
+
+SELECT  i.email email FROM  user u INNER JOIN instructor i ON u.user_id  = i.instructor_id WHERE  u.id = #{id} and i.email =#{email} 
+
+UNION 
+
+SELECT s.email email FROM  user u INNER JOIN student s ON u.user_id  = s.student_id WHERE  u.id =#{id} and s.email = #{email};
+</select>
+
+<update id="updatePassword" parameterType="com.example.academylms.dto.UserLogin"> 
+UPDATE user SET PASSWORD = #{password} where id = #{id};
+</update>
+
 </mapper>

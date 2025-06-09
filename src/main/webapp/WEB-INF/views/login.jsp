@@ -110,6 +110,13 @@
       <input type="password" id="password" name="password">
     </div>
     <button type="button" id="login">로그인하기</button>
+    
+    	<!-- 비밀번호 찾기 링크 -->
+	<div style="text-align: center; margin-top: 10px;">
+  	<a href="/findPassword" style="font-size: 0.85rem; color: #007bff; text-decoration: none;">
+    비밀번호를 잊으셨나요?
+  	</a>
+	</div>
   </form>
 </body>
 </html>

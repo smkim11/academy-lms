@@ -16,7 +16,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {  // 컨트롤
 		Integer userId = (session != null) ?
 				(Integer)session.getAttribute("loginUserId"): null;
 		
-		if (userId == null) {  // session 값이 없음.
+		if (userId == null) {   // session 값이 없으면 login으로 이동
 			response.sendRedirect("/login");
 			return false;
 		}
