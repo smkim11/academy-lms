@@ -1,35 +1,123 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="/css/styles.css">
+  <meta charset="UTF-8">
+  <title>마이페이지 - 개인정보</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #f8f8f8;
+    }
+    .top-bar {
+      background-color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .user-name {
+      font-weight: bold;
+    }
+    .layout {
+      display: flex;
+      height: calc(100vh - 60px);
+    }
+    .side-bar {
+      width: 220px;
+      background-color: #2e2e2e;
+      color: white;
+      padding-top: 30px;
+    }
+    .side-bar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .side-bar li {
+      padding: 15px 20px;
+    }
+    .side-bar a {
+      color: white;
+      text-decoration: none;
+    }
+    .side-bar li:hover {
+      background-color: #444;
+    }
+    .main-content {
+      flex-grow: 1;
+      padding: 50px 80px;
+      background: #f8f8f8;
+    }
+    .main-content h2 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    .info-table {
+      width: 100%;
+      max-width: 600px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 30px;
+    }
+    .info-table div {
+      margin-bottom: 20px;
+    }
+    .info-table label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .info-table span {
+      display: block;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-
-<div class="top-bar">
-  <div class="logo">MyLMS</div>
-  <div class="user-info">
+  <div class="top-bar">
+    <div class="logo">MyLMS</div>
     <div class="user-name">홍길동님</div>
   </div>
-</div>
 
+  <div class="layout">
+    <div class="side-bar">
+      <ul>
+        <li><a href="#">메인페이지</a></li>
+        <li><a href="/student/editProfile">개인정보 수정</a></li>
+        <li><a href="/student/changePassword">비밀번호 변경</a></li>
+      </ul>
+    </div>
 
-<div class="side-bar">
-  <ul>
-    <li><a href="#">대시보드</a></li>
-    <li><a href="#">강의목록</a></li>
-    <li><a href="#">수강관리</a></li>
-    <li><a href="#">설정</a></li>
-  </ul>
-</div>
-
-<main>
-  <h1>본문 영역입니다.</h1>
-  <p>이곳에 내용을 입력하세요. 상단바와 사이드바는 고정된 상태입니다.</p>
-</main>
-
+    <div class="main-content">
+      <h2>내 개인정보</h2>
+      <div class="info-table">
+        <div>
+          <label>이름</label>
+          <span>홍길동</span>
+        </div>
+        <div>
+          <label>이메일</label>
+          <span>hong@example.com</span>
+        </div>
+        <div>
+          <label>휴대폰 번호</label>
+          <span>010-1234-5678</span>
+        </div>
+        <div>
+          <label>생년월일</label>
+          <span>1995-05-01</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
