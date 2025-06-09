@@ -8,5 +8,5 @@ public class Student {
 	private String name;
 	private String email;
 	private String phone;
-	private String lastUpdate;
+	private String createDate;
 }

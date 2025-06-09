@@ -7,5 +7,5 @@ public class StudyMember {
 	private int memberId;
 	private int groupId;
 	private int enrollmentId;
-	private String lastUpdate;
+	private String createDate;
 }

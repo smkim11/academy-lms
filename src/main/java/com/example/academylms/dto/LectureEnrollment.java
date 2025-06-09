@@ -8,5 +8,5 @@ public class LectureEnrollment {
 	private int studentId;
 	private int lectureId;
 	private int status;
-	private String lastUpdate;
+	private String createDate;
 }

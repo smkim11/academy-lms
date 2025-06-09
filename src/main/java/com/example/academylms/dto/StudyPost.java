@@ -9,6 +9,6 @@ public class StudyPost {
 	private String title;
 	private String content;
 	private String feedback;
-	private String lastUpdate;
+	private String createDate;
 	
 }

@@ -9,5 +9,5 @@ public class Qna {
 	private String title;
 	private String question;
 	private int isPublic;
-	private String lastUpdate;
+	private String createDate;
 }

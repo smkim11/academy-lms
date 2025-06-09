@@ -9,5 +9,5 @@ public class Notice {
 	private String noticeType;
 	private String title;
 	private String content;
-	private String lastUpdate;
+	private String createDate;
 }

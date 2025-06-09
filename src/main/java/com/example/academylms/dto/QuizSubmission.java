@@ -8,6 +8,6 @@ public class QuizSubmission {
 	private int joinId;
 	private String answer;
 	private int isCorrect;
-	private String lastUpdate;
+	private String createDate;
 	
 }

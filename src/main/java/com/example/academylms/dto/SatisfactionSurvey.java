@@ -8,5 +8,5 @@ public class SatisfactionSurvey {
 	private int enrollmentId;
 	private int rating;
 	private String comment;
-	private String lastUpdate;
+	private String createDate;
 }

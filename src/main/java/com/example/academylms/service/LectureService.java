@@ -6,7 +6,7 @@ import com.example.academylms.dto.Lecture;
 
 @Service
 public class LectureService {
-	List<Lecture> getLecturesByInstructor(int instructorId);
+	// List<Lecture> getLecturesByInstructor(int instructorId);
 	
 
 }
