@@ -6,6 +6,7 @@ import lombok.Data;
 public class Quiz {
 	private int quizId;
 	private int weekId;
+	private int quizNo;
 	private String question;
 	private String correctAnswer;
 	private String explanation;
