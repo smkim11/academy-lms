@@ -28,13 +28,15 @@
 	
 <main>
 	<h1>퀴즈 응시</h1>
-	<form type="post" action="/quizOne" id="quizOneForm">
+	<form method="post" action="/quizOne" id="quizOneForm">
 	<input type="hidden" name="weekId" value="${weekId }">
+	<input type="hidden" name="joinId" value="${joinId }">
 	<input type="hidden" name="currentPage" value="${p.currentPage}">
 		<!-- 문제 -->
 		<c:forEach var="quiz" items="${list}">
 		    <div>	
-		        <b>${quiz.question}</b>
+		    	<input type="hidden" name="quizNo" value="${quiz.quizNo}">
+		        <b>${quiz.quizNo}번 ${quiz.question}</b>
 		    </div>
 		</c:forEach>
 		
@@ -51,6 +53,7 @@
 		</c:if>
 		
 		<!-- 마지막페이지면 제출버튼 아니면 저장버튼 -->
+		<input type="hidden" name="btn" id="btn">
 		<c:if test="${p.currentPage!=p.lastPage }">
 			<div>
 				<button type="button" id="saveBtn">저장</button>
@@ -74,10 +77,20 @@
 </main>
 <script>
 	$('#saveBtn').click(function(){
-		if($('#answer').val() != ''){
-			$('#quizOneForm').submit();
-		}else{
+		if($('#answer').val() == '' || $('#answer').val() === null){
 			alert('정답을 입력하세요.');
+		}else{
+			$('#btn').val('save');
+			$('#quizOneForm').submit();
+		}
+	});
+	
+	$('#submitBtn').click(function(){
+		if($('#answer').val() == '' || $('#answer').val() === null){
+			alert('정답을 입력하세요.');
+		}else{
+			$('#btn').val('submit');
+			$('#quizOneForm').submit();
 		}
 	});
 </script>
