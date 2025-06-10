@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.academylms.dto.Page;
+import com.example.academylms.dto.Quiz;
 import com.example.academylms.dto.QuizOption;
+import com.example.academylms.dto.QuizSubmission;
 import com.example.academylms.mapper.QuizMapper;
 
 @Service
@@ -52,8 +54,53 @@ public class QuizService {
 		return quizMapper.selectLectureIdByweekId(weekId);
 	}
 	
+	// 답안을 등록한적 있는지 확인
+	public Integer findSubmissionId(QuizSubmission quizSubmission) {
+		return quizMapper.findSubmissionId(quizSubmission);
+	}
+	
+	// 퀴즈 문항수
+	public int countQuizByWeekId(int weekId) {
+		return quizMapper.countQuizByWeekId(weekId);
+	}
+	
+	// 답을 맞춘 퀴즈 문항수
+	public int countCorrectQuizByJoinId(int joinId) {
+		return quizMapper.countCorrectQuizByJoinId(joinId);
+	}
+	
+	// 퀴즈 결과
+	public List<HashMap<String,Object>> quizResultByJoinId(int joinId){
+		return quizMapper.quizResultByJoinId(joinId);
+	}
+	
+	// 퀴즈 해설
+	public List<Quiz> quizExplanation(int weekId) {
+		return quizMapper.quizExplanation(weekId);
+	}
+	
 	// join_id등록
 	public void insertJoinId(int weekId, int enrollmentId) {
 		quizMapper.insertJoinId(weekId, enrollmentId);
+	}
+	
+	// 퀴즈 답안 등록
+	public void insertQuizAnswer(QuizSubmission quizSubmission) {
+		quizMapper.insertQuizAnswer(quizSubmission);
+	}
+	
+	// 퀴즈 답안 수정
+	public void updateQuizAnswer(String answer, int submissionId) {
+		quizMapper.updateQuizAnswer(answer, submissionId);
+	}
+	
+	// 퀴즈 정답, 오답 체크
+	public void updateIsCorrect(int joinId) {
+		quizMapper.updateIsCorrect(joinId);
+	}
+	
+	// 퀴즈 점수(정답개수/전체개수*100)
+	public void updateScore(int correctQuestion, int totalQuestion,int joinId) {
+		quizMapper.updateScore(correctQuestion, totalQuestion, joinId);
 	}
 }

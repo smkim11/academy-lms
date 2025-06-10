@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.QuizOption;
+import com.example.academylms.dto.QuizSubmission;
 import com.example.academylms.service.QuizService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 public class QuizController {
 	@Autowired QuizService quizService;
@@ -60,9 +63,12 @@ public class QuizController {
 		int eId = quizService.selectEnrollmentId((int)(session.getAttribute("loginUserId")), lId);
 		
 		// 응시 기록이 없으면 quiz_join테이블에 기록 추가
-		if(quizService.selectJoinId(weekId, eId)==null) {
+		Integer jId = quizService.selectJoinId(weekId, eId);
+		if(jId == null) {
 			quizService.insertJoinId(weekId, eId);
+			jId = quizService.selectJoinId(weekId, eId);
 		}
+		log.info("joinId:"+jId);
 		
 		// 한페이지에 문제하나씩 나오도록 페이징
 		Page page = new Page(currentPage, 1, quizService.quizTotalCount(weekId));
@@ -81,13 +87,78 @@ public class QuizController {
 		
 		model.addAttribute("p",page);
 		model.addAttribute("weekId",weekId);
+		model.addAttribute("joinId",jId);
 		model.addAttribute("list",list);
 		return "/student/quizOne";
 	}
 	
 	@PostMapping("/quizOne")
 	public String quizOne(@RequestParam(defaultValue = "1") int currentPage
-						,@RequestParam int weekId) {
-		return "redirect:/quizOne?weekId="+weekId+"&currentPage="+currentPage;
+						,@RequestParam int weekId
+						,@RequestParam int joinId
+						,@RequestParam String btn
+						,QuizSubmission quizSubmission) {
+		
+		// 답안 제출이력 확인
+		Integer sId = quizService.findSubmissionId(quizSubmission);
+		log.info("submissionId:"+sId);
+		log.info("btn:"+btn);
+		
+		// 저장버튼 클릭시
+		if(btn.equals("save")) {
+			// 답안을 처음등록하면 insert 등록한 기록이 있다면 update
+			if(sId == null) {
+				// 답안 등록
+				quizService.insertQuizAnswer(quizSubmission);
+			}else {
+				// 답안 수정
+				quizService.updateQuizAnswer(quizSubmission.getAnswer(), sId);
+			}
+			
+			// 답안 확인(정답이면 isCorrect=1, 오답이면 isCorrect=0)
+			quizService.updateIsCorrect(joinId);
+			return "redirect:/quizOne?weekId="+weekId+"&currentPage="+currentPage;
+		}
+		
+		
+		
+		// 제출버튼 클릭시
+		// 답안을 처음등록하면 insert 등록한 기록이 있다면 update
+		if(sId == null) {
+			// 답안 등록
+			quizService.insertQuizAnswer(quizSubmission);
+		}else {
+			// 답안 수정
+			quizService.updateQuizAnswer(quizSubmission.getAnswer(), sId);
+		}
+		
+		// 답안 확인(정답이면 isCorrect=1, 오답이면 isCorrect=0)
+		quizService.updateIsCorrect(joinId);
+		
+		// 문항개수
+		int totalQuestion = quizService.countQuizByWeekId(weekId);
+		log.info("문항개수:"+totalQuestion);
+		
+		// 정답개수
+		int correctQuestion = quizService.countCorrectQuizByJoinId(joinId);
+		log.info("정답개수:"+correctQuestion);
+		
+		// 점수 등록
+		quizService.updateScore(correctQuestion, totalQuestion, joinId);
+		return "redirect:/quizResult?weekId="+weekId+"&joinId="+joinId;
+	}
+	
+	// 퀴즈 결과 페이지
+	@GetMapping("/quizResult")
+	public String quizResult(Model model, @RequestParam int weekId
+										, @RequestParam int joinId) {
+		List<HashMap<String,Object>> resultList = quizService.quizResultByJoinId(joinId);
+		// 점수
+		int score = (int)(resultList.get(0).get("score"));
+		
+		model.addAttribute("score",score);
+		model.addAttribute("resultList", resultList);
+		model.addAttribute("explainList", quizService.quizExplanation(weekId));
+		return "/student/quizResult";
 	}
 }

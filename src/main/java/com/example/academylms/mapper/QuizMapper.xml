@@ -11,7 +11,7 @@
 	
 	<!--퀴즈 문제풀이 페이지-->
 	<select id="quizOne" resultType="map" parameterType="map">
-		SELECT quiz_id quizId, question, type FROM quiz WHERE week_id=#{weekId} LIMIT #{page.beginRow},#{page.rowPerPage};
+		SELECT quiz_id quizId, quiz_no quizNo, question, type FROM quiz WHERE week_id=#{weekId} LIMIT #{page.beginRow},#{page.rowPerPage};
 	</select>
 	
 	<!--(강의,주차)별 퀴즈 전체 문제수-->
@@ -40,8 +40,61 @@
 		WHERE student_id=#{studentId} AND lecture_id=#{lectureId}
 	</select>
 	
+	<!--답안을 등록한적 있는지 확인-->
+	<select id="findSubmissionId" parameterType="com.example.academylms.dto.QuizSubmission">
+		SELECT submission_id submissionId FROM quiz_submission WHERE join_id=#{joinId} AND quiz_no=#{quizNo}
+	</select>
+	
+	<!--퀴즈 문항수-->
+	<select id="countQuizByWeekId">
+		SELECT COUNT(*) FROM quiz WHERE week_id=#{weekId}
+	</select>
+	
+	<!--답을 맞춘 퀴즈 문항수-->
+	<select id="countCorrectQuizByJoinId">
+		SELECT COUNT(*) FROM quiz_submission WHERE is_correct = 1 AND join_id= #{joinId}
+	</select>
+	
+	<!--퀴즈 결과-->
+	<select id="quizResultByJoinId" resultType="map">
+		SELECT qs.quiz_no quizNo, 
+		case when qs.is_correct = 1 then 'O' ELSE 'X' END isCorrect, qj.score
+		FROM quiz_submission qs INNER JOIN quiz_join qj ON qs.join_id = qj.join_id
+		WHERE qs.join_id=#{joinId}
+	</select>
+	
+	<!--퀴즈 해설-->
+	<select id="quizExplanation" resultType="com.example.academylms.dto.Quiz">
+		SELECT quiz_no quizNo, explanation FROM quiz WHERE week_id = #{weekId}
+	</select>
+	
 	<!--join_id 등록-->
 	<insert id="insertJoinId">
 		INSERT INTO quiz_join(week_id, enrollment_id) VALUES(#{weekId},#{enrollmentId});
 	</insert>
+	
+	<!--퀴즈 답안 등록-->
+	<insert id="insertQuizAnswer" parameterType="com.example.academylms.dto.QuizSubmission">
+		INSERT INTO quiz_submission(join_id,quiz_no,answer) VALUES(#{joinId}, #{quizNo}, #{answer})
+	</insert>
+	
+	<!--퀴즈 답안 수정-->
+	<update id="updateQuizAnswer" parameterType="map">
+		UPDATE quiz_submission SET answer=#{answer} WHERE submission_id=#{submissionId}
+	</update>
+	
+	<!--퀴즈 정답,오답 체크-->
+	<update id="updateIsCorrect">
+		UPDATE quiz_submission qs 
+		INNER JOIN quiz_join qj ON qs.join_id = qj.join_id
+		INNER JOIN quiz q ON qj.week_id = q.week_id AND qs.quiz_no = q.quiz_no
+		SET qs.is_correct = CASE WHEN qs.answer = q.correct_answer THEN 1 ELSE 0
+		END WHERE qs.join_id = #{joinId};
+	</update>
+	
+	<!--퀴즈 점수(정답개수/전체개수*100)-->
+	<update id="updateScore">
+		UPDATE quiz_join SET score = #{correctQuestion}/#{totalQuestion}*100 
+		WHERE join_id=#{joinId}
+	</update>
 </mapper>
