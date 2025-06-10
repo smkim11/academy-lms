@@ -12,4 +12,5 @@ public interface NoticeMapper {
     void addNotice(Notice notice);
     void updateNotice(Notice notice);
     void deleteNotice(int noticeId);
+    List<Notice> selectNoticesByLectureId(int lectureId);
 }

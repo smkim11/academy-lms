@@ -47,5 +47,18 @@
     <delete id="deleteNotice" parameterType="int">
         DELETE FROM notice WHERE notice_id = #{noticeId}
     </delete>
+    
+    <select id="selectNoticesByLectureId" resultType="com.example.academylms.dto.Notice">
+	    SELECT 
+	        notice_id noticeId,
+	        lecture_id lectureId,
+	        notice_type noticeType,
+	        title,
+	        content,
+	        create_date createDate
+	    FROM notice
+	    WHERE lecture_id = #{lectureId}
+	    ORDER BY create_date DESC
+	</select>
 
 </mapper>

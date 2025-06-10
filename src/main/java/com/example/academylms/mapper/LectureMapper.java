@@ -9,4 +9,5 @@ import com.example.academylms.dto.Lecture;
 @Mapper
 public interface LectureMapper {
 	List<Lecture> findLecturesByInstructor(int instructorId);
+	Lecture selectLectureById(int lectureId);
 }

@@ -6,4 +6,19 @@
     FROM lecture
     WHERE instructor_id = #{instructorId}
 </select>
+<select id="selectLectureById" resultType="com.example.academylms.dto.Lecture" parameterType="int">
+    SELECT 
+        lecture_id lectureId,
+        admin_id adminId,
+        instructor_id instructorId,
+        title,
+        description,
+        day,
+        time,
+        started_at startedAt,
+        ended_at endedAt,
+        create_date createDate
+    FROM lecture
+    WHERE lecture_id = #{lectureId}
+</select>
 </mapper>

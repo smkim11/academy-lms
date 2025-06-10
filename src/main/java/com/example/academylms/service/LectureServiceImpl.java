@@ -18,4 +18,9 @@ public class LectureServiceImpl implements LectureService {
     public List<Lecture> getLecturesByInstructor(int instructorId) {
         return lectureMapper.findLecturesByInstructor(instructorId);
     }
+    
+    @Override
+    public Lecture getLectureById(int lectureId) {
+        return lectureMapper.selectLectureById(lectureId);  // 🔽 이 메서드가 Mapper에 있어야 함
+    }
 }

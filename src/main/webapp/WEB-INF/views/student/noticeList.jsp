@@ -1,16 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-<head>
-    <title>학생용 공지사항</title>
-</head>
+<head><title>${lecture.title} - 공지사항</title></head>
 <body>
-    <h1>공지사항 목록 (학생)</h1>
+    <h2>📢 ${lecture.title} - 공지사항</h2>
     <table border="1">
         <thead>
             <tr>
-                <th>번호</th>
                 <th>제목</th>
                 <th>유형</th>
                 <th>작성일</th>
@@ -19,13 +15,17 @@
         <tbody>
             <c:forEach var="notice" items="${notices}">
                 <tr>
-                    <td>${notice.noticeId}</td>
-                    <td>${notice.title}</td>
+                    <td>
+                        <a href="/student/noticeListOne/${lecture.lectureId}/${notice.noticeId}">
+                            ${notice.title}
+                        </a>
+                    </td>
                     <td>${notice.noticeType}</td>
-                    <td>${notice.lastUpdate}</td>
+                    <td>${notice.createDate}</td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
+    <a href="/">← 강의 목록으로</a>
 </body>
 </html>

@@ -14,12 +14,6 @@ public class NoticeRest {
     @Autowired
     private NoticeService noticeService;
 
-    // 전체 공지 목록 조회
-    @GetMapping
-    public List<Notice> getAllNotices() {
-        return noticeService.getNoticeList();
-    }
-
     // 특정 공지 조회
     @GetMapping("/{id}")
     public Notice getNotice(@PathVariable int id) {

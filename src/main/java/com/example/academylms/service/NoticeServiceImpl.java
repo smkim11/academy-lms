@@ -14,11 +14,6 @@ public class NoticeServiceImpl implements NoticeService {
     private NoticeMapper noticeMapper;
 
     @Override
-    public List<Notice> getNoticeList() {
-        return noticeMapper.selectAllNotices();
-    }
-
-    @Override
     public Notice getNoticeById(int noticeId) {
         return noticeMapper.selectNoticeById(noticeId);
     }
@@ -38,5 +33,9 @@ public class NoticeServiceImpl implements NoticeService {
         noticeMapper.deleteNotice(noticeId);
     }
     
+    @Override
+    public List<Notice> getNoticesByLectureId(int lectureId) {
+        return noticeMapper.selectNoticesByLectureId(lectureId);
+    }
     
 }
