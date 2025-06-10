@@ -43,7 +43,7 @@ public class LoginController {
 		} else if(user2.getRole().equals("instructor")) { // 로그인한 user 역할이 강사일경우
 			return "redirect:/instructor/mainPage"; 
 		} else if(user2.getRole().equals("admin")) { // 로그인한 user 역할이 관리자일 경우
-			return "redirect:/admin/mainPage";
+			return "redirect:/admin/myPage";
 		}
 		
 		return "redirect:/login" ;

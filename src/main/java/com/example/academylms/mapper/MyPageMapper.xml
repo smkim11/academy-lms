@@ -1,3 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.academylms.mapper.MyPageMapper"></mapper>
+<mapper namespace="com.example.academylms.mapper.MyPageMapper">
+<select id="getUserProfile" parameterType="int" resultType="com.example.academylms.dto.MyPage">
+SELECT a.name AS name , a.email AS email , a.phone AS phone , u.birth birth FROM  user u INNER JOIN admin a ON u.user_id  = a.admin_id WHERE  u.user_id = #{userId}
+
+UNION 
+
+SELECT  i.name as name ,i.email AS email , i.phone  as phone , u.birth birth FROM  user u INNER JOIN instructor i ON u.user_id  = i.instructor_id WHERE  u.user_id = #{userId}
+
+UNION 
+
+SELECT s.name AS name , s.email AS  email, s.phone AS phone , u.birth birth FROM  user u INNER JOIN student s ON u.user_id  = s.student_id WHERE  u.user_id = #{userId};
+
+</select>
+
+<update id="updateInfoAdmin" parameterType="com.example.academylms.dto.MyPage">
+UPDATE admin SET email = #{email} , phone = #{phone} WHERE admin_id= #{userId};
+</update>
+
+</mapper>

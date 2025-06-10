@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -92,8 +92,10 @@
     <div class="side-bar">
       <ul>
         <li><a href="#">메인페이지</a></li>
-        <li><a href="/student/editProfile">개인정보 수정</a></li>
-        <li><a href="/student/changePassword">비밀번호 변경</a></li>
+        <li><a href="/admin/myPage">내 개인정보</a></li>
+        <li><a href="/admin/updateInfo">개인정보 수정</a></li>
+        <li><a href="/admin/updatePw">비밀번호 변경</a></li>
+        <li><a href="/logOut">로그아웃</a></li>
       </ul>
     </div>
 
@@ -101,20 +103,21 @@
       <h2>내 개인정보</h2>
       <div class="info-table">
         <div>
+        
           <label>이름</label>
-          <span>홍길동</span>
+          <span>${myPage.name}</span>
         </div>
         <div>
           <label>이메일</label>
-          <span>hong@example.com</span>
+          <span>${myPage.email}</span>
         </div>
         <div>
           <label>휴대폰 번호</label>
-          <span>010-1234-5678</span>
+          <span>${myPage.phone}</span>
         </div>
         <div>
           <label>생년월일</label>
-          <span>1995-05-01</span>
+          <span>${myPage.birth}</span>
         </div>
       </div>
     </div>

@@ -7,5 +7,5 @@ public class UserLogin {
 	
 	private String id;
 	private String password;
-	
+	private int userId;
 }

@@ -12,7 +12,7 @@
 </select>
 
 <select id="findById" parameterType="Integer" resultType="com.example.academylms.dto.User">
-SELECT user_id userId, id id, PASSWORD password, birth birth, ROLE role, LAST_update lastUpdate FROM user WHERE user_id = #{userId};  
+SELECT user_id userId, id id, PASSWORD password, birth birth, ROLE role, create_date createDate FROM user WHERE user_id = #{userId};  
 </select>
 
 <select id="findPassword" parameterType="com.example.academylms.dto.FindUserPassword" resultType="String">
@@ -30,5 +30,13 @@ SELECT s.email email FROM  user u INNER JOIN student s ON u.user_id  = s.student
 <update id="updatePassword" parameterType="com.example.academylms.dto.UserLogin"> 
 UPDATE user SET PASSWORD = #{password} where id = #{id};
 </update>
+
+<update id="updatePasswords" parameterType="com.example.academylms.dto.UserLogin"> 
+UPDATE user SET PASSWORD = #{password} where user_id = #{userId};
+</update>
+
+<select id="findPasswordById" resultType="com.example.academylms.dto.User" parameterType="String">
+SELECT user_id userId, id id, PASSWORD password, birth birth, ROLE role, create_date createDate FROM user where id = #{id};
+</select>
 
 </mapper>
