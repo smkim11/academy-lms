@@ -95,6 +95,7 @@
         <li><a href="/admin/myPage">내 개인정보</a></li>
         <li><a href="/admin/updateInfo">개인정보 수정</a></li>
         <li><a href="/admin/updatePw">비밀번호 변경</a></li>
+        <li><a href="/admin/createLecture">강의 개설</a></li>
         <li><a href="/logOut">로그아웃</a></li>
       </ul>
     </div>

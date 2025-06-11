@@ -82,7 +82,6 @@ $(function(){
 	<h2>과정 만족도 조사</h2>
 	
 	<form action="" method="post">
-	<h1>${loginUserId}</h1>
 	<div class="star_rating">
 		<span class="star on" value="1"></span>
 		<span class="star" value="2"></span>

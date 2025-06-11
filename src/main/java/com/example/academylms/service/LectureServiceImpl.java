@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.academylms.dto.InstructorInfo;
 import com.example.academylms.dto.Lecture;
 import com.example.academylms.mapper.LectureMapper;
 
@@ -23,4 +24,17 @@ public class LectureServiceImpl implements LectureService {
     public Lecture getLectureById(int lectureId) {
         return lectureMapper.selectLectureById(lectureId);  // 🔽 이 메서드가 Mapper에 있어야 함
     }
+
+	@Override
+	public List<InstructorInfo> findInstructorInfo() {  // 강사정보 조회
+		return lectureMapper.findInstructorInfo();
+	}
+
+	@Override
+	public String findInstructorInfoByinfoId(int instructorId) {
+		
+		return lectureMapper.findInstructorInfoByinfoId(instructorId);
+	}
+    
+    
 }

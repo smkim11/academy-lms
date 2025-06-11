@@ -21,4 +21,12 @@
     FROM lecture
     WHERE lecture_id = #{lectureId}
 </select>
+
+<select id="findInstructorInfo"  resultType="com.example.academylms.dto.InstructorInfo">
+SELECT u.user_id AS instructorId , i.name as name, i.major AS major FROM user u INNER JOIN instructor i ON u.user_id = i.instructor_id; 
+</select>
+
+<select id="findInstructorInfoByinfoId" parameterType="int" resultType="String">
+SELECT i.major AS major FROM user u INNER JOIN instructor i ON u.user_id = i.instructor_id where instructor_id = #{instructorId};
+</select>
 </mapper>
