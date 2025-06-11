@@ -28,6 +28,7 @@
 	
 <main>
 	<h1>퀴즈 결과</h1>
+	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
 	<table border="1">
 		<tr>
 			<th>번호</th>
