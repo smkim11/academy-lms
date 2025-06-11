@@ -37,7 +37,7 @@
 					<td><a href="/quizOne?weekId=${quizList.weekId }">응시하기</a></td>
 				</c:if>
 				<c:if test="${now < quizList.startedAt || now > quizList.endedAt}">
-					<td><a href="/quizResult?weekId=${quizList.weekId }">결과보기</a></td>
+					<td><a href="/quizResult?weekId=${quizList.weekId}&joinId=${quizList.joinId}">결과보기</a></td>
 				</c:if>
 			</tr>
 		</c:forEach>
