@@ -28,16 +28,74 @@
 	
 <main>
 	<h1>퀴즈 추가</h1>
-	<table border="1">
-		<tr>
-			<th>주차</th>
-			<td></td>
-		</tr>
-		<tr>
-			<th>유형</th>
-			<td></td>
-		</tr>
-	</table>
+	<form method="post" action="/addQuiz" id="addQuizForm">
+	<input type="hidden" name="lectureId" value="${lectureId}">
+		<table border="1">
+			<tr>
+				<th>주차</th>
+				<td><input type="text" name="week" id="week"></td>
+			</tr>
+			<tr>
+				<th>기간</th>
+				<td>
+					<input type="datetime-local" name="startedAt"> 
+					~ <input type="datetime-local" name="endedAt">
+				</td>
+			</tr>
+			<tr>
+				<th>유형</th>
+				<td>
+					<input type="radio" name="type" value="객관식">객관식
+					<input type="radio" name="type" value="주관식">주관식
+				</td> 
+			</tr>
+		</table>
+		<!-- 유형선택시 입력칸 출력 -->
+		<div id="inputQuiz">
+		
+		</div>
+	</form>
 </main>
+
+<script>
+	// 문제유형에 따라 다른 입력칸 출력
+	$('input[name="type"]').click(function(){
+		let selectedType = $('input[name="type"]:checked').val();
+		$.ajax({
+			type:'get',
+			url:'/questionType/'+selectedType,
+			success:function(data){
+				$('.inputList').empty();
+				if(data == 'gek'){
+					$('#inputQuiz').append(`
+			            <div class="inputList">
+			                번호 <input type="text" name="quizNo" placeholder="번호를 입력해주세요." /><br>
+			                문제 <input type="text" name="question" placeholder="문제를 입력해주세요." /><br>
+		                	보기1 <input type="text" name="option1" placeholder="보기1을 입력해주세요." /><br>
+	                		보기2 <input type="text" name="option2" placeholder="보기2를 입력해주세요." /><br>
+               				보기3 <input type="text" name="option3" placeholder="보기3을 입력해주세요." /><br>
+               				보기4 <input type="text" name="option4" placeholder="보기4를 입력해주세요." /><br>
+	                		정답 <input type="text" name="correctAnswer" placeholder="정답을 입력해주세요." /><br>
+	                		해설 <textarea cols="50" rows="5" name="explanation" placeholder="해설을 입력해주세요."></textarea><br>
+	                		<button type="button" id="btn">추가</button>
+			        `);
+				}else{
+					$('#inputQuiz').append(`
+			            <div class="inputList">
+			                번호 <input type="text" name="quizNo" placeholder="번호를 입력해주세요." /><br>
+			                문제 <input type="text" name="question" placeholder="문제를 입력해주세요." /><br>
+	                		정답 <input type="text" name="correctAnswer" placeholder="정답을 입력해주세요." /><br>
+	                		해설 <textarea cols="50" rows="5" name="explanation" placeholder="해설을 입력해주세요."></textarea><br>
+	                		<button type="button" id="btn">추가</button>
+			        `);
+				}
+			}
+		});
+	});
+	
+	$('#inputQuiz').on('click', '#btn', function(){
+		$('#addQuizForm').submit();
+	});
+</script>
 </body>
 </html>
