@@ -28,18 +28,22 @@
 	
 <main>
 	<h1>퀴즈 추가</h1>
+	<c:if test="${not empty msg}">
+		<div style="color:red">${msg }</div>
+	</c:if>
+	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
 	<form method="post" action="/addQuiz" id="addQuizForm">
 	<input type="hidden" name="lectureId" value="${lectureId}">
 		<table border="1">
 			<tr>
 				<th>주차</th>
-				<td><input type="text" name="week" id="week"></td>
+				<td><input type="text" name="week" id="week" value="${week}"></td>
 			</tr>
 			<tr>
 				<th>기간</th>
 				<td>
-					<input type="datetime-local" name="startedAt"> 
-					~ <input type="datetime-local" name="endedAt">
+					<input type="datetime-local" name="startedAt" value="${startedAt}"> 
+					~ <input type="datetime-local" name="endedAt" value="${endedAt}">
 				</td>
 			</tr>
 			<tr>
