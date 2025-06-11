@@ -30,7 +30,7 @@ public class LoginService {
         this.academyLmsApplication = academyLmsApplication;
     }
 	
-	public User findByLoginInfo(UserLogin userLogin) {
+	public User findByLoginInfo(UserLogin userLogin) { // 로그인 요청시 필요
 		User user = loginMapper.findPasswordById(userLogin.getId());
 		
 		if(user == null ) {
@@ -60,9 +60,9 @@ public class LoginService {
 		return loginMapper.findById(userId); 
 	}
 
-	public boolean findPassword(FindUserPassword info) { // true이면 임시비밀번호 발급 false 일시에 일치정보 없음 비밀번호 발급 x
+	public boolean findPassword(FindUserPassword info) { // 이메일 발급 true이면 임시비밀번호 발급 false 일시에 일치정보 없음 비밀번호 발급 x
 		
-		String email =  loginMapper.findPassword(info); 
+		String email =  loginMapper.findPassword(info); // 이메일과 id 정보가 둘다 일치하는 이메일 찾기
 		if(email == null || email.trim().isEmpty()) { //  id와 이메일 입력을 통해 일치 정보 있는지 조회
 			return false;
 		}

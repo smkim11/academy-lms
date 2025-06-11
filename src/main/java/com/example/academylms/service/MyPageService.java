@@ -22,8 +22,24 @@ public class MyPageService {
 	}
 
 
-	public boolean updateInfoAdmin(MyPage myPage) { // 개인정보 수정  
+	public boolean updateInfoAdmin(MyPage myPage) { // 관리자 개인정보 수정  
 		if(myPageMapper.updateInfoAdmin(myPage) == 1) {
+			log.info("변경성공");
+			return true;
+		};
+		return false;
+	}
+	
+	public boolean updateInfoInstructor(MyPage myPage) { // 강사 개인정보 수정  
+		if(myPageMapper.updateInfoInstructor(myPage) == 1) {
+			log.info("변경성공");
+			return true;
+		};
+		return false;
+	}
+	
+	public boolean updateInfoStudent(MyPage myPage) { // 학생 개인정보 수정  
+		if(myPageMapper.updateInfoStudent(myPage) == 1) {
 			log.info("변경성공");
 			return true;
 		};

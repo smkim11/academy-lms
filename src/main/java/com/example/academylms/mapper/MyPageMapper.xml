@@ -18,4 +18,11 @@ SELECT s.name AS name , s.email AS  email, s.phone AS phone , u.birth birth FROM
 UPDATE admin SET email = #{email} , phone = #{phone} WHERE admin_id= #{userId};
 </update>
 
+<update id="updateInfoInstructor" parameterType="com.example.academylms.dto.MyPage">
+UPDATE instructor SET email = #{email} , phone = #{phone} WHERE instructor_id= #{userId};
+</update>
+
+<update id="updateInfoStudent" parameterType="com.example.academylms.dto.MyPage">
+UPDATE student SET email = #{email} , phone = #{phone} WHERE student_id= #{userId};
+</update>
 </mapper>
