@@ -66,7 +66,7 @@
 	
 	<!--퀴즈 결과-->
 	<select id="quizResultByJoinId" resultType="map">
-		SELECT qs.quiz_no quizNo, 
+		SELECT qs.quiz_no quizNo, qs.answer,
 		case when qs.is_correct = 1 then 'O' ELSE 'X' END isCorrect, qj.score
 		FROM quiz_submission qs INNER JOIN quiz_join qj ON qs.join_id = qj.join_id
 		WHERE qs.join_id=#{joinId}
@@ -82,6 +82,16 @@
 		SELECT ROLE FROM user WHERE user_id=#{userId}
 	</select>
 	
+	<!--weekId 찾기-->
+	<select id="selectWeekId">
+		SELECT week_id from lecture_week WHERE lecture_id=#{lectureId} AND WEEK=#{week}
+	</select>
+	
+	<!--동일주차에 동일번호문제가 있는지 확인-->
+	<select id="findSameNo">
+		SELECT COUNT(*) FROM quiz WHERE week_id=#{weekId} AND quiz_no=#{quizNo}
+	</select>
+	
 	<!--join_id 등록-->
 	<insert id="insertJoinId">
 		INSERT INTO quiz_join(week_id, enrollment_id) VALUES(#{weekId},#{enrollmentId});
@@ -93,6 +103,14 @@
 		explanation, type, started_at, ended_at)
 		VALUES((SELECT week_id from lecture_week WHERE lecture_id=#{lectureId} AND WEEK=#{week}),
 		#{quizNo}, #{question}, #{correctAnswer},#{explanation},#{type},#{startedAt},#{endedAt})
+	</insert>
+	
+	<!--퀴즈 보기 등록(객관식)-->
+	<insert id="insertQuizOption" parameterType="map">
+		INSERT INTO quiz_option(quiz_id, `option`) 
+		VALUES((SELECT quiz_id FROM quiz WHERE week_id=
+		(SELECT week_id FROM lecture_week WHERE lecture_id=#{quizForm.lectureId} AND WEEK=#{quizForm.week})
+		AND quiz_no=#{quizForm.quizNo}),#{option})
 	</insert>
 	
 	<!--퀴즈 답안 등록-->

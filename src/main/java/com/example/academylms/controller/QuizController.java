@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.QuizForm;
@@ -51,15 +52,56 @@ public class QuizController {
 	
 	// 퀴즈 추가
 	@GetMapping("/addQuiz")
-	public String addQuiz(Model model, @RequestParam(defaultValue = "1") int lectureId) {
+	public String addQuiz(Model model,@RequestParam(defaultValue = "1") int lectureId
+									 ,@RequestParam(required = false) Integer week
+									 ,@RequestParam(required = false) String startedAt
+									 ,@RequestParam(required = false) String endedAt) {
+		if(week != null && startedAt != null && endedAt != null) {
+			model.addAttribute("week",week);
+			model.addAttribute("startedAt",startedAt);
+			model.addAttribute("endedAt",endedAt);
+		}
 		model.addAttribute("lectureId",lectureId);
 		return "/instructor/addQuiz";
 	}
 	
 	@PostMapping("/addQuiz")
-	public String addQuiz(@RequestParam int lectureId, QuizForm quizForm) {
+	public String addQuiz(QuizForm quizForm, @RequestParam(required = false) String option1
+											,@RequestParam(required = false) String option2
+											,@RequestParam(required = false) String option3
+											,@RequestParam(required = false) String option4
+											,RedirectAttributes redirectAttributes) {
+		
+		int wId = quizService.selectWeekId(quizForm.getLectureId(), quizForm.getWeek());
+		
+		// 퀴즈를 출제하는 주차에 이미있는 번호로 출제하면 오류
+		if(quizService.findSameNo(wId, quizForm.getQuizNo()) != 0) {
+			redirectAttributes.addFlashAttribute("msg", "번호를 변경해주세요.");
+			redirectAttributes.addFlashAttribute("week", quizForm.getWeek());
+			redirectAttributes.addFlashAttribute("startedAt", quizForm.getStartedAt());
+			redirectAttributes.addFlashAttribute("endedAt", quizForm.getEndedAt());
+			redirectAttributes.addAttribute("lectureId", quizForm.getLectureId());
+			
+			return "redirect:/addQuiz";
+		}
+		
+		// 퀴즈 추가
 		quizService.insertQuiz(quizForm);
-		return "redirect:/quizList?lectureId="+lectureId;
+		
+		// 객관식이면 보기까지 추가
+		if(option1 != null && option2 != null && option3 != null && option4 != null) {
+			quizService.insertQuizOption(quizForm, option1);
+			quizService.insertQuizOption(quizForm, option2);
+			quizService.insertQuizOption(quizForm, option3);
+			quizService.insertQuizOption(quizForm, option4);
+		}
+		
+		// redirectAttributes 사용하여 return문 url단축
+		redirectAttributes.addAttribute("lectureId", quizForm.getLectureId());
+		redirectAttributes.addAttribute("week", quizForm.getWeek());
+		redirectAttributes.addAttribute("startedAt", quizForm.getStartedAt());
+		redirectAttributes.addAttribute("endedAt", quizForm.getEndedAt());
+		return "redirect:/addQuiz";
 	}
 	
 	// 퀴즈 응시 페이지
@@ -112,10 +154,9 @@ public class QuizController {
 	
 	@PostMapping("/quizOne")
 	public String quizOne(@RequestParam(defaultValue = "1") int currentPage
-						,@RequestParam int weekId
-						,@RequestParam int joinId
-						,@RequestParam String btn
-						,QuizSubmission quizSubmission) {
+						,@RequestParam int weekId ,@RequestParam int joinId
+						,@RequestParam String btn ,QuizSubmission quizSubmission
+						,RedirectAttributes redirectAttributes) {
 		
 		// 답안 제출이력 확인
 		Integer sId = quizService.findSubmissionId(quizSubmission);
@@ -137,7 +178,11 @@ public class QuizController {
 			quizService.updateIsCorrect(joinId);
 			// 저장버튼 누르면 다음문제 이동
 			currentPage+=1;
-			return "redirect:/quizOne?weekId="+weekId+"&currentPage="+currentPage;
+			
+			// redirectAttributes 사용하여 return문 url단축
+			redirectAttributes.addAttribute("weekId", weekId);
+			redirectAttributes.addAttribute("currentPage", currentPage);
+			return "redirect:/quizOne";
 		}
 		
 		
@@ -165,7 +210,11 @@ public class QuizController {
 		
 		// 점수 등록
 		quizService.updateScore(correctQuestion, totalQuestion, joinId);
-		return "redirect:/quizResult?weekId="+weekId+"&joinId="+joinId;
+		
+		// redirectAttributes 사용하여 return문 url단축
+		redirectAttributes.addAttribute("weekId", weekId);
+		redirectAttributes.addAttribute("joinId", joinId);
+		return "redirect:/quizResult";
 	}
 	
 	// 퀴즈 결과 페이지

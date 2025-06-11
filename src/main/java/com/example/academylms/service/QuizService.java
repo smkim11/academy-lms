@@ -90,6 +90,16 @@ public class QuizService {
 		return quizMapper.selectRoleByUserId(userId);
 	}
 	
+	// weekId 찾기
+	public int selectWeekId(int lectureId, int week) {
+		return quizMapper.selectWeekId(lectureId, week);
+	}
+	
+	// 동일주차에 동일번호문제가 있는지 확인
+	public int findSameNo(int weekId, int quizNo) {
+		return quizMapper.findSameNo(weekId, quizNo);
+	}
+	
 	// join_id등록
 	public void insertJoinId(int weekId, int enrollmentId) {
 		quizMapper.insertJoinId(weekId, enrollmentId);
@@ -98,6 +108,11 @@ public class QuizService {
 	// 퀴즈 등록
 	public void insertQuiz(QuizForm quizForm) {
 		quizMapper.insertQuiz(quizForm);
+	}
+	
+	// 퀴즈 보기 등록(객관식)
+	public void insertQuizOption(QuizForm quizForm, String option) {
+		quizMapper.insertQuizOption(quizForm, option);
 	}
 	
 	// 퀴즈 답안 등록
