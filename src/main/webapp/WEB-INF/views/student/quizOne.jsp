@@ -60,7 +60,7 @@
 				<c:forEach var="opt" items="${options}">
 			        <div>
 			            <label>
-			            	<input type="radio" name="answer" value="${opt.option}" checked> ${opt.option}
+			            	<input type="radio" name="answer" value="${opt.option}"> ${opt.option}
 			            </label>
 			        </div>
 			    </c:forEach>
