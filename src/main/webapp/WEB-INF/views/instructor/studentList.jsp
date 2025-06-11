@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>강의별 수강생 목록</title>
+    <title>강의별 수강생 목록(강사)</title>
 </head>
 <body>
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.Student;
@@ -17,5 +18,9 @@ public interface StudentMapper {
 	int deleteStudent(int studentId);
 	List<Student> selectStudentsByLecture(Map<String, Object> params);
 	int selectStudentsCountByLecture(Map<String, Object> param);
+	int findUserIdByLoginId(String userLoginId); 
+	Student findStudentById(int studentId);
+	boolean isAlreadyEnrolled(@Param("studentId") int studentId, @Param("lectureId") int lectureId);
+	void insertLectureEnrollment(@Param("studentId") int studentId, @Param("lectureId") int lectureId);
 
 }

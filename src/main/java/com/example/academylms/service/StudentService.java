@@ -41,4 +41,8 @@ public class StudentService {
 	public int getStudentCount(String searchWord) {
 		return studentMapper.selectStudentCount(searchWord);
 	}
+	
+	public int addStudent(Student student) {
+        return studentMapper.addStudent(student);
+    }
 }

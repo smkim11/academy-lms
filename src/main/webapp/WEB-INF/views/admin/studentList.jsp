@@ -3,30 +3,28 @@
 
 <html>
 <head>
-    <title>학생 목록</title>
+    <title>강의별 수강생 목록</title>
 </head>
 <body>
 
-<h2>학생 목록</h2>
+<h2>강의별 수강생 목록</h2>
 
-<!-- 🔍 검색 폼 -->
-<form method="get" action="/admin/studentList">
-    <input type="text" name="searchWord" value="${page.searchWord}" placeholder="이름 검색" />
-    <button type="submit">검색</button>
+<!-- 검색 폼 -->
+<form action="/admin/studentList/${lectureId}" method="get">
+    <input type="text" name="searchWord" value="${searchWord}" placeholder="이름 검색" />
+    <input type="submit" value="검색" />
 </form>
 
-<!-- 학생 등록 -->
-<a href="/admin/addStudent">학생 등록</a>
+<a href="/admin/addStudent?lectureId=${lectureId}">➕ 수강생 등록</a>
 
-<!-- 📋 학생 리스트 테이블 -->
-<table border="1">
+<!-- 수강생 테이블 -->
+<table border="1" cellpadding="5" cellspacing="0">
     <thead>
         <tr>
             <th>이름</th>
             <th>이메일</th>
             <th>전화번호</th>
             <th>가입일</th>
-            <th>관리</th>
         </tr>
     </thead>
     <tbody>
@@ -36,30 +34,27 @@
                 <td>${student.email}</td>
                 <td>${student.phone}</td>
                 <td>${student.createDate}</td>
-                <td>
-                	<a href="/admin/updateStudent">수정</a>
-                	<a href="/">삭제</a>
-                </td>
             </tr>
         </c:forEach>
-
         <c:if test="${empty students}">
             <tr>
-                <td colspan="4">검색 결과가 없습니다.</td>
+                <td colspan="4">수강생이 없습니다.</td>
             </tr>
         </c:if>
     </tbody>
 </table>
 
-<!-- 📄 페이지네이션 -->
-<div>
-    <c:forEach begin="1" end="${page.lastPage}" var="i">
-        <a href="?page=${i}&searchWord=${page.searchWord}">
-            <c:choose>
-                <c:when test="${i == page.currentPage}"><b>[${i}]</b></c:when>
-                <c:otherwise>[${i}]</c:otherwise>
-            </c:choose>
-        </a>
+<!-- 페이지 네비게이션 -->
+<div style="margin-top:10px;">
+    <c:forEach begin="1" end="${totalPage}" var="i">
+        <c:choose>
+            <c:when test="${i == currentPage}">
+                <b>[${i}]</b>
+            </c:when>
+            <c:otherwise>
+                <a href="?page=${i}&searchWord=${searchWord}">[${i}]</a>
+            </c:otherwise>
+        </c:choose>
     </c:forEach>
 </div>
 

@@ -58,22 +58,40 @@
 		</where>
 	</select>
 	
-	<!-- 새로운 수강생 등록 -->
-	<insert id="addStudent" parameterType="com.example.academylms.dto.Student">
-		INSERT INTO student (
-	        name,
-	        email,
-	        phone,
-	        create_date
+	<!-- user.id로 user_id 조회 -->
+	<select id="findUserIdByLoginId" parameterType="String" resultType="int">
+	    SELECT user_id FROM user WHERE id = #{id}
+	</select>
+	
+	<!-- student 테이블에서 존재하는지 확인 -->
+	<select id="findStudentById" resultType="com.example.academylms.dto.Student" parameterType="int">
+	    SELECT student_id AS studentId,
+	           name,
+	           email,
+	           phone,
+	           create_date AS createDate
+	    FROM student
+	    WHERE student_id = #{studentId}
+	</select>
+
+	<!-- 수강 여부 확인 -->
+	<select id="isAlreadyEnrolled" resultType="boolean">
+	    SELECT COUNT(*) > 0
+	    FROM lecture_enrollment
+	    WHERE student_id = #{studentId}
+	      AND lecture_id = #{lectureId}
+	</select>
+	
+	<!-- 수강 등록 -->
+	<insert id="insertLectureEnrollment">
+	    INSERT INTO lecture_enrollment (
+	        student_id, lecture_id, status, create_date
 	    ) VALUES (
-	        #{name},
-	        #{email},
-	        #{phone},
-	        NOW()
+	        #{studentId}, #{lectureId}, 1, NOW()
 	    )
 	</insert>
 	
-	<!-- 수강생 정보 수정 -->
+	<!-- 수강생 정보 수정(관리자) -->
 	<update id="updateStudent" parameterType="com.example.academylms.dto.Student">
 		UPDATE student
 	    SET
@@ -83,7 +101,7 @@
 	    WHERE student_id = #{studentId}
 	</update>
 	
-	<!-- 수강생 정보 삭제 -->
+	<!-- 수강생 정보 삭제(관리자) -->
 	<delete id="deleteStudent" parameterType="int">
 		DELETE FROM student
     	WHERE student_id = #{studentId}
