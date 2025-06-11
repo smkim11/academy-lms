@@ -102,9 +102,10 @@
 	</update>
 	
 	<!-- 수강생 정보 삭제(관리자) -->
-	<delete id="deleteStudent" parameterType="int">
-		DELETE FROM student
-    	WHERE student_id = #{studentId}
+	<delete id="deleteStudent" parameterType="map">
+	    DELETE FROM lecture_enrollment
+	    WHERE student_id = #{studentId}
+	      AND lecture_id = #{lectureId}
 	</delete>
 
 </mapper>

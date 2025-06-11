@@ -15,7 +15,7 @@ public interface StudentMapper {
 	int selectStudentCount(String searchWord);
 	int addStudent(Student student);
 	int updateStudent(Student student);
-	int deleteStudent(int studentId);
+	int deleteStudent(@Param("studentId") int studentId, @Param("lectureId") int lectureId);
 	List<Student> selectStudentsByLecture(Map<String, Object> params);
 	int selectStudentsCountByLecture(Map<String, Object> param);
 	int findUserIdByLoginId(String userLoginId); 

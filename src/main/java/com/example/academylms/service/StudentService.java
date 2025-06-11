@@ -45,4 +45,8 @@ public class StudentService {
 	public int addStudent(Student student) {
         return studentMapper.addStudent(student);
     }
+	
+	public void deleteEnrollment(int studentId, int lectureId) {
+	    studentMapper.deleteStudent(studentId, lectureId);
+	}
 }
