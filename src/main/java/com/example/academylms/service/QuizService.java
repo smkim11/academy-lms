@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.Quiz;
+import com.example.academylms.dto.QuizForm;
 import com.example.academylms.dto.QuizOption;
 import com.example.academylms.dto.QuizSubmission;
 import com.example.academylms.mapper.QuizMapper;
@@ -19,9 +20,9 @@ public class QuizService {
 	@Autowired QuizMapper quizMapper;
 	
 	// 강의별 퀴즈 리스트
-	public List<HashMap<String,Object>> quizListByLectureId(int lectureId){
+	public List<HashMap<String,Object>> quizListByLectureId(int lectureId, int studentId){
 		
-		return quizMapper.quizListByLectureId(lectureId);
+		return quizMapper.quizListByLectureId(lectureId, studentId);
 	}
 	
 	// 퀴즈 문제풀이 페이지
@@ -37,6 +38,11 @@ public class QuizService {
 	// 퀴즈(객관식) 보기
 	public List<QuizOption> quizOptionList(int quizId) {
 		return quizMapper.quizOptionList(quizId);
+	}
+	
+	// 퀴즈 응시중 저장한 답안 확인
+	public String selectAnswer(int joinId, int quizId) {
+		return quizMapper.selectAnswer(joinId, quizId);
 	}
 	
 	// 퀴즈 응시기록 확인
@@ -79,9 +85,19 @@ public class QuizService {
 		return quizMapper.quizExplanation(weekId);
 	}
 	
+	// 역할 찾기
+	public String selectRoleByUserId (int userId) {
+		return quizMapper.selectRoleByUserId(userId);
+	}
+	
 	// join_id등록
 	public void insertJoinId(int weekId, int enrollmentId) {
 		quizMapper.insertJoinId(weekId, enrollmentId);
+	}
+	
+	// 퀴즈 등록
+	public void insertQuiz(QuizForm quizForm) {
+		quizMapper.insertQuiz(quizForm);
 	}
 	
 	// 퀴즈 답안 등록

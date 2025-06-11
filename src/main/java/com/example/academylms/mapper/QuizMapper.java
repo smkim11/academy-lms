@@ -8,13 +8,15 @@ import org.apache.ibatis.annotations.Param;
 
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.Quiz;
+import com.example.academylms.dto.QuizForm;
 import com.example.academylms.dto.QuizOption;
 import com.example.academylms.dto.QuizSubmission;
 
 @Mapper
 public interface QuizMapper {
-	List<HashMap<String,Object>> quizListByLectureId(int lectureId);
-	List<HashMap<String,Object>> quizOne(@Param("page") Page page, @Param("weekId") int weekId);;
+	List<HashMap<String,Object>> quizListByLectureId(int lectureId, int studentId);
+	List<HashMap<String,Object>> quizOne(@Param("page") Page page, @Param("weekId") int weekId);
+	String selectAnswer(int joinId, int quizId);
 	int quizTotalCount(int weekId);
 	List<QuizOption> quizOptionList(int quizId);
 	Integer selectJoinId(int weekId, int enrollmentId);
@@ -30,4 +32,6 @@ public interface QuizMapper {
 	void updateScore(int correctQuestion, int totalQuestion,int joinId);
 	List<HashMap<String,Object>> quizResultByJoinId(int joinId);
 	List<Quiz> quizExplanation(int weekId);
+	String selectRoleByUserId (int userId);
+	void insertQuiz(QuizForm quizForm);
 }

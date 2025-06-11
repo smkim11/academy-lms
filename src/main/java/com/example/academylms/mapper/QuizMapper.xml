@@ -5,8 +5,12 @@
 	<!--강의별 퀴즈 리스트-->
 	<select id="quizListByLectureId" resultType="map">
 		SELECT distinct lw.week_id weekId, lw.week, q.started_at startedAt, q.ended_at endedAt
+		,(SELECT join_id FROM quiz_join WHERE week_id=lw.week_id 
+		AND enrollment_id=(SELECT enrollment_id 
+		FROM lecture_enrollment 
+		WHERE student_id=#{studentId} AND lecture_id=#{lectureId})) joinId
 		FROM lecture_week lw INNER JOIN quiz q ON lw.week_id = q.week_id
-		WHERE lw.lecture_id= #{lectureId};	
+		WHERE lw.lecture_id=#{lectureId};
 	</select>
 	
 	<!--퀴즈 문제풀이 페이지-->
@@ -22,6 +26,11 @@
 	<!--퀴즈(객관식) 보기-->
 	<select id="quizOptionList" resultType="com.example.academylms.dto.QuizOption">
 		SELECT `option` FROM quiz_option WHERE quiz_id=#{quizId}
+	</select>
+	
+	<!--퀴즈 응시중 저장한 답안 확인-->
+	<select id="selectAnswer" resultType="string">
+		SELECT answer FROM quiz_submission WHERE join_id = #{joinId} AND quiz_no=#{quizId}
 	</select>
 	
 	<!--응시기록 확인-->
@@ -68,9 +77,22 @@
 		SELECT quiz_no quizNo, explanation FROM quiz WHERE week_id = #{weekId}
 	</select>
 	
+	<!--역할 찾기-->
+	<select id="selectRoleByUserId" resultType="string">
+		SELECT ROLE FROM user WHERE user_id=#{userId}
+	</select>
+	
 	<!--join_id 등록-->
 	<insert id="insertJoinId">
 		INSERT INTO quiz_join(week_id, enrollment_id) VALUES(#{weekId},#{enrollmentId});
+	</insert>
+	
+	<!--퀴즈 등록-->
+	<insert id="insertQuiz" parameterType="com.example.academylms.dto.QuizForm">
+		INSERT INTO quiz(week_id, quiz_no, question, correct_answer, 
+		explanation, type, started_at, ended_at)
+		VALUES((SELECT week_id from lecture_week WHERE lecture_id=#{lectureId} AND WEEK=#{week}),
+		#{quizNo}, #{question}, #{correctAnswer},#{explanation},#{type},#{startedAt},#{endedAt})
 	</insert>
 	
 	<!--퀴즈 답안 등록-->

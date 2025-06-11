@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.academylms.dto.Page;
+import com.example.academylms.dto.QuizForm;
 import com.example.academylms.dto.QuizOption;
 import com.example.academylms.dto.QuizSubmission;
 import com.example.academylms.service.QuizService;
@@ -26,17 +27,26 @@ public class QuizController {
 	
 	// 강의별 퀴즈 리스트
 	@GetMapping("/quizList")
-	public String quizList(Model model, @RequestParam(defaultValue = "1") int lectureId) {
+	public String quizList(Model model, @RequestParam(defaultValue = "1") int lectureId
+						  ,HttpSession session) {
 		
-		List<HashMap<String,Object>> list = quizService.quizListByLectureId(lectureId);
+		List<HashMap<String,Object>> list = 
+				quizService.quizListByLectureId(lectureId,(int)(session.getAttribute("loginUserId")));
 		
 		// 현재 날짜/시간
 		LocalDateTime now = LocalDateTime.now();
 		
+		// 역할 찾기
+		String role = quizService.selectRoleByUserId((int)(session.getAttribute("loginUserId")));
+		
 		model.addAttribute("lectureId",lectureId);
 		model.addAttribute("quizList",list);
 		model.addAttribute("now",now);
-		return "/student/quizList";
+		
+		if(role.equals("student")) {
+			return "/student/quizList";
+		}
+		return "/instructor/quizList";
 	}
 	
 	// 퀴즈 추가
@@ -47,8 +57,9 @@ public class QuizController {
 	}
 	
 	@PostMapping("/addQuiz")
-	public String addQuiz() {
-		return "";
+	public String addQuiz(@RequestParam int lectureId, QuizForm quizForm) {
+		quizService.insertQuiz(quizForm);
+		return "redirect:/quizList?lectureId="+lectureId;
 	}
 	
 	// 퀴즈 응시 페이지
@@ -80,9 +91,16 @@ public class QuizController {
 		if (!list.isEmpty()) {
 	        HashMap<String, Object> quiz = list.get(0);
 	        int quizId = (int) quiz.get("quizId");
-
+	        int quizNo = (int) quiz.get("quizNo");
+	        
 	        List<QuizOption> options = quizService.quizOptionList(quizId);
 	        model.addAttribute("options", options);
+	        
+	        // 제출한 답이 있으면 보여준다
+	        String answer = quizService.selectAnswer(jId, quizNo);
+	        log.info("quizNo:"+quizNo);
+	        log.info("answer:"+answer);
+	        model.addAttribute("answer", answer);
 	    }
 		
 		model.addAttribute("p",page);
@@ -117,6 +135,8 @@ public class QuizController {
 			
 			// 답안 확인(정답이면 isCorrect=1, 오답이면 isCorrect=0)
 			quizService.updateIsCorrect(joinId);
+			// 저장버튼 누르면 다음문제 이동
+			currentPage+=1;
 			return "redirect:/quizOne?weekId="+weekId+"&currentPage="+currentPage;
 		}
 		
@@ -153,11 +173,16 @@ public class QuizController {
 	public String quizResult(Model model, @RequestParam int weekId
 										, @RequestParam int joinId) {
 		List<HashMap<String,Object>> resultList = quizService.quizResultByJoinId(joinId);
+		
 		// 점수
 		int score = (int)(resultList.get(0).get("score"));
 		
+		// weekId에 해당하는 lectureId
+		int lId = quizService.selectLectureIdByweekId(weekId);
+		
 		model.addAttribute("score",score);
 		model.addAttribute("resultList", resultList);
+		model.addAttribute("lectureId",lId);
 		model.addAttribute("explainList", quizService.quizExplanation(weekId));
 		return "/student/quizResult";
 	}
