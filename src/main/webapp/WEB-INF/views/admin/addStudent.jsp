@@ -8,6 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<h1>학생 등록</h1>
 </body>
 </html>
