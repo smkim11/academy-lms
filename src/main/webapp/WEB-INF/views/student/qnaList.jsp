@@ -47,7 +47,7 @@
 		            </c:choose>
 		        </td>
 		        <td>${qna.createDate}</td>
-		        <td>${qna.writerName}</td> <!-- 여기서 작성자 이름 출력 -->
+		        <td>${qna.writerName}</td>
 		    </tr>
 		</c:forEach>
 		</table>

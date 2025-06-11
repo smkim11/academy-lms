@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper
-	namespace="com.example.academylms.mapper.LectureMaterialMapper">
+<mapper namespace="com.example.academylms.mapper.LectureMaterialMapper">
+	   <select id="selectLectureMaterialsByWeek" resultType="com.example.academylms.dto.LectureMaterial">
+	        SELECT material_id AS materialId,
+	               week_id AS weekId,
+	               title,
+	               file_url AS fileUrl,
+	               create_date AS createDate
+	        FROM lecture_material
+	        WHERE week_id = #{weekId}
+	        ORDER BY material_id DESC
+	    </select>
+	
+	    <select id="selectLectureMaterialById" resultType="com.example.academylms.dto.LectureMaterial">
+	        SELECT material_id AS materialId,
+	               week_id AS weekId,
+	               title,
+	               file_url AS fileUrl,
+	               create_date AS createDate
+	        FROM lecture_material
+	        WHERE material_id = #{materialId}
+	    </select>
+	
+	    <insert id="insertLectureMaterial" parameterType="com.example.academylms.dto.LectureMaterial">
+	        INSERT INTO lecture_material (week_id, title, file_url)
+	        VALUES (#{weekId}, #{title}, #{fileUrl})
+	    </insert>
+	
+	    <update id="updateLectureMaterial" parameterType="com.example.academylms.dto.LectureMaterial">
+			UPDATE lecture_material
+			SET title = #{title},
+			    file_url = #{fileUrl},
+			    create_date = NOW()
+			WHERE material_id = #{materialId}
+	    </update>
+	    
+	    <delete id="deleteLectureMaterial" parameterType="int">
+		    DELETE FROM lecture_material
+		    WHERE material_id = #{materialId}
+		</delete>
 </mapper>

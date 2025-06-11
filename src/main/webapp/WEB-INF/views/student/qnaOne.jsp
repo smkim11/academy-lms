@@ -24,11 +24,9 @@
 	</div>
 	
 <main>
-		<h2>질문 상세 보기</h2>
-		<p><strong>번호:</strong> ${qna.qnaId}</p>
-		<p><strong>질문:</strong> ${qna.title}</p>
-		<p><strong>질문:</strong> ${qna.question}</p>
-		<p><strong>공개 여부:</strong> 
+		<h2>제목 : ${qna.title}</h2>
+		<p><strong>질문내용:</strong> ${qna.question}</p>
+		<p><strong>공개여부:</strong> 
 		  <c:choose>
 		    <c:when test="${qna.isPublic == 1}">공개</c:when>
 		    <c:otherwise>비공개</c:otherwise>
@@ -58,6 +56,7 @@
 	        </c:if>
 	    </div>
 	</c:forEach>
+	<a href="/qna">목록으로</a>
 </main>
 </body>
 </html>

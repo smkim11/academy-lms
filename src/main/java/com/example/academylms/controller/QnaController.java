@@ -140,7 +140,6 @@ public class QnaController {
     	    request.getSession().setAttribute("loginRole", role); // 세션에도 넣어줘야 POST에서 반영됨
     	}
     	//여기까지
-
         // 강사만 삭제 가능
         if (!"instructor".equals(role)) {
             return "redirect:/qnaOne?id=" + qnaId; // 강사 아니면 그냥 돌아감
