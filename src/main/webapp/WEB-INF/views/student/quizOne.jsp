@@ -40,16 +40,39 @@
 		    </div>
 		</c:forEach>
 		
-		<!-- 보기 -->
+		<!-- 보기 (정답을 입력하고 저장하면 제출한 정답체크) -->
 		<c:if test="${not empty options}">
-		    <c:forEach var="opt" items="${options}">
-		        <div>
-		            <label><input type="radio" name="answer" value="${opt.option}"> ${opt.option}</label>
-		        </div>
-		    </c:forEach>
+			<c:if test="${answer != null}">
+			    <c:forEach var="opt" items="${options}">
+			        <div>
+			            <label>
+			            	<c:if test="${answer == opt.option}">
+			            		<input type="radio" name="answer" value="${opt.option}" checked> ${opt.option}
+			            	</c:if>
+			            	<c:if test="${answer != opt.option}">
+			            		<input type="radio" name="answer" value="${opt.option}"> ${opt.option}
+			            	</c:if>
+			            </label>
+			        </div>
+			    </c:forEach>
+			</c:if>
+			<c:if test="${answer == null}">
+				<c:forEach var="opt" items="${options}">
+			        <div>
+			            <label>
+			            	<input type="radio" name="answer" value="${opt.option}" checked> ${opt.option}
+			            </label>
+			        </div>
+			    </c:forEach>
+			</c:if>
 		</c:if>
 		<c:if test="${empty options}">
-			<input type="text" name="answer" id="answer">
+			<c:if test="${answer != null}">
+				<input type="text" name="answer" id="answer" value="${answer}">
+			</c:if>
+			<c:if test="${answer == null}">
+				<input type="text" name="answer" id="answer">
+			</c:if>
 		</c:if>
 		
 		<!-- 마지막페이지면 제출버튼 아니면 저장버튼 -->
