@@ -35,21 +35,24 @@
 		        <th>제목</th>
 		        <th>공개 여부</th>
 		        <th>작성일</th>
+		        <th>작성자</th>
 		    </tr>
-		    <c:forEach var="qna" items="${qnaList}">
-		        <tr>
-		            <td>${qna.qnaId}</td>
-		            <td><a href="/qnaOne?id=${qna.qnaId}">${qna.title}</a></td>
-		            <td>
-		                <c:choose>
-		                    <c:when test="${qna.isPublic == 1}">공개</c:when>
-		                    <c:otherwise>비공개</c:otherwise>
-		                </c:choose>
-		            </td>
-		            <td>${qna.lastUpdate}</td>
-		        </tr>
-		    </c:forEach>
+		<c:forEach var="qna" items="${qnaList}">
+		    <tr>
+		        <td>${qna.qnaId}</td>
+		        <td><a href="/qnaOne?id=${qna.qnaId}">${qna.title}</a></td>
+		        <td>
+		            <c:choose>
+		                <c:when test="${qna.isPublic == true}">공개</c:when>
+		                <c:otherwise>비공개</c:otherwise>
+		            </c:choose>
+		        </td>
+		        <td>${qna.createDate}</td>
+		        <td>${qna.writerName}</td> <!-- 여기서 작성자 이름 출력 -->
+		    </tr>
+		</c:forEach>
 		</table>
+		
 	</main>
 
 </body>

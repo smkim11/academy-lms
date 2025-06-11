@@ -33,7 +33,31 @@
 	    <c:otherwise>비공개</c:otherwise>
 	  </c:choose>
 	</p>
-	<p><strong>작성일:</strong> ${qna.lastUpdate}</p>
+	<p><strong>작성일:</strong> ${qna.createDate}</p>
+	
+		<!-- QnA 내용 표시 -->
+	<c:if test="${loginRole == 'instructor'}">
+	    <form action="/addAnswer" method="post">
+	        <input type="hidden" name="qnaId" value="${qna.qnaId}" />
+	        <textarea name="answer"></textarea>
+	        <button type="submit">답변 등록</button>
+	    </form>
+	</c:if>
+	
+	<c:forEach var="answer" items="${qnaAnswer}">
+	    <div>
+	        <p>${answer.answer}</p>
+	        <p>${answer.createDate}</p>
+	        
+	        <c:if test="${loginRole == 'instructor'}">
+	            <form action="/deleteAnswer" method="post" style="display:inline;">
+	                <input type="hidden" name="answerId" value="${answer.answerId}" />
+	                <input type="hidden" name="qnaId" value="${qna.qnaId}" />
+	                <button type="submit">삭제</button>
+	            </form>
+	        </c:if>
+	    </div>
+	</c:forEach>
 	</main>
 </body>
 </html>

@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.academylms.mapper.QnaMapper">
-    <select id="selectQnaList" resultType="com.example.academylms.dto.Qna">
-        SELECT title, 
-        	   qna_id AS qnaId,
-               question,
-               is_public AS isPublic,
-               last_update AS lastUpdate
-        FROM qna
-        ORDER BY qna_id DESC
-    </select>
+    <select id="selectQnaList" resultType="map">
+	    SELECT q.qna_id AS qnaId,
+	           q.title,
+	           q.question,
+	           q.is_public AS isPublic,
+	           q.create_date AS createDate,
+	           s.name AS writerName
+	    FROM qna q
+	    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
+	    JOIN student s ON le.student_id = s.student_id
+	    ORDER BY q.qna_id DESC
+	</select>
     
     <select id="selectQnaOne" resultType="com.example.academylms.dto.Qna">
 	    SELECT title, 
 	           qna_id AS qnaId,
 	           question,
 	           is_public AS isPublic,
-	           last_update AS lastUpdate
+	           create_date AS createDate
 	    FROM qna
 	    WHERE qna_id = #{qnaId}
 	</select>
@@ -31,4 +34,40 @@
 	  INSERT INTO qna (title, enrollment_id, question, is_public)
 	  VALUES (#{enrollmentId}, #{question}, #{isPublic})
 	</insert>
+	
+	<delete id="deleteQna">
+	    DELETE FROM qna WHERE qna_id = #{qnaId}
+	</delete>
+	
+	<select id="findStudentIdByQna" resultType="int">
+	    SELECT le.student_id
+	    FROM qna q
+	    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
+	    WHERE q.qna_id = #{qnaId}
+	</select>
+	
+	<update id="updateQnaAnswer">
+	    UPDATE qna
+	    SET answer = #{answer}, last_update = NOW()
+	    WHERE qna_id = #{qnaId}
+	</update>
+	
+	<insert id="insertAnswer" parameterType="com.example.academylms.dto.QnaAnswer">
+	    INSERT INTO qna_answer (qna_id, answer, create_date)
+	    VALUES (#{qnaId}, #{answer}, NOW())
+	</insert>
+	
+	<select id="selectQnaAnswer" parameterType="int" resultType="com.example.academylms.dto.QnaAnswer">
+	    SELECT answer_id AS answerId, 
+	    	   qna_id AS qnaId,
+	           answer,
+	           create_date AS createDate
+	    FROM qna_answer
+	    WHERE qna_id = #{qnaId}
+	    ORDER BY create_date ASC
+	</select>
+	<delete id="deleteQnaAnswer" parameterType="int">
+	    DELETE FROM qna_answer
+	    WHERE answer_id = #{answerId}
+	</delete>
 </mapper>
