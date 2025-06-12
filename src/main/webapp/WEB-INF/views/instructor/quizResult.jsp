@@ -6,7 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
-<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <!-- 상단바 + 사이드바(네비게이션) -->
@@ -27,7 +27,7 @@
 </div>
 	
 <main>
-	<h1>학생용 퀴즈 결과</h1>
+	<h1>강사용 퀴즈 결과</h1>
 	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
 	<table border="1">
 		<tr>
