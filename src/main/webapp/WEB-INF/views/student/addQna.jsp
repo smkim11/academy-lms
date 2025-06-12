@@ -26,30 +26,36 @@
 	<main>
    <h2>QnA 글쓰기</h2>
 
-    <form action="/addQna" method="post">
-        <table>
-            <tr>
-                <td><label for="title">제목</label></td>
-                <td><input type="text" id="title" name="title" required placeholder="제목을 입력하세요"></td>
-            </tr>
-            <tr>
-                <td><label for="question">질문 내용</label></td>
-                <td><textarea id="question" name="question" rows="5" cols="50" required placeholder="질문 내용을 입력하세요"></textarea></td>
-            </tr>
-            <tr>
-                <td><label>공개 여부</label></td>
-                <td>
-                    <label><input type="radio" name="isPublic" value="1" checked> 공개</label>
-                    <label><input type="radio" name="isPublic" value="0"> 비공개</label>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" style="text-align: right;">
-                    <input type="submit" value="등록">
-                </td>
-            </tr>
-        </table>
-    </form>
+	<form action="/addQna" method="post" enctype="multipart/form-data">
+	<!-- 임시로 value 1로 설정 나중에수정해야함 -->
+	    <input type="hidden" name="lectureId" value="1">
+	    <table>
+	        <tr>
+	            <td><label for="title">제목</label></td>
+	            <td><input type="text" id="title" name="title" required placeholder="제목을 입력하세요"></td>
+	        </tr>
+	        <tr>
+	            <td><label for="file">첨부파일</label></td>
+	            <td><input type="file" id="file" name="file"></td>
+	        </tr>
+	        <tr>
+	            <td><label for="question">질문 내용</label></td>
+	            <td><textarea id="question" name="question" rows="5" cols="50" required placeholder="질문 내용을 입력하세요"></textarea></td>
+	        </tr>
+	        <tr>
+	            <td><label>공개 여부</label></td>
+	            <td>
+	                <label><input type="radio" name="isPublic" value="1" checked> 공개</label>
+	                <label><input type="radio" name="isPublic" value="0"> 비공개</label>
+	            </td>
+	        </tr>
+	        <tr>
+	            <td colspan="2" style="text-align: right;">
+	                <input type="submit" value="등록">
+	            </td>
+	        </tr>
+	    </table>
+	</form>
 	</main>
 </body>
 </html>

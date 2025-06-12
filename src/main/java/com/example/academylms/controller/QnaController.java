@@ -1,13 +1,16 @@
 package com.example.academylms.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.academylms.dto.Qna;
 import com.example.academylms.dto.QnaAnswer;
@@ -104,19 +107,54 @@ public class QnaController {
     }
 
     @PostMapping("/addQna")
-    public String submitQna(HttpServletRequest request) {
-        int studentId = (int) request.getSession().getAttribute("loginId"); // user_id
+    public String submitQna(HttpServletRequest request, 
+    						@RequestParam("file") MultipartFile file) throws Exception {
+        //int studentId = (int) request.getSession().getAttribute("loginId"); // user_id
+        //여기부터
+        // ★ 테스트용으로 강제로 loginId=1 설정
+        request.getSession().setAttribute("loginId", 1); // 강제 설정
+        int studentId = 1; // 여기서 studentId 도 1 고정
+        //여기까지 지우고 윗줄살리기
+        
         int lectureId = Integer.parseInt(request.getParameter("lectureId"));
+        String title = request.getParameter("title");
         String question = request.getParameter("question");
         boolean isPublic = "1".equals(request.getParameter("isPublic"));
+        
+        //디버깅용
+        System.out.println("==> studentId = " + studentId);
+        System.out.println("==> lectureId = " + lectureId);
+
         Integer enrollmentId = qnaService.getEnrollmentId(studentId, lectureId);
+
+        //디버깅용
+        System.out.println("==> enrollmentId = " + enrollmentId);
+        
         if (enrollmentId != null) {
             Qna qna = new Qna();
             qna.setEnrollmentId(enrollmentId);
+            qna.setTitle(title);
             qna.setQuestion(question);
             qna.setIsPublic(isPublic ? 1 : 0);
+            
+            // 파일 저장 처리
+            if (file != null && !file.isEmpty()) {
+                String uploadDir = "C:/semi";
+                String originalFilename = file.getOriginalFilename();
+                String savedFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+                File targetFile = new File(uploadDir, savedFilename);
+                file.transferTo(targetFile);
+
+                qna.setFileUrl("/semi/" + savedFilename); // DTO에 파일 경로 저장
+            } else {
+                qna.setFileUrl(null); // 파일 없으면 null
+            }
+
             qnaService.insertQna(qna);
         }
+        
+        
+        
         return "redirect:/qna";
     }
 

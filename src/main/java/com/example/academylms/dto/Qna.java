@@ -9,5 +9,6 @@ public class Qna {
 	private String title;
 	private String question;
 	private int isPublic;
+	private String fileUrl;
 	private String createDate;
 }

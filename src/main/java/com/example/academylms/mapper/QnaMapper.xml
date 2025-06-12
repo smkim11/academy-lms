@@ -19,6 +19,7 @@
 	           qna_id AS qnaId,
 	           question,
 	           is_public AS isPublic,
+	           file_url AS fileUrl, 
 	           create_date AS createDate
 	    FROM qna
 	    WHERE qna_id = #{qnaId}
@@ -31,8 +32,8 @@
 	</select>
 	
 	<insert id="insertQna" parameterType="com.example.academylms.dto.Qna">
-	  INSERT INTO qna (title, enrollment_id, question, is_public)
-	  VALUES (#{enrollmentId}, #{question}, #{isPublic})
+      INSERT INTO qna (enrollment_id, title, question, is_public, file_url)
+	  VALUES (#{enrollmentId}, #{title}, #{question}, #{isPublic}, #{fileUrl})
 	</insert>
 	
 	<delete id="deleteQna">

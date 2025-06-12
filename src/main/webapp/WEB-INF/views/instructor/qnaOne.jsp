@@ -32,6 +32,14 @@
 	  </c:choose>
 	</p>
 	<p><strong>작성일:</strong> ${qna.createDate}</p>
+	<p><strong>첨부파일:</strong> 
+	    <c:if test="${not empty qna.fileUrl}">
+	        <a href="${qna.fileUrl}" download>파일 다운로드</a>
+	    </c:if>
+	    <c:if test="${empty qna.fileUrl}">
+	        없음
+	    </c:if>
+	</p>
 	
 		<!-- QnA 내용 표시 -->
 	<c:if test="${loginRole == 'instructor'}">

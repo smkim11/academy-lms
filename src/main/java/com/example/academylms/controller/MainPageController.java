@@ -22,6 +22,7 @@ public class MainPageController {
 
     @GetMapping("/mainPage")
     public String getLectureListForMain(HttpSession session, Model model) {
+        
         Map<String, List<Map<String, Object>>> lectureMap = getLectureMap(session);
 
         model.addAttribute("ongoingLectures", lectureMap.get("ongoing"));
@@ -64,8 +65,8 @@ public class MainPageController {
         LocalDateTime now = LocalDateTime.now();
 
         for (Map<String, Object> lecture : lectureList) {
-            LocalDateTime startedAt = ((Timestamp)lecture.get("started_at")).toLocalDateTime();
-            LocalDateTime endedAt = ((Timestamp)lecture.get("ended_at")).toLocalDateTime();
+        	LocalDateTime startedAt = (LocalDateTime) lecture.get("started_at");  
+            LocalDateTime endedAt = (LocalDateTime) lecture.get("ended_at"); 
 
             if (now.isBefore(startedAt)) {
                 upcomingLectures.add(lecture);
