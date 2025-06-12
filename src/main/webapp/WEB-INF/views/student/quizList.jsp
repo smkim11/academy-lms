@@ -33,15 +33,39 @@
 			<tr>
 				<th>${quizList.week}주차</th>
 				<td>${quizList.startedAt} ~ ${quizList.endedAt}</td>
+				
+				<!-- 퀴즈 응시는 1회만 가능 -->
 				<c:if test="${now >= quizList.startedAt && now <= quizList.endedAt}">
-					<td><a href="/quizOne?weekId=${quizList.weekId }">응시하기</a></td>
+					<c:if test="${quizList.joinId == null }">
+						<td><a id="joinQuiz" href="/quizOne?weekId=${quizList.weekId }">응시하기</a></td>
+					</c:if>
+					<c:if test="${quizList.joinId != null }">
+						<td><a href="/student/quizResult?weekId=${quizList.weekId}&joinId=${quizList.joinId}">결과보기</a></td>
+					</c:if>
 				</c:if>
-				<c:if test="${now < quizList.startedAt || now > quizList.endedAt}">
-					<td><a href="/quizResult?weekId=${quizList.weekId}&joinId=${quizList.joinId}">결과보기</a></td>
+				
+				<!-- 응시기록이 없으면 결과보기 X -->
+				<c:if test="${now > quizList.endedAt}">
+					<c:if test="${quizList.joinId != null }">
+						<td><a href="/student/quizResult?weekId=${quizList.weekId}&joinId=${quizList.joinId}">결과보기</a></td>
+					</c:if>
+					<c:if test="${quizList.joinId == null }">
+						<td>미응시</td>
+					</c:if>
+				</c:if>
+				
+				<c:if test="${now < quizList.startedAt}">
+					<td>시작전</td>
 				</c:if>
 			</tr>
 		</c:forEach>
 		</table>
 </main>
+<script>
+   // 퀴즈 응시하기 클릭시 안내메세지 
+	$('#joinQuiz').click(function(){
+		alert('퀴즈 응시는 1회만 가능합니다.');
+	});
+</script>
 </body>
 </html>
