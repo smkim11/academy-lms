@@ -37,7 +37,22 @@
 		<table border="1">
 			<tr>
 				<th>주차</th>
-				<td><input type="text" name="week" id="week" value="${week}"></td>
+				<td>
+				<c:if test="${week == null }">
+					<select name="week" id="week">
+						<c:forEach var="list" items="${weekList }">
+							<option value="${list.week}">${list.week}</option>
+						</c:forEach>
+					</select>
+				</c:if>
+				<c:if test="${week != null }">
+					<select name="week" id="week">
+						<c:forEach var="list" items="${weekList }">
+							<option value="${week}">${week}</option>
+						</c:forEach>
+					</select>
+				</c:if>
+				</td>
 			</tr>
 			<tr>
 				<th>기간</th>
