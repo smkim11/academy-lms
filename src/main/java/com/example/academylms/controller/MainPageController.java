@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.academylms.dto.User;
+import com.example.academylms.service.LoginService;
 import com.example.academylms.service.MainPageService;
 
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +21,9 @@ import jakarta.servlet.http.HttpSession;
 public class MainPageController {
     @Autowired
     private MainPageService mainPageService;
+    
+    @Autowired
+    private LoginService loginService;
 
     @GetMapping("/mainPage")
     public String getLectureListForMain(HttpSession session, Model model) {
@@ -28,25 +33,27 @@ public class MainPageController {
         model.addAttribute("ongoingLectures", lectureMap.get("ongoing"));
         model.addAttribute("upcomingLectures", lectureMap.get("upcoming"));
         model.addAttribute("endedLectures", lectureMap.get("ended"));
+     
+        int userId = (int)session.getAttribute("loginUserId"); // 세션 값 호출
 
-        String role = (String) session.getAttribute("role");
-        System.out.println("로그인상태 = " + role);
-
-        if ("admin".equals(role)) {
-            return "admin/mainPage";
-        } else if ("instructor".equals(role)) {
-            return "instructor/mainPage";
-        } else if ("student".equals(role)) {
-            return "student/mainPage";
-        } else {
-            return "redirect:/login";
-        }
+        User user = loginService.findById(userId);
+           if("student".equals(user.getRole())) { // user 역할이 학생일경우
+              return "student/mainPage";
+           } else if ("instructor".equals(user.getRole())){
+              return "instructor/mainPage";
+           } else if ("admin".equals(user.getRole())){
+               return "admin/mainPage";
+           } else {
+              return "redirect:/login";
+           }
     }
     
     private Map<String, List<Map<String, Object>>> getLectureMap(HttpSession session) {
-        String role = (String) session.getAttribute("role");
-        Integer userId = (Integer) session.getAttribute("user_id");
-
+        int userId = (int)session.getAttribute("loginUserId"); // 세션 값 호출
+        User user = loginService.findById(userId); 
+        String role = user.getRole();
+        
+        
         List<Map<String, Object>> lectureList = new ArrayList<>();
 
         if ("admin".equals(role)) {

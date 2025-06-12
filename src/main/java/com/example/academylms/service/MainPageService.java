@@ -23,4 +23,5 @@ public class MainPageService {
     public List<Map<String, Object>> getLecturesByStudent(int studentId) {
         return mainPageMapper.selectLecturesByStudent(studentId);
     }
+    
 }
