@@ -16,5 +16,6 @@ public interface LectureMapper {
 	String findInstructorInfoByinfoId(int instructorId); // 전공정보 조회
 	int createLecture(Lecture lecture); // 강의 개설
 	int createLectureWeek(@Param("lectureId")int lectureId, @Param("week") int week); // 강의 주차 개설
+	Lecture lectureOneBylectureId(int lectureId); // lectureId 로 강의 정보 조회
 
 }

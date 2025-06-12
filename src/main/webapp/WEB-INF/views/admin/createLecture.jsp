@@ -22,11 +22,13 @@
 		const startval = $('#startdate').val();
 		const lastval =  $('#enddate').val();
 		const instructor = $('#instructor').val(); 
-		const days = $("input[name='day']:checked").map(function(){
+		const days = $("input[name='dayTemp']:checked").map(function(){
 			return $(this).val();
-		}).get();
+		}).get().join(',');
 		const time = $('#time').val();
 		const title = $('#title').val();
+		
+		$('#dayHidden').val(days);
 		
 		
 		if(!instructor){  // 강사값이 비어있는 경우
@@ -151,6 +153,8 @@
 
 		<input type="hidden" name="adminId" value="${adminId}">
 		<input type="hidden" name="week" id="week" >
+		<input type="hidden" name="day" id="dayHidden"> <!-- 요일 hidden -->
+		
         <!-- ✅ 1. 강사 선택 -->
         <label for="instructor">강사 선택:</label>
         <select name="instructorId" id="instructor">
@@ -165,11 +169,11 @@
 
         <!-- ✅ 2. 요일 선택 -->
         <label>요일 선택:</label><br>
-        <label><input type="checkbox" name="day" class="day" value="월">월</label>
-        <label><input type="checkbox" name="day" class="day" value="화">화</label>
-        <label><input type="checkbox" name="day" class="day" value="수">수</label>
-        <label><input type="checkbox" name="day" class="day" value="목">목</label>
-        <label><input type="checkbox" name="day" class="day" value="금">금</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="월요일">월요일</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="화요일">화요일</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="수요일">수요일</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="목요일">목요일</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="금요일">금요일</label>
         <br><br>
 
         <!-- ✅ 3. 시간 선택 -->

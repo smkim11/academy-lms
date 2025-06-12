@@ -38,4 +38,9 @@ INSERT INTO lecture  (admin_id, instructor_id, title, DESCRIPTION, DAY, TIME , s
 INSERT INTO lecture_week (lecture_id, week) VALUES(#{lectureId},#{week});
 </insert>
 
+<select id="lectureOneBylectureId" resultType="com.example.academylms.dto.Lecture" parameterType="int">
+SELECT i.major AS major, i.name AS name , l.title AS title, l.DESCRIPTION AS description, l.DAY AS day, l.TIME AS time, l.started_at  AS startedAt, l.ended_at AS endedAt , l.instructor_id AS instructorId, l.lecture_id AS lectureId FROM lecture l
+INNER JOIN instructor i ON l.instructor_id = i.instructor_id   WHERE lecture_id = #{lectureId};   
+</select>
+
 </mapper>

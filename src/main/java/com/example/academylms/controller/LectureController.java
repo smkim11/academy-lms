@@ -1,5 +1,7 @@
 package com.example.academylms.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.academylms.dto.InstructorInfo;
 import com.example.academylms.dto.Lecture;
@@ -41,7 +44,48 @@ public class LectureController {
 				
 			}
 		
-		return "redirect:/admin/myPage";
+		return "redirect:/admin/mypage";
 	}
 	
+	@GetMapping("/admin/lectureOne") // 관리자 강의 상세정보 
+	public String lectureOneByAdmin(@RequestParam int lectureId, Model model) {
+	  Lecture lecture = lectureService.lectureOneBylectureId(lectureId);  // lectureId 로 강의 정보 가져오기
+		
+	  model.addAttribute("lecture", lecture);
+	  
+	  return "/admin/lectureOne";
+	}
+	
+	@GetMapping("/instructor/lectureOne") // 강사 강의 상세정보
+	public String lectureOneByInstructor() {
+		return "";
+	}
+	
+	@GetMapping("/student/lectureOne")  // 학생 강의 상세정보
+	public String lectureOneByStudent() {
+		return "";
+	}
+	
+	@GetMapping("/admin/updateLecture")  // 관리자 강의 수정
+	public String updateLecture(@RequestParam int lectureId, Model model, HttpSession session) {
+		
+		log.info("lectureId 값확인:"+ lectureId);
+		
+		
+		
+		Lecture lecture = lectureService.lectureOneBylectureId(lectureId);
+		List<InstructorInfo> info = lectureService.findInstructorInfo(); // 강사정보 찾아옴.
+		
+		
+		lecture.setStartedAtFormatted(lecture.getStartedAt().substring(0, 10));
+		lecture.setEndedAtFormatted(lecture.getEndedAt().substring(0, 10));
+		
+		int adminId  = (int) session.getAttribute("loginUserId");
+		
+		model.addAttribute("lecture", lecture);
+		model.addAttribute("adminId", adminId);
+		model.addAttribute("instructorList", info);
+		
+		return "/admin/updateLecture";
+	}
 }

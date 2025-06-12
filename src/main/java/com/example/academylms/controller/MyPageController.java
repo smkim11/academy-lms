@@ -23,17 +23,17 @@ public class MyPageController {
 	@Autowired LoginService loginService;
 	@Autowired PasswordEncoder passwordEncoder;
 	
-	@GetMapping("/admin/myPage")  //  관리자 마이페이지
+	@GetMapping("/admin/mypage")  //  관리자 마이페이지
 	public String myPageByAdmin(Model model, HttpSession session) {
 		 int userId = (int) session.getAttribute("loginUserId");  // 세션 값 호출
 		 MyPage myPage = myPageService.getUserProfile(userId);
-		
+		 loginService.findById(userId);
 		 model.addAttribute("myPage", myPage);
 		 
 		return "/admin/myPage";
 	}
 	
-	@GetMapping("/instructor/myPage") // 강사 마이페이지
+	@GetMapping("/instructor/mypage") // 강사 마이페이지
 	public String myPageByInstructor(Model model, HttpSession session) {
 		 int userId = (int) session.getAttribute("loginUserId");  // 세션 값 호출
 		 MyPage myPage = myPageService.getUserProfile(userId);
@@ -43,7 +43,7 @@ public class MyPageController {
 		return "/instructor/myPage";
 	}
 	
-	@GetMapping("/student/myPage") // 학생 마이페이지
+	@GetMapping("/student/mypage") // 학생 마이페이지
 	public String myPageByStudent(Model model, HttpSession session) {
 		 int userId = (int) session.getAttribute("loginUserId");  // 세션 값 호출
 		 MyPage myPage = myPageService.getUserProfile(userId);

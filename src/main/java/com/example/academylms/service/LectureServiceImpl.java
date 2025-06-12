@@ -42,7 +42,7 @@ public class LectureServiceImpl implements LectureService {
 	}
 
 	@Override
-	public boolean createLecture(Lecture lecture) {
+	public boolean createLecture(Lecture lecture) { // 강의 생성 
 		boolean result = false;  // 정상적으로 결과 출력시 1로 반환할 변수
 		if(lectureMapper.createLecture(lecture) == 1) { // 강의 생성 
 			log.info("강의생성 성공, ID = {}" , lecture.getLectureId());
@@ -57,6 +57,12 @@ public class LectureServiceImpl implements LectureService {
 			return result;
 		}
 		 return result;
+	}
+
+	@Override
+	public Lecture lectureOneBylectureId(int lectureId) {
+		return lectureMapper.lectureOneBylectureId(lectureId); 
+		
 	}
 	
     
