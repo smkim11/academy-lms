@@ -53,4 +53,9 @@ public class QnaService {
 	public void deleteAnswer(int answerId) {
 	    qnaMapper.deleteQnaAnswer(answerId);
 	}
+	
+	public void deleteAnswersByQnaId(int qnaId) {
+	    qnaMapper.deleteAnswersByQnaId(qnaId);
+	}
+	
 }

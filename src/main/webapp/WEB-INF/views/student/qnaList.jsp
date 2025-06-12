@@ -26,6 +26,14 @@
 	  </ul>
 	</div>
 	
+<!-- 비공개글 접근 에러 메세지 -->
+	<c:if test="${not empty param.errorMsg}">
+	    <script>
+	        <c:if test="${param.errorMsg == 'privateAccessDenied'}">
+	            alert('비공개글에 접근할 수 없습니다.');
+	        </c:if>
+	    </script>
+	</c:if>
 	
 	<main>
 		<h2>Q&A 게시판</h2>
@@ -35,6 +43,7 @@
 		        <th>제목</th>
 		        <th>공개 여부</th>
 		        <th>작성일</th>
+		        <th>작성자아이디</th>
 		    </tr>
 		<c:forEach var="qna" items="${qnaList}">
 		    <tr>
@@ -52,11 +61,10 @@
 		</c:forEach>
 		</table>
 		
-		<!-- 학생용 글쓰기 버튼 -->
+<!-- 학생용 글쓰기 버튼 -->
   		<div style="text-align:right; margin-bottom:10px;">
  		   <a href="/addQna" class="btn">글쓰기</a>
 	    </div>
-		
 	</main>
 
 </body>

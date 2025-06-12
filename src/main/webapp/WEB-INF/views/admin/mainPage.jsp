@@ -40,7 +40,7 @@
         <ul>
             <c:forEach var="lecture" items="${ongoingLectures}">
                 <li>
-                    <a href="/lectureOne?lectureId=${lecture.lecture_id}">
+                    <a href="/admin/lectureOne?lectureId=${lecture.lecture_id}">
                         ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
                     </a>
                 </li>
@@ -54,7 +54,7 @@
         <ul>
             <c:forEach var="lecture" items="${upcomingLectures}">
                 <li>
-                    <a href="/lectureOne?lectureId=${lecture.lecture_id}">
+                    <a href="/admin/lectureOne?lectureId=${lecture.lecture_id}">
                         ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
                     </a>
                 </li>
@@ -68,7 +68,7 @@
         <ul>
             <c:forEach var="lecture" items="${endedLectures}">
                 <li>
-                    <a href="/lectureOne?lectureId=${lecture.lecture_id}">
+                    <a href="/admin/lectureOne?lectureId=${lecture.lecture_id}">
                         ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
                     </a>
                 </li>

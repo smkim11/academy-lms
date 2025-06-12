@@ -35,8 +35,11 @@ public class MainPageController {
         model.addAttribute("endedLectures", lectureMap.get("ended"));
      
         int userId = (int)session.getAttribute("loginUserId"); // 세션 값 호출
-
         User user = loginService.findById(userId); // user에 담겨있는 정보 불러오기
+
+        System.out.println("==> loginUserId in mainPage = " + session.getAttribute("loginUserId"));
+        session.setAttribute("loginUserId", user.getUserId());
+
            if("student".equals(user.getRole())) { // user 역할이 학생일경우
               return "student/mainPage";
            } else if ("instructor".equals(user.getRole())){

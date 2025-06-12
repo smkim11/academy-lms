@@ -42,29 +42,31 @@
 		    </c:if>
 		</p>
 		
-		<!-- QnA 내용 표시 -->
-	<c:if test="${loginRole == 'student' and loginId == qnaStudentId}">
-	    <form action="/deleteQna" method="post">
-	        <input type="hidden" name="qnaId" value="${qna.qnaId}" />
-	        <button type="submit">삭제하기</button>
-	    </form>
-	</c:if>
-	
-	<c:forEach var="answer" items="${qnaAnswer}">
-	    <div>
-	        <p>${answer.answer}</p>
-	        <p>${answer.createDate}</p>
-	        
-	        <c:if test="${loginRole == 'instructor'}">
-	            <form action="/deleteAnswer" method="post" style="display:inline;">
-	                <input type="hidden" name="answerId" value="${answer.answerId}" />
-	                <input type="hidden" name="qnaId" value="${qna.qnaId}" />
-	                <button type="submit">삭제</button>
-	            </form>
-	        </c:if>
-	    </div>
-	</c:forEach>
-	<a href="/qna">목록으로</a>
+		<!-- 질문 작성자 삭제 버튼 노출 -->
+		<c:if test="${loginRole == 'student' and loginUserId == qnaStudentId}">
+		    <form action="/deleteQna" method="post">
+		        <input type="hidden" name="qnaId" value="${qna.qnaId}" />
+		        <button type="submit">삭제하기</button>
+		    </form>
+		</c:if>
+		
+		<!-- QnA 답변 표시 -->
+		<c:forEach var="answer" items="${qnaAnswer}">
+		    <div>
+		        <p>${answer.answer}</p>
+		        <p>${answer.createDate}</p>
+		        
+		        <!-- 강사만 답변 삭제 가능 -->
+		        <c:if test="${loginRole == 'instructor'}">
+		            <form action="/deleteAnswer" method="post" style="display:inline;">
+		                <input type="hidden" name="answerId" value="${answer.answerId}" />
+		                <input type="hidden" name="qnaId" value="${qna.qnaId}" />
+		                <button type="submit">삭제</button>
+		            </form>
+		        </c:if>
+		    </div>
+		</c:forEach>
+		<a href="/qna">목록으로</a>
 </main>
 </body>
 </html>

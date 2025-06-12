@@ -36,8 +36,9 @@
 	  VALUES (#{enrollmentId}, #{title}, #{question}, #{isPublic}, #{fileUrl})
 	</insert>
 	
-	<delete id="deleteQna">
-	    DELETE FROM qna WHERE qna_id = #{qnaId}
+	<delete id="deleteQna" parameterType="int">
+	    DELETE FROM qna
+	    WHERE qna_id = #{qnaId}
 	</delete>
 	
 	<select id="findStudentIdByQna" resultType="int">
@@ -70,5 +71,10 @@
 	<delete id="deleteQnaAnswer" parameterType="int">
 	    DELETE FROM qna_answer
 	    WHERE answer_id = #{answerId}
+	</delete>
+	
+	<delete id="deleteAnswersByQnaId" parameterType="int">
+	    DELETE FROM qna_answer
+	    WHERE qna_id = #{qnaId}
 	</delete>
 </mapper>
