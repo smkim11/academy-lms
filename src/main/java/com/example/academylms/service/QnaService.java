@@ -14,10 +14,6 @@ import com.example.academylms.mapper.QnaMapper;
 public class QnaService {
     @Autowired QnaMapper qnaMapper;
 	
-    public List<Map<String, Object>> getQnaList() {
-        return qnaMapper.selectQnaList();
-    }
-	
 	public Qna getQnaOne(int qnaId) {
 	    return qnaMapper.selectQnaOne(qnaId);
 	}
@@ -56,6 +52,10 @@ public class QnaService {
 	
 	public void deleteAnswersByQnaId(int qnaId) {
 	    qnaMapper.deleteAnswersByQnaId(qnaId);
+	}
+	
+	public List<Map<String, Object>> getQnaList(int lectureId) {
+	    return qnaMapper.selectQnaListByLectureId(lectureId);
 	}
 	
 }

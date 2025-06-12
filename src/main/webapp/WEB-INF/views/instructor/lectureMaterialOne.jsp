@@ -25,15 +25,30 @@
 	  </ul>
 	</div>
 	
-	<main>
-	<h2>강의자료 상세</h2>
-	<p>자료명: ${material.title}</p>
-	<p>등록일: ${material.createDate}</p>
-	<p>파일: <a href="${material.fileUrl}" download>파일 다운로드</a></p>
-	
-	<a href="/updateLectureMaterial?materialId=${material.materialId}">수정하기</a>
-	<a href="/deleteLectureMaterial?materialId=${material.materialId}" onclick="return confirm('정말 삭제하시겠습니까?');">삭제하기</a>
-	<a href="/lectureMaterialList?weekId=${material.weekId}">목록으로</a>
-	</main>
+<main style="max-width: 800px; margin: 20px auto; padding: 20px;">
+    <h2 style="text-align: center;">강의자료 상세</h2>
+
+    <p><strong>자료명:</strong> ${material.title}</p>
+    <p><strong>등록일:</strong> ${material.createDate}</p>
+    <p><strong>파일:</strong> 
+        <c:if test="${not empty material.fileUrl}">
+            <a href="${material.fileUrl}" download>파일 다운로드</a>
+        </c:if>
+        <c:if test="${empty material.fileUrl}">
+            없음
+        </c:if>
+    </p>
+
+    <!-- 강사버전 → 수정/삭제/목록 버튼 우측 정렬 -->
+    <div style="text-align: right; margin-top: 20px;">
+        <a href="/updateLectureMaterial?materialId=${material.materialId}" 
+           style="margin-right: 10px; font-weight: bold; color: #333;">수정하기</a>
+        <a href="/deleteLectureMaterial?materialId=${material.materialId}" 
+           onclick="return confirm('정말 삭제하시겠습니까?');"
+           style="margin-right: 10px; font-weight: bold; color: red;">삭제하기</a>
+        <a href="/lectureMaterialList?weekId=${material.weekId}" 
+           style="font-weight: bold; color: #333;">목록으로</a>
+    </div>
+</main>
 </body>
 </html>

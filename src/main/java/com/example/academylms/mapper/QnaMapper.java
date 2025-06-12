@@ -11,7 +11,7 @@ import com.example.academylms.dto.QnaAnswer;
 
 @Mapper
 public interface QnaMapper {
-	List<Map<String, Object>> selectQnaList();
+	List<Map<String, Object>> selectQnaListByLectureId(int lectureId); 
     Qna selectQnaOne(int qnaId);
     Integer findEnrollmentId(@Param("studentId") int studentId, @Param("lectureId") int lectureId);
     void insertQna(Qna qna);

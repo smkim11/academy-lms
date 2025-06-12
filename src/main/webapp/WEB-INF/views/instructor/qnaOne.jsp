@@ -22,49 +22,69 @@
 	    <li><a href="#">설정</a></li>
 	  </ul>
 	</div>
-	<main>
-	<h2>제목 : ${qna.title}</h2>
-	<p><strong>질문내용:</strong> ${qna.question}</p>
-	<p><strong>공개여부:</strong> 
-	  <c:choose>
-	    <c:when test="${qna.isPublic == 1}">공개</c:when>
-	    <c:otherwise>비공개</c:otherwise>
-	  </c:choose>
-	</p>
-	<p><strong>작성일:</strong> ${qna.createDate}</p>
-	<p><strong>첨부파일:</strong> 
-	    <c:if test="${not empty qna.fileUrl}">
-	        <a href="${qna.fileUrl}" download>파일 다운로드</a>
-	    </c:if>
-	    <c:if test="${empty qna.fileUrl}">
-	        없음
-	    </c:if>
-	</p>
 	
-		<!-- QnA 내용 표시 -->
-	<c:if test="${loginRole == 'instructor'}">
-	    <form action="/addAnswer" method="post">
-	        <input type="hidden" name="qnaId" value="${qna.qnaId}" />
-	        <textarea name="answer"></textarea>
-	        <button type="submit">답변 등록</button>
-	    </form>
-	</c:if>
+	<main style="max-width: 800px; margin: 20px auto; padding: 20px;">
+	    <h2 style="text-align: center;">Q&A 상세보기</h2>
 	
-	<c:forEach var="answer" items="${qnaAnswer}">
-	    <div>
-	        <p>${answer.answer}</p>
-	        <p>${answer.createDate}</p>
-	        
-	        <c:if test="${loginRole == 'instructor'}">
-	            <form action="/deleteAnswer" method="post" style="display:inline;">
-	                <input type="hidden" name="answerId" value="${answer.answerId}" />
-	                <input type="hidden" name="qnaId" value="${qna.qnaId}" />
-	                <button type="submit">삭제</button>
-	            </form>
-	        </c:if>
+	    <p><strong>제목:</strong> ${qna.title}</p>
+	    <p><strong>질문내용:</strong> ${qna.question}</p>
+	    <p><strong>공개여부:</strong> 
+	        <c:choose>
+	            <c:when test="${qna.isPublic == 1}">공개</c:when>
+	            <c:otherwise>비공개</c:otherwise>
+	        </c:choose>
+	    </p>
+	    <p><strong>작성일:</strong> ${qna.createDate}</p>
+	    <p><strong>첨부파일:</strong> 
+	        <c:choose>
+	            <c:when test="${not empty qna.fileUrl}">
+	                <a href="${qna.fileUrl}" download>파일 다운로드</a>
+	            </c:when>
+	            <c:otherwise>
+	                없음
+	            </c:otherwise>
+	        </c:choose>
+	    </p>
+	
+<!-- 답변 등록 (강사만) -->
+	    <c:if test="${loginRole == 'instructor'}">
+				<form action="/addAnswer" method="post" style="margin-top: 20px;">
+				    <input type="hidden" name="qnaId" value="${qna.qnaId}" />
+				    <input type="hidden" name="lectureId" value="${lectureId}" /> <!-- 추가 -->
+				    <textarea name="answer" style="width: 100%; height: 100px; padding: 8px; font-size: 14px;"></textarea>
+				    <div style="text-align: right; margin-top: 10px;">
+				        <button type="submit"
+				                style="padding: 8px 16px; font-size: 14px; font-weight: bold; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+				            답변 등록
+				        </button>
+				    </div>
+				</form>
+	    </c:if>
+	
+<!-- 기존 답변 리스트 -->
+	    <c:forEach var="answer" items="${qnaAnswer}">
+	        <div style="border: 1px solid #ddd; padding: 10px; margin-top: 15px;">
+	            <p>${answer.answer}</p>
+	            <p style="font-size: 12px; color: gray;">${answer.createDate}</p>
+	            
+	            <c:if test="${loginRole == 'instructor'}">
+	                <form action="/deleteAnswer" method="post" style="display: inline;">
+					    <input type="hidden" name="answerId" value="${answer.answerId}" />
+					    <input type="hidden" name="qnaId" value="${qna.qnaId}" />
+					    <input type="hidden" name="lectureId" value="${lectureId}" /> <!-- 추가 -->
+					    <button type="submit"
+					            style="padding: 5px 10px; font-size: 12px; font-weight: bold; background-color: #f44336; color: white; border: none; cursor: pointer;">
+					        삭제
+					    </button>
+					</form>
+	            </c:if>
+	        </div>
+	    </c:forEach>
+	
+<!-- 목록으로 버튼 -->
+	    <div style="text-align: right; margin-top: 20px;">
+	        <a href="/qna?lectureId=${lectureId}" style="font-weight: bold; color: #333;">목록으로</a>
 	    </div>
-	</c:forEach>
-	<a href="/qna">목록으로</a>
 	</main>
 </body>
 </html>

@@ -26,25 +26,29 @@
 	  </ul>
 	</div>
 	
-	<main>
-	<h2>${weekId}주차 강의자료</h2>
-	<a href="/addLectureMaterial?weekId=${weekId}">강의자료 등록</a>
-	<table border="1">
-	    <tr>
-	        <th>자료명</th>
-	        <th>등록일</th>
-	    </tr>
-	    <c:forEach var="material" items="${materialList}">
-	        <tr>
-	            <td>
-	                <a href="/lectureMaterialOne?materialId=${material.materialId}">
-	                    ${material.title}
-	                </a>
-	            </td>
-	            <td>${material.createDate}</td>
+<main style="max-width: 1200px; margin: 20px auto; padding: 20px;">
+	    <h2 style="text-align: center;">${weekId}주차 강의자료</h2>
+	
+	    <div style="text-align: right; margin-bottom: 10px;">
+	        <a href="/addLectureMaterial?weekId=${weekId}" style="font-weight: bold; color: #333;">강의자료 등록</a>
+	    </div>
+	
+	    <table border="1" style="width: 100%; border-collapse: collapse; text-align: center;">
+	        <tr style="background-color: #f0f0f0;">
+	            <th>자료명</th>
+	            <th>등록일</th>
 	        </tr>
-	    </c:forEach>
-	</table>
+	        <c:forEach var="material" items="${materialList}">
+	            <tr>
+	                <td>
+	                    <a href="/lectureMaterialOne?materialId=${material.materialId}">
+	                        ${material.title}
+	                    </a>
+	                </td>
+	                <td>${material.createDate}</td>
+	            </tr>
+	        </c:forEach>
+	    </table>
 	</main>
 </body>
 </html>

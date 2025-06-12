@@ -26,12 +26,6 @@ public class QnaRest {
     @Autowired
     private QnaService qnaService;
 
-    // 전체 QnA 리스트 조회 (GET /api/qna)
-    @GetMapping
-    public List<Map<String, Object>> getAllQna() {
-        return qnaService.getQnaList();
-    }
-
     // 특정 QnA 1개 조회 (GET /api/qna/{id})
     @GetMapping("/{id}")
     public Map<String, Object> getQnaById(@PathVariable("id") int qnaId) {
@@ -107,5 +101,10 @@ public class QnaRest {
 
         qnaService.deleteAnswer(answerId);
         return "Answer deleted successfully.";
+    }
+    
+    @GetMapping("/rest/qnaList")
+    public List<Map<String, Object>> getQnaList(@RequestParam int lectureId) {
+        return qnaService.getQnaList(lectureId);
     }
 }

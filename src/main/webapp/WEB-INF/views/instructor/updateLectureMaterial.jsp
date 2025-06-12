@@ -26,36 +26,54 @@
 	  </ul>
 	</div>
 	
-	<main>
-    <h2>강의자료 수정</h2>
+<main style="max-width: 800px; margin: 20px auto; padding: 20px;">
+    <h2 style="text-align: center;">강의자료 수정</h2>
 
-    <form action="/updateLectureMaterial" method="post" enctype="multipart/form-data">
+    <form action="/updateLectureMaterial" method="post" enctype="multipart/form-data"
+          style="margin-top: 20px;">
         <!-- 수정 시 materialId 전달 필요 -->
         <input type="hidden" name="materialId" value="${material.materialId}"/>
 
-        <table>
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
             <tr>
-                <td>제목</td>
-                <td><input type="text" name="title" value="${material.title}" required/></td>
-            </tr>
-            <tr>
-                <td>기존 파일</td>
-                <td>
-                    <a href="${material.fileUrl}" target="_blank">${material.fileUrl}</a>
+                <td style="padding: 10px; font-weight: bold; width: 150px;">제목</td>
+                <td style="padding: 10px;">
+                    <input type="text" name="title" value="${material.title}" required
+                           style="width: 100%; padding: 8px; font-size: 14px;"/>
                 </td>
             </tr>
             <tr>
-                <td>새 파일 업로드</td>
-                <td><input type="file" name="file"/></td>
+                <td style="padding: 10px; font-weight: bold;">기존 파일</td>
+                <td style="padding: 10px;">
+                    <c:if test="${not empty material.fileUrl}">
+                        <a href="${material.fileUrl}" target="_blank">${material.fileUrl}</a>
+                    </c:if>
+                    <c:if test="${empty material.fileUrl}">
+                        없음
+                    </c:if>
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; font-weight: bold;">새 파일 업로드</td>
+                <td style="padding: 10px;">
+                    <input type="file" name="file" style="padding: 8px; font-size: 14px;"/>
+                </td>
             </tr>
         </table>
 
-        <br/>
-        <button type="submit">수정 완료</button>
+        <!-- 버튼 영역 -->
+        <div style="text-align: right; margin-top: 20px;">
+            <button type="submit"
+                    style="padding: 10px 20px; font-size: 16px; font-weight: bold; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+                수정 완료
+            </button>
+        </div>
     </form>
 
-    <br/>
-    <a href="/lectureMaterialOne?materialId=${material.materialId}">← 강의자료 상세로 돌아가기</a>
-	</main>
+    <!-- 뒤로가기 -->
+    <div style="text-align: right; margin-top: 10px;">
+        <a href="/lectureMaterialOne?materialId=${material.materialId}" style="font-weight: bold; color: #333;">← 강의자료 상세로 돌아가기</a>
+    </div>
+</main>
 </body>
 </html>

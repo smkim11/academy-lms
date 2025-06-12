@@ -27,33 +27,37 @@
 	</div>
 	
 	
-	<main>
-		<h2>Q&A 게시판</h2>
-		<table border="1" width="100%">
-		    <tr>
-		        <th>번호</th>
-		        <th>제목</th>
-		        <th>공개 여부</th>
-		        <th>작성일</th>
-		        <th>작성자</th>
-		    </tr>
-		<c:forEach var="qna" items="${qnaList}">
-		    <tr>
-		        <td>${qna.qnaId}</td>
-		        <td><a href="/qnaOne?id=${qna.qnaId}">${qna.title}</a></td>
-		        <td>
-		            <c:choose>
-		                <c:when test="${qna.isPublic == true}">공개</c:when>
-		                <c:otherwise>비공개</c:otherwise>
-		            </c:choose>
-		        </td>
-		        <td>${qna.createDate}</td>
-		        <td>${qna.writerName}</td>
-		    </tr>
-		</c:forEach>
-		</table>
-		
+	<main style="max-width: 1000px; margin: 20px auto; padding: 20px;">
+	    <h2 style="text-align: center;">Q&A 게시판</h2>
+	
+<!-- QnA 게시판 테이블 -->
+	    <table border="1" style="width: 100%; border-collapse: collapse; text-align: center;">
+	        <tr style="background-color: #f0f0f0;">
+	            <th>번호</th>
+	            <th>제목</th>
+	            <th>공개 여부</th>
+	            <th>작성일</th>
+	            <th>작성자 아이디</th>
+	        </tr>
+	        <c:forEach var="qna" items="${qnaList}">
+	            <tr>
+	                <td>${qna.qnaId}</td>
+	                <td style="text-align: left;">
+	                    <a href="/qnaOne?id=${qna.qnaId}&lectureId=${lectureId}">
+	                        ${qna.title}
+	                    </a>
+	                </td>
+	                <td>
+	                    <c:choose>
+	                        <c:when test="${qna.isPublic == true}">공개</c:when>
+	                        <c:otherwise>비공개</c:otherwise>
+	                    </c:choose>
+	                </td>
+	                <td>${qna.createDate}</td>
+	                <td>${qna.writerName}</td>
+	            </tr>
+	        </c:forEach>
+	    </table>
 	</main>
-
 </body>
 </html>

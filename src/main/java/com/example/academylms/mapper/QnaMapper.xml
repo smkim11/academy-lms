@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.academylms.mapper.QnaMapper">
-    <select id="selectQnaList" resultType="map">
+	<select id="selectQnaListByLectureId" resultType="map">
 	    SELECT q.qna_id AS qnaId,
 	           q.title,
-	           q.question,
 	           q.is_public AS isPublic,
 	           q.create_date AS createDate,
-	           s.name AS writerName
+	           u.user_id AS writerName
 	    FROM qna q
-	    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
-	    JOIN student s ON le.student_id = s.student_id
-	    ORDER BY q.qna_id DESC
+	    JOIN lecture_enrollment e ON q.enrollment_id = e.enrollment_id
+	    JOIN user u ON e.student_id = u.user_id
+	    WHERE e.lecture_id = #{lectureId}
+	    ORDER BY q.create_date DESC
 	</select>
     
     <select id="selectQnaOne" resultType="com.example.academylms.dto.Qna">
