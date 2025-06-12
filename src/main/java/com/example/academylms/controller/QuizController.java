@@ -61,6 +61,9 @@ public class QuizController {
 			model.addAttribute("startedAt",startedAt);
 			model.addAttribute("endedAt",endedAt);
 		}
+		
+		// 강의가 몇주차까지 있는지 확인
+		model.addAttribute("weekList",quizService.selectWeekByLectureId(lectureId));
 		model.addAttribute("lectureId",lectureId);
 		return "/instructor/addQuiz";
 	}
@@ -158,6 +161,7 @@ public class QuizController {
 		redirectAttributes.addAttribute("currentPage", currentPage);
 		return "redirect:/updateQuiz";
 	}
+	
 	// 퀴즈 응시 페이지
 	@GetMapping("/quizOne")
 	public String quizOne(Model model, HttpSession session
@@ -232,6 +236,7 @@ public class QuizController {
 			quizService.updateIsCorrect(joinId);
 			// 저장버튼 누르면 다음문제 이동
 			currentPage+=1;
+			log.info("answer1:"+quizSubmission.getAnswer());
 			
 			// redirectAttributes 사용하여 return문 url단축
 			redirectAttributes.addAttribute("weekId", weekId);
@@ -271,9 +276,10 @@ public class QuizController {
 		return "redirect:/quizResult";
 	}
 	
-	// 퀴즈 결과 페이지
-	@GetMapping("/quizResult")
-	public String quizResult(Model model, @RequestParam int weekId
+	// 학생용 퀴즈 결과 페이지
+	@GetMapping("/student/quizResult")
+	public String studentQuizResult(Model model, HttpSession session
+										, @RequestParam int weekId
 										, @RequestParam int joinId) {
 		List<HashMap<String,Object>> resultList = quizService.quizResultByJoinId(joinId);
 		
@@ -289,4 +295,36 @@ public class QuizController {
 		model.addAttribute("explainList", quizService.quizExplanation(weekId));
 		return "/student/quizResult";
 	}
+	
+	// 강사용 퀴즈 결과 페이지
+	@GetMapping("/instructor/quizResult")
+	public String instructorQuizResult() {
+		
+		return "/instructor/quizResult";
+	}
+	
+	// 퀴즈 전체삭제
+	@GetMapping("/deleteQuiz")
+	public String deleteQuiz(@RequestParam int weekId, @RequestParam int lectureId
+							,RedirectAttributes redirectAttributes) {
+		
+		// 객관식이 있으면 객관식에 해당하는 quizId 출력
+		List<Integer> list = quizService.selectQuizIdByWeekIdType(weekId);
+		
+		// 객관식이 있으면 보기들 먼저 삭제 후 문제전체 삭제
+		if(!list.isEmpty()) {
+			for(int qId : list) {
+				quizService.deleteQuizOption(qId);
+			}
+		}
+		
+		// 퀴즈 전체 삭제
+		quizService.deleteQuiz(weekId);
+		
+		redirectAttributes.addAttribute("lectureId", lectureId);
+		return "redirect:/quizList";
+	}
+	
+	// 퀴즈 한문제 삭제
+	
 }

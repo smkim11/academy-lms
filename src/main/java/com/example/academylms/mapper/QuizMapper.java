@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.example.academylms.dto.LectureWeek;
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.Quiz;
 import com.example.academylms.dto.QuizForm;
@@ -39,4 +40,8 @@ public interface QuizMapper {
 	int findSameNo(int weekId, int quizNo);
 	void updateQuiz(QuizForm quizForm);
 	void updateQuizOption(@Param("quizForm") QuizForm quizForm, @Param("optionNo") int optionNo, @Param("option") String option);
+	List<LectureWeek> selectWeekByLectureId(int lectureId);
+	void deleteQuiz(int weekId);
+	List<Integer> selectQuizIdByWeekIdType(int weekId);
+	void deleteQuizOption(int quizId);
 }

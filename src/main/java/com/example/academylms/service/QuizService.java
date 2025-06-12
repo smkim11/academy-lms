@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.academylms.dto.LectureWeek;
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.Quiz;
 import com.example.academylms.dto.QuizForm;
@@ -100,6 +101,16 @@ public class QuizService {
 		return quizMapper.findSameNo(weekId, quizNo);
 	}
 	
+	// 해당강의 몇주차까지 있는지 확인
+	public List<LectureWeek> selectWeekByLectureId(int lectureId){
+		return quizMapper.selectWeekByLectureId(lectureId);
+	}
+	
+	// 객관식문제 quidId 확인
+	public List<Integer> selectQuizIdByWeekIdType(int weekId){
+		return quizMapper.selectQuizIdByWeekIdType(weekId);
+	}
+	
 	// join_id등록
 	public void insertJoinId(int weekId, int enrollmentId) {
 		quizMapper.insertJoinId(weekId, enrollmentId);
@@ -143,5 +154,15 @@ public class QuizService {
 	// 퀴즈 보기 수정(객관식)
 	public void updateQuizOption(QuizForm quizForm, int optionNo,String option) {
 		quizMapper.updateQuizOption(quizForm,optionNo, option);
+	}
+	
+	// 주차에 해당하는 퀴즈 전체삭제
+	public void deleteQuiz(int weekId) {
+		quizMapper.deleteQuiz(weekId);
+	}
+	
+	// 퀴즈 전체삭제할때 보기도 삭제
+	public void deleteQuizOption(int quizId) {
+		quizMapper.deleteQuizOption(quizId);
 	}
 }

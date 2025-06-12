@@ -28,7 +28,7 @@
 	
 	<!--퀴즈(객관식) 보기-->
 	<select id="quizOptionList" resultType="com.example.academylms.dto.QuizOption">
-		SELECT `option` FROM quiz_option WHERE quiz_id=#{quizId}
+		SELECT `option`, option_no optionNo FROM quiz_option WHERE quiz_id=#{quizId}
 	</select>
 	
 	<!--퀴즈 응시중 저장한 답안 확인-->
@@ -89,12 +89,22 @@
 	
 	<!--weekId 찾기-->
 	<select id="selectWeekId">
-		SELECT week_id from lecture_week WHERE lecture_id=#{lectureId} AND WEEK=#{week}
+		SELECT week_id from lecture_week WHERE lecture_id=#{lectureId} AND week=#{week}
 	</select>
 	
 	<!--동일주차에 동일번호문제가 있는지 확인-->
 	<select id="findSameNo">
 		SELECT COUNT(*) FROM quiz WHERE week_id=#{weekId} AND quiz_no=#{quizNo}
+	</select>
+	
+	<!--해당강의 몇주차까지 있는지 확인-->
+	<select id="selectWeekByLectureId" resultType="com.example.academylms.dto.LectureWeek">
+		SELECT week FROM lecture_week WHERE lecture_id=#{lectureId}
+	</select>
+	
+	<!--객관식문제 quidId 확인-->
+	<select id="selectQuizIdByWeekIdType">
+		SELECT quiz_id FROM quiz WHERE week_id=#{weekId} AND type='객관식'
 	</select>
 	
 	<!--join_id 등록-->
@@ -162,4 +172,14 @@
 						AND quiz_no=#{quizForm.quizNo})
 			and option_no = #{optionNo}
 	</update>
+	
+	<!--주차에 해당하는 퀴즈 전체삭제-->
+	<delete id="deleteQuiz">
+		DELETE FROM quiz WHERE week_id=#{weekId}
+	</delete>
+	
+	<!--퀴즈 전체삭제전에 보기먼저 삭제-->
+	<delete id="deleteQuizOption">
+		DELETE FROM quiz_option WHERE quiz_id=#{quizId}
+	</delete>
 </mapper>
