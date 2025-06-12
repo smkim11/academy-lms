@@ -5,17 +5,20 @@
 	<!--강의별 퀴즈 리스트-->
 	<select id="quizListByLectureId" resultType="map">
 		SELECT distinct lw.week_id weekId, lw.week, q.started_at startedAt, q.ended_at endedAt
-		,(SELECT join_id FROM quiz_join WHERE week_id=lw.week_id 
-		AND enrollment_id=(SELECT enrollment_id 
-		FROM lecture_enrollment 
-		WHERE student_id=#{studentId} AND lecture_id=#{lectureId})) joinId
+			,(SELECT join_id FROM quiz_join WHERE week_id=lw.week_id 
+			AND enrollment_id=(SELECT enrollment_id 
+			FROM lecture_enrollment 
+			WHERE student_id=#{studentId} AND lecture_id=#{lectureId})) joinId
 		FROM lecture_week lw INNER JOIN quiz q ON lw.week_id = q.week_id
 		WHERE lw.lecture_id=#{lectureId};
 	</select>
 	
-	<!--퀴즈 문제풀이 페이지-->
+	<!--퀴즈 한문제씩 출력-->
 	<select id="quizOne" resultType="map" parameterType="map">
-		SELECT quiz_id quizId, quiz_no quizNo, question, type FROM quiz WHERE week_id=#{weekId} LIMIT #{page.beginRow},#{page.rowPerPage};
+		SELECT (SELECT week FROM lecture_week WHERE week_id=#{weekId}) week, 
+			started_at startedAt, ended_at endedAt, type, quiz_no quizNo, question,
+			correct_answer correctAnswer, explanation, quiz_id quizId
+		FROM quiz WHERE week_id=#{weekId} LIMIT #{page.beginRow},#{page.rowPerPage};
 	</select>
 	
 	<!--(강의,주차)별 퀴즈 전체 문제수-->
@@ -66,15 +69,17 @@
 	
 	<!--퀴즈 결과-->
 	<select id="quizResultByJoinId" resultType="map">
-		SELECT qs.quiz_no quizNo, qs.answer,
-		case when qs.is_correct = 1 then 'O' ELSE 'X' END isCorrect, qj.score
+		SELECT qs.quiz_no quizNo,qs.answer, 
+				case when qs.is_correct = 1 then 'O' ELSE 'X' END isCorrect,
+				qj.score, q.correct_answer correctAnswer
 		FROM quiz_submission qs INNER JOIN quiz_join qj ON qs.join_id = qj.join_id
+								INNER JOIN quiz q ON q.week_id = qj.week_id AND q.quiz_no = qs.quiz_no
 		WHERE qs.join_id=#{joinId}
 	</select>
 	
 	<!--퀴즈 해설-->
 	<select id="quizExplanation" resultType="com.example.academylms.dto.Quiz">
-		SELECT quiz_no quizNo, explanation FROM quiz WHERE week_id = #{weekId}
+		SELECT quiz_no quizNo, question, explanation FROM quiz WHERE week_id = #{weekId}
 	</select>
 	
 	<!--역할 찾기-->
@@ -100,17 +105,18 @@
 	<!--퀴즈 등록-->
 	<insert id="insertQuiz" parameterType="com.example.academylms.dto.QuizForm">
 		INSERT INTO quiz(week_id, quiz_no, question, correct_answer, 
-		explanation, type, started_at, ended_at)
+						explanation, type, started_at, ended_at)
 		VALUES((SELECT week_id from lecture_week WHERE lecture_id=#{lectureId} AND WEEK=#{week}),
 		#{quizNo}, #{question}, #{correctAnswer},#{explanation},#{type},#{startedAt},#{endedAt})
 	</insert>
 	
 	<!--퀴즈 보기 등록(객관식)-->
 	<insert id="insertQuizOption" parameterType="map">
-		INSERT INTO quiz_option(quiz_id, `option`) 
+		INSERT INTO quiz_option(quiz_id, option_no,`option`) 
 		VALUES((SELECT quiz_id FROM quiz WHERE week_id=
-		(SELECT week_id FROM lecture_week WHERE lecture_id=#{quizForm.lectureId} AND WEEK=#{quizForm.week})
-		AND quiz_no=#{quizForm.quizNo}),#{option})
+				(SELECT week_id FROM lecture_week 
+				WHERE lecture_id=#{quizForm.lectureId} AND WEEK=#{quizForm.week})
+		AND quiz_no=#{quizForm.quizNo}),#{optionNo},#{option})
 	</insert>
 	
 	<!--퀴즈 답안 등록-->
@@ -126,15 +132,34 @@
 	<!--퀴즈 정답,오답 체크-->
 	<update id="updateIsCorrect">
 		UPDATE quiz_submission qs 
-		INNER JOIN quiz_join qj ON qs.join_id = qj.join_id
-		INNER JOIN quiz q ON qj.week_id = q.week_id AND qs.quiz_no = q.quiz_no
-		SET qs.is_correct = CASE WHEN qs.answer = q.correct_answer THEN 1 ELSE 0
-		END WHERE qs.join_id = #{joinId};
+					INNER JOIN quiz_join qj ON qs.join_id = qj.join_id
+					INNER JOIN quiz q ON qj.week_id = q.week_id AND qs.quiz_no = q.quiz_no
+		SET qs.is_correct = CASE WHEN qs.answer = q.correct_answer THEN 1 ELSE 0 END 
+		WHERE qs.join_id = #{joinId};
 	</update>
 	
 	<!--퀴즈 점수(정답개수/전체개수*100)-->
 	<update id="updateScore">
 		UPDATE quiz_join SET score = #{correctQuestion}/#{totalQuestion}*100 
 		WHERE join_id=#{joinId}
+	</update>
+	
+	<!--퀴즈 수정-->
+	<update id="updateQuiz" parameterType="com.example.academylms.dto.QuizForm">
+		UPDATE quiz SET started_at = #{startedAt}, ended_at = #{endedAt}, 
+						quiz_no = #{quizNo}, question=#{question}, correct_answer=#{correctAnswer},
+						explanation = #{explanation} 
+		where week_id=(SELECT week_id from lecture_week WHERE lecture_id=#{lectureId} AND week=#{week}) 
+						and quiz_no=#{quizNo}
+	</update>
+	
+	<!--퀴즈 보기 수정(객관식)-->
+	<update id="updateQuizOption" parameterType="map">
+		UPDATE quiz_option SET `option`= #{option}
+		WHERE quiz_id= (SELECT quiz_id FROM quiz WHERE week_id= 
+								(SELECT week_id FROM lecture_week 
+								WHERE lecture_id=#{quizForm.lectureId} AND week=#{quizForm.week})
+						AND quiz_no=#{quizForm.quizNo})
+			and option_no = #{optionNo}
 	</update>
 </mapper>

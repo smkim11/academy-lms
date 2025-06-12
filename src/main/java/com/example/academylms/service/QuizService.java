@@ -111,8 +111,8 @@ public class QuizService {
 	}
 	
 	// 퀴즈 보기 등록(객관식)
-	public void insertQuizOption(QuizForm quizForm, String option) {
-		quizMapper.insertQuizOption(quizForm, option);
+	public void insertQuizOption(QuizForm quizForm, int optionNo,String option) {
+		quizMapper.insertQuizOption(quizForm,optionNo, option);
 	}
 	
 	// 퀴즈 답안 등록
@@ -133,5 +133,15 @@ public class QuizService {
 	// 퀴즈 점수(정답개수/전체개수*100)
 	public void updateScore(int correctQuestion, int totalQuestion,int joinId) {
 		quizMapper.updateScore(correctQuestion, totalQuestion, joinId);
+	}
+	
+	// 퀴즈 수정
+	public void updateQuiz(QuizForm quizForm) {
+		quizMapper.updateQuiz(quizForm);
+	}
+	
+	// 퀴즈 보기 수정(객관식)
+	public void updateQuizOption(QuizForm quizForm, int optionNo,String option) {
+		quizMapper.updateQuizOption(quizForm,optionNo, option);
 	}
 }

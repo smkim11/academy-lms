@@ -34,7 +34,9 @@ public interface QuizMapper {
 	List<Quiz> quizExplanation(int weekId);
 	String selectRoleByUserId (int userId);
 	void insertQuiz(QuizForm quizForm);
-	void insertQuizOption(@Param("quizForm") QuizForm quizForm, @Param("option") String option);
+	void insertQuizOption(@Param("quizForm") QuizForm quizForm, @Param("optionNo") int optionNo, @Param("option") String option);
 	int selectWeekId(int lectureId, int week);
 	int findSameNo(int weekId, int quizNo);
+	void updateQuiz(QuizForm quizForm);
+	void updateQuizOption(@Param("quizForm") QuizForm quizForm, @Param("optionNo") int optionNo, @Param("option") String option);
 }

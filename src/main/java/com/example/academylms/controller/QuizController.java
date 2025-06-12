@@ -90,10 +90,10 @@ public class QuizController {
 		
 		// 객관식이면 보기까지 추가
 		if(option1 != null && option2 != null && option3 != null && option4 != null) {
-			quizService.insertQuizOption(quizForm, option1);
-			quizService.insertQuizOption(quizForm, option2);
-			quizService.insertQuizOption(quizForm, option3);
-			quizService.insertQuizOption(quizForm, option4);
+			quizService.insertQuizOption(quizForm, 1, option1);
+			quizService.insertQuizOption(quizForm, 2, option2);
+			quizService.insertQuizOption(quizForm, 3, option3);
+			quizService.insertQuizOption(quizForm, 4, option4);
 		}
 		
 		// redirectAttributes 사용하여 return문 url단축
@@ -104,6 +104,60 @@ public class QuizController {
 		return "redirect:/addQuiz";
 	}
 	
+	// 퀴즈 수정
+	@GetMapping("/updateQuiz")
+	public String updateQuiz(Model model, @RequestParam int weekId
+										 ,@RequestParam(defaultValue = "1") int currentPage) {
+		// 한페이지에 문제하나씩 나오도록 페이징
+		Page page = new Page(currentPage, 1, quizService.quizTotalCount(weekId));
+		
+		// 퀴즈 문제 출력
+		List<HashMap<String,Object>> list = quizService.quizOne(page, weekId);
+		
+		// 퀴즈 보기 가져오기
+		if (!list.isEmpty()) {
+	        HashMap<String, Object> quiz = list.get(0);
+	        int quizId = (int) quiz.get("quizId");
+	        
+	        List<QuizOption> options = quizService.quizOptionList(quizId);
+	        model.addAttribute("options", options);
+	    }
+		
+		model.addAttribute("p",page);
+		model.addAttribute("weekId",weekId);
+		model.addAttribute("lectureId",quizService.selectLectureIdByweekId(weekId));
+		model.addAttribute("list",list);
+		return "/instructor/updateQuiz";
+	}
+	
+	@PostMapping("/updateQuiz")
+	public String updateQuiz(QuizForm quizForm, @RequestParam(required = false) String option1
+											  , @RequestParam(required = false) String option2
+											  , @RequestParam(required = false) String option3
+											  , @RequestParam(required = false) String option4
+											  , @RequestParam(defaultValue = "1") int currentPage
+											  , @RequestParam int weekId
+											  , RedirectAttributes redirectAttributes) {
+		log.info("option1:"+option1);
+		log.info("option2:"+option2);
+		log.info("option3:"+option3);
+		log.info("option4:"+option4);
+		// 퀴즈 수정
+		quizService.updateQuiz(quizForm);
+		
+		// 객관식이면 보기까지 수정
+		if(option1 != null && option2 != null && option3 != null && option4 != null) {
+			quizService.updateQuizOption(quizForm, 1, option1);
+			quizService.updateQuizOption(quizForm, 2, option2);
+			quizService.updateQuizOption(quizForm, 3, option3);
+			quizService.updateQuizOption(quizForm, 4, option4);
+		}
+		
+		// redirectAttributes 사용하여 return문 url단축
+		redirectAttributes.addAttribute("weekId", weekId);
+		redirectAttributes.addAttribute("currentPage", currentPage);
+		return "redirect:/updateQuiz";
+	}
 	// 퀴즈 응시 페이지
 	@GetMapping("/quizOne")
 	public String quizOne(Model model, HttpSession session
