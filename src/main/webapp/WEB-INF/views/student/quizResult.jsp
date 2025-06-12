@@ -32,29 +32,34 @@
 	<table border="1">
 		<tr>
 			<th>번호</th>
+			<th>작성한 답</th>
+			<th>정답</th>
 			<th>O/X</th>
 		</tr>
 		<c:forEach var="resultList" items="${resultList}">
 			<tr>
-				<td>${resultList.quizNo }</td>
-				<td>${resultList.isCorrect }</td>
-				<td>${resultList.score }</td>
+				<th>${resultList.quizNo }</th>
+				<td>${resultList.answer }</td>
+				<td>${resultList.correctAnswer }</td>
+				<th>${resultList.isCorrect }</th>
 			</tr>
 		</c:forEach>
 		<tr>
-			<th>점수</th>
-			<th>${score }</th>
+			<th colspan="2">점수</th>
+			<th colspan="2">${score }점</th>
 		</tr>
 	</table>
 	
 	<table border="1">
 		<tr>
 			<th>번호</th>
+			<th>문제</th>
 			<th>해설</th>
 		</tr>
 		<c:forEach var="explainList" items="${explainList}">
 			<tr>
-				<td>${explainList.quizNo}</td>
+				<th>${explainList.quizNo}</th>
+				<td>${explainList.question}</td>
 				<td>${explainList.explanation}</td>
 			</tr>
 		</c:forEach>
