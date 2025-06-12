@@ -18,7 +18,7 @@ public interface StudentMapper {
 	int deleteStudent(@Param("studentId") int studentId, @Param("lectureId") int lectureId);
 	List<Student> selectStudentsByLecture(Map<String, Object> params);
 	int selectStudentsCountByLecture(Map<String, Object> param);
-	int findUserIdByLoginId(String userLoginId); 
+	Integer findUserIdByLoginId(String userLoginId); 
 	Student findStudentById(int studentId);
 	boolean isAlreadyEnrolled(@Param("studentId") int studentId, @Param("lectureId") int lectureId);
 	void insertLectureEnrollment(@Param("studentId") int studentId, @Param("lectureId") int lectureId);

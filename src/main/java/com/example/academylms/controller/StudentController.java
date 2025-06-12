@@ -80,10 +80,7 @@ public class StudentController {
 	@PostMapping("/admin/addStudent")
 	public String addStudent(
 	        @RequestParam int lectureId,
-	        @RequestParam String name,
 	        @RequestParam String userLoginId,
-	        @RequestParam String email,
-	        @RequestParam String phone,
 	        Model model) {
 
 	    // 1. 아이디로 user_id 조회
@@ -91,36 +88,52 @@ public class StudentController {
 
 	    if (userId == null) {
 	        model.addAttribute("error", "존재하지 않는 사용자입니다.");
-	        return "/admin/addStudentForm";
+	        model.addAttribute("lectureId", lectureId);  // lectureId를 JSP에 전달
+	        return "/admin/addStudent";  // lectureId 포함하지 않고 고정 뷰 이름 반환
 	    }
 
 	    // 2. 이미 student 테이블에 등록되어 있는지 확인
 	    Student existingStudent = studentMapper.findStudentById(userId);
 	    if (existingStudent == null) {
-	        // 등록되지 않은 경우에만 insert
 	        Student student = new Student();
 	        student.setStudentId(userId);
-	        student.setName(name);
-	        student.setEmail(email);
-	        student.setPhone(phone);
 	        studentMapper.addStudent(student);
 	    }
 
-	    // 3. lecture_enrollment에 수강 등록 중복 체크
+	    // 3. lecture_enrollment에 등록 여부 확인
 	    boolean alreadyEnrolled = studentMapper.isAlreadyEnrolled(userId, lectureId);
-	    if (!alreadyEnrolled) {
-	        studentMapper.insertLectureEnrollment(userId, lectureId);
-	    } else {
+	    if (alreadyEnrolled) {
 	        model.addAttribute("error", "이미 해당 강의를 수강 중입니다.");
+	        model.addAttribute("lectureId", lectureId);  // lectureId 다시 전달
+	        return "/admin/addStudent";  // 동일 뷰 반환
 	    }
+
+	    // 4. 수강 등록
+	    studentMapper.insertLectureEnrollment(userId, lectureId);
 
 	    return "redirect:/admin/studentList/" + lectureId;
 	}
+
 	
 	@DeleteMapping("/admin/students/{studentId}/lecture/{lectureId}")
 	@ResponseBody
 	public String deleteEnrollment(@PathVariable int studentId, @PathVariable int lectureId) {
 	    studentService.deleteEnrollment(studentId, lectureId);
 	    return "success";
+	}
+	
+	@GetMapping("/admin/updateStudent/{studentId}")
+	public String updateStudentForm(@PathVariable int studentId, @RequestParam int lectureId, Model model) {
+	    Student student = studentMapper.findStudentById(studentId);
+	    model.addAttribute("student", student);
+	    model.addAttribute("lectureId", lectureId); 
+	    return "/admin/updateStudent";
+	}
+
+	@PostMapping("/admin/updateStudent")
+	public String updateStudent(@ModelAttribute Student student,
+	                            @RequestParam int lectureId) {
+	    studentMapper.updateStudent(student); // 이름, 이메일, 전화번호 수정
+	    return "redirect:/admin/studentList/" + lectureId; // 해당 강의로 리다이렉트
 	}
 }

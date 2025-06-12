@@ -36,7 +36,7 @@
                 <td>${student.phone}</td>
                 <td>${student.createDate}</td>
                 <td>
-				    <a href="/admin/updateStudent/${student.studentId}">수정</a>
+				    <a href="/admin/updateStudent/${student.studentId}?lectureId=${lectureId}">수정</a>
 				    <a href="javascript:void(0);"
 				       onclick="deleteStudent(${student.studentId}, ${lectureId})">삭제</a>
 				</td>
