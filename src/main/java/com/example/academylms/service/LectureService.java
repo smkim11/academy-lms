@@ -10,5 +10,6 @@ public interface LectureService {
     Lecture getLectureById(int lectureId);
 	
     List<InstructorInfo> findInstructorInfo();
-    String findInstructorInfoByinfoId(int instructorId); 
+    String findInstructorInfoByinfoId(int instructorId);
+	boolean createLecture(Lecture lecture); 
 }

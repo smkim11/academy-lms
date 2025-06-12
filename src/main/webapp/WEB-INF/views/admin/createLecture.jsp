@@ -9,9 +9,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script type="text/javascript">
   const subjectMap = {
-    "중국어": ["중국어 회화 초급", "HSK 4급 대비", "비즈니스 중국어"],
-    "영어": ["영어 회화 중급", "TOEIC 실전반", "비즈니스 영어"],
-    "일본어": ["일본어 회화 초급", "JLPT N3 대비반"]
+    "중국어": ["중국어 초급", "중국어 중급", "중국어 고급"],
+    "영어": ["영어 초급", "영어 중급", "영어 고급"],
+    "일본어": ["일본어 초급", "일본어 중급", "일본어 고급"]
   };
 
 
@@ -63,6 +63,18 @@
 		}
 		
 		const diffDays = (end-start)/(1000*60*60*24);
+		
+		let week = diffDays/7;  // 몇주차 강의까지 개설하면 되는지 계산
+		
+		if(diffDays%7 != 0){
+			week += 1;
+		}
+		
+		week  = Math.floor(week); 
+		const $week = $('#week');
+		
+		
+		$week.val(week); 
 		
 		if (diffDays < 27){
 			alert('종료일은 시작일로부터 최소 27일 이후여야 합니다.');
@@ -138,7 +150,7 @@
       <form action="/admin/createLecture" method="post" id ="form" >
 
 		<input type="hidden" name="adminId" value="${adminId}">
-
+		<input type="hidden" name="week" id="week" >
         <!-- ✅ 1. 강사 선택 -->
         <label for="instructor">강사 선택:</label>
         <select name="instructorId" id="instructor">

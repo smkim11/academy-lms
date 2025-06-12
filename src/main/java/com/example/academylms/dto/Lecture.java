@@ -14,4 +14,5 @@ public class Lecture {
 	private String startedAt;
 	private String endedAt;
 	private String createDate;
+	private int week;  // dto에만 받을 내용
 }

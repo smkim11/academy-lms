@@ -26,7 +26,16 @@
 SELECT u.user_id AS instructorId , i.name as name, i.major AS major FROM user u INNER JOIN instructor i ON u.user_id = i.instructor_id; 
 </select>
 
-<select id="findInstructorInfoByinfoId" parameterType="int" resultType="String">
+<select id="findInstructorInfoByinfoId" parameterType="int" resultType="String" >
 SELECT i.major AS major FROM user u INNER JOIN instructor i ON u.user_id = i.instructor_id where instructor_id = #{instructorId};
 </select>
+
+<insert id="createLecture" parameterType="com.example.academylms.dto.Lecture" useGeneratedKeys="true" keyProperty="lectureId" > 
+INSERT INTO lecture  (admin_id, instructor_id, title, DESCRIPTION, DAY, TIME , started_at, ended_at) VALUES (#{adminId},#{instructorId},#{title},#{description},#{day},#{time},#{startedAt},#{endedAt});
+</insert>
+
+<insert id="createLectureWeek">
+INSERT INTO lecture_week (lecture_id, week) VALUES(#{lectureId},#{week});
+</insert>
+
 </mapper>

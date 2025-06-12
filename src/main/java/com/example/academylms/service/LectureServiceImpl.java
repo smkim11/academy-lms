@@ -4,12 +4,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.academylms.dto.InstructorInfo;
 import com.example.academylms.dto.Lecture;
 import com.example.academylms.mapper.LectureMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Transactional
 @Service
+@Slf4j
 public class LectureServiceImpl implements LectureService {
 
     @Autowired
@@ -31,10 +36,29 @@ public class LectureServiceImpl implements LectureService {
 	}
 
 	@Override
-	public String findInstructorInfoByinfoId(int instructorId) {
+	public String findInstructorInfoByinfoId(int instructorId) { // 강사정보로 전공 조회
 		
 		return lectureMapper.findInstructorInfoByinfoId(instructorId);
 	}
+
+	@Override
+	public boolean createLecture(Lecture lecture) {
+		boolean result = false;  // 정상적으로 결과 출력시 1로 반환할 변수
+		if(lectureMapper.createLecture(lecture) == 1) { // 강의 생성 
+			log.info("강의생성 성공, ID = {}" , lecture.getLectureId());
+			
+			for(int i=1;  i<=lecture.getWeek(); i++) { // 강의 주차 만큼 lecture_week 생성
+				lectureMapper.createLectureWeek(lecture.getLectureId(),i);			
+				log.info("강의"+i+"주차생성");
+				
+
+			}
+			result = true;
+			return result;
+		}
+		 return result;
+	}
+	
     
     
 }
