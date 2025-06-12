@@ -36,7 +36,7 @@ public class MainPageController {
      
         int userId = (int)session.getAttribute("loginUserId"); // 세션 값 호출
 
-        User user = loginService.findById(userId);
+        User user = loginService.findById(userId); // user에 담겨있는 정보 불러오기
            if("student".equals(user.getRole())) { // user 역할이 학생일경우
               return "student/mainPage";
            } else if ("instructor".equals(user.getRole())){
@@ -51,7 +51,7 @@ public class MainPageController {
     private Map<String, List<Map<String, Object>>> getLectureMap(HttpSession session) {
         int userId = (int)session.getAttribute("loginUserId"); // 세션 값 호출
         User user = loginService.findById(userId); 
-        String role = user.getRole();
+        String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
         
         
         List<Map<String, Object>> lectureList = new ArrayList<>();

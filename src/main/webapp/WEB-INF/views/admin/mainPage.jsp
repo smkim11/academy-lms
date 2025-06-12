@@ -87,6 +87,10 @@
         <ul>
             <li><a href="/admin/statistics">통계 페이지로 이동</a></li>
         </ul>
+        <h3>개인정보 수정</h3>
+        <ul>
+	        <li><a class="edit-profile" href="/admin/mypage">개인정보 수정</a></li>
+        </ul>
     </div>
 
 </main>

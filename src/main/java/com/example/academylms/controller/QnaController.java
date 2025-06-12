@@ -14,22 +14,35 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.academylms.dto.Qna;
 import com.example.academylms.dto.QnaAnswer;
+import com.example.academylms.dto.User;
+import com.example.academylms.service.LoginService;
 import com.example.academylms.service.QnaService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class QnaController {
     @Autowired
     private QnaService qnaService;
+    
+    @Autowired
+    private LoginService loginService;
 
     //QnA 리스트
     @GetMapping("/qna")
     public String qnaList(HttpServletRequest request) {
     	List<Map<String, Object>> list = qnaService.getQnaList();
         request.setAttribute("qnaList", list);
-
-        String role = (String) request.getSession().getAttribute("loginRole");
+        
+        
+        //★수정시작부분
+        HttpSession session = request.getSession();
+        int userId = (int)session.getAttribute("loginUserId"); // 세션 값 호출
+        User user = loginService.findById(userId); 
+        String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
+        //★수정끝부분(아래부분지움)
+        //String role = (String) request.getSession().getAttribute("loginRole");
         if ("student".equals(role)) {
             request.setAttribute("contentPage", "student/qnaList.jsp");
             return "student/qnaList";
@@ -50,17 +63,23 @@ public class QnaController {
         request.setAttribute("qna", qna);
 
         // 로그인 정보
-        String role = (String) request.getSession().getAttribute("loginRole");
-     //로그인작동시 주석해제하고 아래부분삭제   int loginId = (int) request.getSession().getAttribute("loginId");
+    //    String role = (String) request.getSession().getAttribute("loginRole");
+        //
+        int loginId = (int) request.getSession().getAttribute("loginId");
         //여기부터
-        Object loginIdObj = request.getSession().getAttribute("loginId");
-        if (role == null) role = "instructor";
-        int loginId = -1; // 기본값 넣어줌 (비로그인 상태 대응 가능)
-        if (loginIdObj != null) {
-            loginId = (int) loginIdObj;
-        }
+    //    Object loginIdObj = request.getSession().getAttribute("loginId");
+    //    if (role == null) role = "instructor";
+   //     int loginId = -1; // 기본값 넣어줌 (비로그인 상태 대응 가능)
+   //     if (loginIdObj != null) {
+    //        loginId = (int) loginIdObj;
+    //    }
         //여기까지 삭제
-
+        //★수정시작부분
+        HttpSession session = request.getSession();
+        int userId = (int)session.getAttribute("loginUserId"); // 세션 값 호출
+        User user = loginService.findById(userId); 
+        String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
+        //★수정끝부분
         // 글 작성자 id 조회 (enrollment → student_id 연결된 걸 가져오거나 Qna에 있으면 거기서 꺼냄)
         int qnaStudentId = qnaService.getStudentIdByQna(qnaId); 
         
@@ -109,13 +128,19 @@ public class QnaController {
     @PostMapping("/addQna")
     public String submitQna(HttpServletRequest request, 
     						@RequestParam("file") MultipartFile file) throws Exception {
-        //int studentId = (int) request.getSession().getAttribute("loginId"); // user_id
+        //
+    	int studentId = (int) request.getSession().getAttribute("loginId"); // user_id
         //여기부터
         // ★ 테스트용으로 강제로 loginId=1 설정
-        request.getSession().setAttribute("loginId", 1); // 강제 설정
-        int studentId = 1; // 여기서 studentId 도 1 고정
+      //  request.getSession().setAttribute("loginId", 1); // 강제 설정
+     //   int studentId = 1; // 여기서 studentId 도 1 고정
         //여기까지 지우고 윗줄살리기
-        
+        //★수정시작부분
+        HttpSession session = request.getSession();
+        int userId = (int)session.getAttribute("loginUserId"); // 세션 값 호출
+        User user = loginService.findById(userId); 
+        String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
+        //★수정끝부분
         int lectureId = Integer.parseInt(request.getParameter("lectureId"));
         String title = request.getParameter("title");
         String question = request.getParameter("question");
@@ -171,14 +196,20 @@ public class QnaController {
                                @RequestParam("qnaId") int qnaId,
                                HttpServletRequest request) {
     	System.out.println("==> deleteAnswer 호출됨, answerId=" + answerId + ", qnaId=" + qnaId);
-    	String role = (String) request.getSession().getAttribute("loginRole");
+    	//String role = (String) request.getSession().getAttribute("loginRole");
     	//여기부터 삭제(로그인기능 생기면)
-    	if (role == null) {
-    	    role = "instructor";
-    	    request.getSession().setAttribute("loginRole", role); // 세션에도 넣어줘야 POST에서 반영됨
-    	}
+    	//if (role == null) {
+    //	    role = "instructor";
+    //	    request.getSession().setAttribute("loginRole", role); // 세션에도 넣어줘야 POST에서 반영됨
+    //	}
     	//여기까지
         // 강사만 삭제 가능
+        //★수정시작부분
+        HttpSession session = request.getSession();
+        int userId = (int)session.getAttribute("loginUserId"); // 세션 값 호출
+        User user = loginService.findById(userId); 
+        String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
+        //★수정끝부분
         if (!"instructor".equals(role)) {
             return "redirect:/qnaOne?id=" + qnaId; // 강사 아니면 그냥 돌아감
         }
