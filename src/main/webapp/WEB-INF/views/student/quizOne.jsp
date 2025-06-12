@@ -46,11 +46,12 @@
 			    <c:forEach var="opt" items="${options}">
 			        <div>
 			            <label>
-			            	<c:if test="${answer == opt.option}">
-			            		<input type="radio" name="answer" value="${opt.option}" checked> ${opt.option}
+			            	<!-- 객관식 답을 저장할때 optionNo는 숫자형이므로 문자형으로 형변환 -->
+			            	<c:if test="${answer == opt.optionNo.toString()}">
+			            		<input type="radio" name="answer" value="${opt.optionNo.toString()}" checked> ${opt.option}
 			            	</c:if>
-			            	<c:if test="${answer != opt.option}">
-			            		<input type="radio" name="answer" value="${opt.option}"> ${opt.option}
+			            	<c:if test="${answer != opt.optionNo.toString()}">
+			            		<input type="radio" name="answer" value="${opt.optionNo.toString()}"> ${opt.option}
 			            	</c:if>
 			            </label>
 			        </div>
@@ -60,7 +61,7 @@
 				<c:forEach var="opt" items="${options}">
 			        <div>
 			            <label>
-			            	<input type="radio" name="answer" value="${opt.option}"> ${opt.option}
+			            	<input type="radio" name="answer" value="${opt.optionNo.toString()}"> ${opt.option}
 			            </label>
 			        </div>
 			    </c:forEach>
