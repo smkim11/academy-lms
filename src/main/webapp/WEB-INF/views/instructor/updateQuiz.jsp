@@ -64,7 +64,7 @@
 					</c:if>
 				</tr>
 			</table>
-			번호 <input type="text" name="quizNo" id="quizNo" value="${list.quizNo }"/><br>
+			번호 <input type="text" name="quizNo" id="quizNo" value="${list.quizNo }" readonly/><br>
 	        문제 <input type="text" name="question" id="question" value="${list.question }" /><br>
 			<!-- 보기 (정답을 입력하고 저장하면 제출한 정답체크) -->
 			<c:if test="${not empty options}">
@@ -80,6 +80,8 @@
 			정답<input type="text" name="correctAnswer" id="correctAnswer" value="${list.correctAnswer}"><br>
 			해설<textarea cols="50" rows="5" name="explanation" id="explanation">${list.explanation}</textarea><br>
 			<button type="button" id="btn">수정</button>
+			<!-- 수정페이지에서 문항을 추가하는경우 addQuiz로 이동할 때 source=modify를 추가 -->
+			<a href="/addQuiz?lectureId=${lectureId}&week=${list.week}&startedAt=${list.startedAt}&endedAt=${list.endedAt}&source=update&currentPage=${p.lastPage}">추가</a>
 			<a href="/deleteQuizOne?weekId=${weekId }&currentPage=${p.currentPage}&quizId=${list.quizId}">삭제</a>
 		</c:forEach>
 		
@@ -95,15 +97,36 @@
     </c:if>
 </main>
 <script>
-	$('#btn').click(function(){
-		if($('#startedAt').val() != '' && $('#endedAt').val() != '' && $('#quizNo').val() != '' &&
-		   $('#question').val() != '' && $('#correctAnswer').val() != '' && $('#explanation').val() != ''){
-			$('#updateQuizForm').submit();
-		}else{
-			alert('입력하지 않은 값이 있습니다.');
-		}
-	
-	});
+$('#btn').click(function() {
+    const type = $('input[name="type"]:checked').val();
+    
+    if ($('#startedAt').val() == '' || $('#endedAt').val() == '' || 
+        $('#quizNo').val() == '' || $('#question').val() == '' || 
+        $('#correctAnswer').val() == '' || $('#explanation').val() == '') {
+        alert('입력하지 않은 값이 있습니다.');
+        return;
+    }
+
+    // 객관식인 경우 보기 유효성 검사
+    if (type === '객관식') {
+        let allOptionsFilled = true;
+
+        // 보기 입력란이 몇 개인지 동적으로 확인
+        $('[id^="option"]').each(function() {
+            if ($(this).val().trim() === '') {
+                allOptionsFilled = false;
+            }
+        });
+
+        if (!allOptionsFilled) {
+            alert('객관식 보기 내용을 모두 입력해주세요.');
+            return;
+        }
+    }
+
+    $('#updateQuizForm').submit();
+});
+
 </script>
 </body>
 </html>
