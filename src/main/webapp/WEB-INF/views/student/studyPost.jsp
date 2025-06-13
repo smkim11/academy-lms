@@ -14,10 +14,15 @@
     </c:forEach>
 </div>
 
+
 <!-- 조별 게시글 테이블 -->
 <c:forEach var="entry" items="${groupPostMap}">
     <div id="group-${entry.key}" class="post-table" style="display:none;">
         <h3>조 ${entry.key}의 게시글</h3>
+        
+        <!-- 새글 등록 -->
+        <a href="/student/addStudyPost/${entry.key}">새글등록</a>
+        
         <table border="1">
             <thead>
                 <tr>
@@ -38,7 +43,7 @@
                         </td>
                         <td>${post.createDate}</td>
                         <td>
-                        	<a href="/student/updateStudyPost">수정</a>
+                        	<a href="/student/updateStudyPost/${post.postId}">수정</a>
                         	<a href="/">삭제</a>
                         </td>
                     </tr>

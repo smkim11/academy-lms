@@ -14,4 +14,5 @@ public interface StudyGroupMapper {
 	List<StudyPost> getPostsByGroupId(@Param("groupId") int groupId);
 	StudyPost selectPostById(int postId);
 	StudyGroup getGroupById(int groupId);
+	void insertStudyPost(StudyPost post);
 }

@@ -19,5 +19,9 @@ public class StudyGroupService {
 	 public StudyGroup getGroupById(int groupId) {
 	        return studyGroupMapper.getGroupById(groupId);
 	    }
+	 
+	 public void insertStudyPost(StudyPost post) {
+		    studyGroupMapper.insertStudyPost(post);
+		}
 }
 

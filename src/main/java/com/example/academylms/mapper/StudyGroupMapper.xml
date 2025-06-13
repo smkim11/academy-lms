@@ -45,4 +45,9 @@
 	    FROM study_group
 	    WHERE group_id = #{groupId}
 	</select>
+	
+	<insert id="insertStudyPost" parameterType="com.example.academylms.dto.StudyPost">
+	    INSERT INTO study_post (group_id, title, content, create_date)
+	    VALUES (#{groupId}, #{title}, #{content}, NOW())
+	</insert>
 </mapper>

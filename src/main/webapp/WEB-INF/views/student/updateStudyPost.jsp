@@ -8,6 +8,6 @@
 <title>스터디게시판 글 수정(학생)</title>
 </head>
 <body>
-
+	<h1>게시글 수정</h1>
 </body>
 </html>
