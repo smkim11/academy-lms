@@ -28,6 +28,7 @@
 <main>
 	<h1>퀴즈 수정</h1>
 	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
+	
 	<form method="post" action="/updateQuiz" id="updateQuizForm">
 	<input type="hidden" name="lectureId" value="${lectureId}">
 	<input type="hidden" name="weekId" value="${weekId }">
@@ -47,17 +48,18 @@
 					</td>
 				</tr>
 				<tr>
+					<!-- onclick을 사용하여 유형은 변경할 수 없게 설정 -->
 					<th>유형</th>
 					<c:if test="${list.type eq '객관식'}">
 						<td>
-							<input type="radio" name="type" value="객관식" checked readonly>객관식
-							<input type="radio" name="type" value="주관식" readonly>주관식
+							<input type="radio" name="type" value="객관식" checked onclick="return false;">객관식
+							<input type="radio" name="type" value="주관식" onclick="return false;">주관식
 						</td>
 					</c:if>
 					<c:if test="${list.type eq '주관식'}">
 						<td>
-							<input type="radio" name="type" value="객관식" readonly>객관식
-							<input type="radio" name="type" value="주관식" checked readonly>주관식
+							<input type="radio" name="type" value="객관식" onclick="return false;">객관식
+							<input type="radio" name="type" value="주관식" checked onclick="return false;">주관식
 						</td>
 					</c:if>
 				</tr>
@@ -77,9 +79,12 @@
 			</c:if>
 			정답<input type="text" name="correctAnswer" id="correctAnswer" value="${list.correctAnswer}"><br>
 			해설<textarea cols="50" rows="5" name="explanation" id="explanation">${list.explanation}</textarea><br>
+			<button type="button" id="btn">수정</button>
+			<a href="/deleteQuizOne?weekId=${weekId }&currentPage=${p.currentPage}&quizId=${list.quizId}">삭제</a>
 		</c:forEach>
-		<button type="button" id="btn">수정</button>
+		
 	</form>
+	
 	<!-- 페이징 -->
 	<c:if test="${p.currentPage>1 }">
         <a href="/updateQuiz?weekId=${weekId }&currentPage=${p.currentPage-1 }">이전</a>
