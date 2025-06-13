@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.example.academylms.dto.StudyGroup;
 import com.example.academylms.dto.StudyPost;
 import com.example.academylms.mapper.StudyGroupMapper;
+import com.example.academylms.service.StudyGroupService;
 
 @Controller
 public class StudyGroupController {
 	@Autowired StudyGroupMapper studyGroupMapper;
+	@Autowired StudyGroupService studyGroupService;
 	
 	@GetMapping("/student/studyPost/{lectureId}")
     public String getStudyBoard(@PathVariable int lectureId, Model model) {
@@ -32,4 +34,16 @@ public class StudyGroupController {
         model.addAttribute("groupPostMap", groupPostMap);
         return "student/studyPost";
     }
+	
+	@GetMapping("/student/studyPostOne/{postId}")
+	public String studyPostOne(@PathVariable int postId, Model model) {
+	    StudyPost post = studyGroupService.getPostById(postId);
+	    model.addAttribute("post", post);
+
+	    int groupId = post.getGroupId();
+	    int lectureId = studyGroupService.getGroupById(groupId).getLectureId();
+	    model.addAttribute("lectureId", lectureId);
+
+	    return "student/studyPostOne";
+	}
 }

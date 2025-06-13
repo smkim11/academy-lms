@@ -10,6 +10,8 @@ import com.example.academylms.dto.StudyPost;
 
 @Mapper
 public interface StudyGroupMapper {
-	 List<StudyGroup> getGroupsByLectureId(@Param("lectureId") int lectureId);
-	 List<StudyPost> getPostsByGroupId(@Param("groupId") int groupId);
+	List<StudyGroup> getGroupsByLectureId(@Param("lectureId") int lectureId);
+	List<StudyPost> getPostsByGroupId(@Param("groupId") int groupId);
+	StudyPost selectPostById(int postId);
+	StudyGroup getGroupById(int groupId);
 }

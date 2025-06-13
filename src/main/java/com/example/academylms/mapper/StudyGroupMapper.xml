@@ -24,4 +24,25 @@
         WHERE group_id = #{groupId}
         ORDER BY create_date DESC
     </select>
+    
+    <!-- 게시글 상세 -->
+	<select id="selectPostById" parameterType="int" resultType="com.example.academylms.dto.StudyPost">
+		SELECT post_id AS postId,
+		group_id AS groupId, 
+		title, 
+		content, 
+		feedback, 
+		create_date AS createDate
+		FROM study_post
+		WHERE post_id = #{postId}
+	</select>
+	
+	<select id="getGroupById" resultType="com.example.academylms.dto.StudyGroup">
+	    SELECT group_id AS groupId, 
+	    lecture_id AS lectureId, 
+	    student_id AS studentId, 
+	    create_date AS createDate
+	    FROM study_group
+	    WHERE group_id = #{groupId}
+	</select>
 </mapper>

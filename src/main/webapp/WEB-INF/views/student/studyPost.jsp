@@ -24,14 +24,23 @@
                     <th>조</th>
                     <th>제목</th>
                     <th>작성일</th>
+                    <th>관리</th>
                 </tr>
             </thead>
             <tbody>
                 <c:forEach var="post" items="${entry.value}">
                     <tr>
                         <td>${post.groupId}</td>
-                        <td>${post.title}</td>
+                        <td>
+                        	<a href="/student/studyPostOne/${post.postId}">
+                        		${post.title}
+                        	</a>
+                        </td>
                         <td>${post.createDate}</td>
+                        <td>
+                        	<a href="/student/updateStudyPost">수정</a>
+                        	<a href="/">삭제</a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>
