@@ -1,4 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.academylms.mapper.StudyGroupMapper">
+	<!-- 스터디 게시판 글 목록 -->
+	<select id="getGroupsByLectureId" resultType="com.example.academylms.dto.StudyGroup">
+        SELECT 
+            group_id AS groupId,
+            lecture_id AS lectureId,
+            student_id AS studentId,
+            create_date AS createDate
+        FROM study_group
+        WHERE lecture_id = #{lectureId}
+    </select>
+
+    <select id="getPostsByGroupId" resultType="com.example.academylms.dto.StudyPost">
+        SELECT 
+            post_id AS postId,
+            group_id AS groupId,
+            title,
+            content,
+            feedback,
+            create_date AS createDate
+        FROM study_post
+        WHERE group_id = #{groupId}
+        ORDER BY create_date DESC
+    </select>
 </mapper>
