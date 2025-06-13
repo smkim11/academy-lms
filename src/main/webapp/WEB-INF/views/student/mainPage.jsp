@@ -27,49 +27,52 @@
 	</div>
 	
 	<main>
-	<h2>강의관리</h2>
-	
-	<h3>수강중인 강의</h3>
-	<c:if test="${empty ongoingLectures}">
-	    <p>수강중인 강의가 없습니다.</p>
-	</c:if>
-	<ul>
-	    <c:forEach var="lecture" items="${ongoingLectures}">
-	        <li>
-	            <a href="/student/lectureOne?lectureId=${lecture.lecture_id}">
-	                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
-	            </a>
-	        </li>
-	    </c:forEach>
-	</ul>
-	
-	<h3>수강예정 강의</h3>
-	<c:if test="${empty upcomingLectures}">
-	    <p>수강예정 강의가 없습니다.</p>
-	</c:if>
-	<ul>
-	    <c:forEach var="lecture" items="${upcomingLectures}">
-	        <li>
-	            <a href="/student/lectureOne?lectureId=${lecture.lecture_id}">
-	                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
-	            </a>
-	        </li>
-	    </c:forEach>
-	</ul>
-	
-	<h3>종료된 강의</h3>
-	<c:if test="${empty endedLectures}">
-	    <p>종료된 강의가 없습니다.</p>
-	</c:if>
-	<ul>
-	    <c:forEach var="lecture" items="${endedLectures}">
-	        <li>
-	            <a href="/student/lectureOne?lectureId=${lecture.lecture_id}">
-	                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
-	            </a>
-	        </li>
-	    </c:forEach>
-	</ul>
+		<h2>강의관리</h2>
+		
+		<h3>수강중인 강의</h3>
+		<c:if test="${empty ongoingLectures}">
+		    <p>수강중인 강의가 없습니다.</p>
+		</c:if>
+		<ul>
+		    <c:forEach var="lecture" items="${ongoingLectures}">
+		        <li>
+		            <a href="/student/lectureOne?lectureId=${lecture.lecture_id}">
+		                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
+		            </a>
+		        </li>
+		    </c:forEach>
+		</ul>
+		
+		<h3>수강예정 강의</h3>
+		<c:if test="${empty upcomingLectures}">
+		    <p>수강예정 강의가 없습니다.</p>
+		</c:if>
+		<ul>
+		    <c:forEach var="lecture" items="${upcomingLectures}">
+		        <li>
+		            <a href="/student/lectureOne?lectureId=${lecture.lecture_id}">
+		                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
+		            </a>
+		        </li>
+		    </c:forEach>
+		</ul>
+		
+		<h3>종료된 강의</h3>
+		<c:if test="${empty endedLectures}">
+		    <p>종료된 강의가 없습니다.</p>
+		</c:if>
+		<ul>
+		    <c:forEach var="lecture" items="${endedLectures}">
+		        <li>
+		            <a href="/student/lectureOne?lectureId=${lecture.lecture_id}">
+		                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
+		            </a>
+		            <a href="/student/survey">
+		            	만족도조사
+		            </a>
+		        </li>
+		    </c:forEach>
+		</ul>
 	</main>
 </body>
 </html>
