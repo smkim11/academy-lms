@@ -22,6 +22,12 @@ public class SurveyService{
 		
 		return surveyMapper.addSatisfactionSurvey(survey);
 	}
+
+	public int checkSurveyParticipation(int enrollmentId) { // 설문 여부 조회
+		 
+		return surveyMapper.checkSurveyParticipation(enrollmentId);
+		
+	}
 	
 	
 	

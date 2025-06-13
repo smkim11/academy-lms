@@ -3,9 +3,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="/css/styles.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <script type="text/javascript">
 $(function(){
+			
+		
+	
+		
 		$('.star_rating>.star').click(function(){
 			$(this).parent().children('span').removeClass('on');
 			$(this).addClass('on').prevAll('span').addClass('on');
@@ -16,6 +23,8 @@ $(function(){
 		$('#ratingValue').val(rating);
 	});
 });
+
+
 
 </script>
 <style type="text/css">
@@ -79,8 +88,28 @@ $(function(){
 <title>Insert title here</title>
 </head>
 <body>
-	<h2>과정 만족도 조사</h2>
 	
+	
+  <div class="top-bar">
+    <div class="logo">MyLMS</div>
+    <div class="user-name">홍길동님</div>
+  </div>
+
+
+
+<div class="layout">
+  <div class="side-bar">
+    <ul>
+      <li><a href="#">메인페이지</a></li>
+      <li><a href="/admin/myPage">내 개인정보</a></li>
+      <li><a href="/admin/updateInfo">개인정보 수정</a></li>
+      <li><a href="/admin/updatePw">비밀번호 변경</a></li>
+      <li><a href="/logOut">로그아웃</a></li>
+    </ul>
+  </div>
+	
+   <main>
+   		<h2>과정 만족도 조사</h2>
 	<form action="/student/survey" method="post">
 	<div class="star_rating">
 		<span class="star on" value="1"></span>
@@ -89,14 +118,15 @@ $(function(){
 		<span class="star" value="4"></span>
 		<span class="star" value="5"></span>
 	</div>
-
-    <h2>${enrollmentId}</h2>
-	<input type="hidden" name="rating" id="ratingValue" value="1">
 	
-	<textarea class="star_box" placeholder="기타 의견을 작성해주세요."></textarea>
+	<input type="hidden" name="rating" id="ratingValue" value="1">
+	<input type="hidden" name="enrollmentId" value="${enrollmentId}">
+	
+	<textarea class="star_box" name="comment" placeholder="기타 의견을 작성해주세요."></textarea>
 	
 	<input type="submit" class="btn02" value="만족도조사 등록"/>	
 	
 	</form>
+	</main>
 </body>
 </html>

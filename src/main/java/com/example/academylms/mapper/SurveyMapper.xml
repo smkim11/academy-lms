@@ -9,4 +9,8 @@ SELECT enrollment_id  FROM lecture_enrollment WHERE  student_id = #{studentId}  
 INSERT INTO satisfaction_survey (enrollment_id, rating, comment) VALUES (#{enrollmentId}, #{rating}, #{comment}); 
 </insert> 
 
+
+<select id="checkSurveyParticipation" parameterType="int" resultType="int">
+SELECT COUNT(*) FROM satisfaction_survey WHERE enrollment_id = #{enrollmentId};
+</select>
 </mapper>

@@ -66,7 +66,7 @@ public class LectureServiceImpl implements LectureService {
 	}
 
 	@Override
-	public boolean updateLecture(Lecture lecture) {
+	public boolean updateLecture(Lecture lecture) { // 강의 정보 수정
 		
 		boolean result = false;
 		
