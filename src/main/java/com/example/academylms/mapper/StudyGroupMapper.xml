@@ -50,4 +50,12 @@
 	    INSERT INTO study_post (group_id, title, content, create_date)
 	    VALUES (#{groupId}, #{title}, #{content}, NOW())
 	</insert>
+	
+	<update id="updateStudyPost" parameterType="com.example.academylms.dto.StudyPost">
+	    UPDATE study_post
+	    SET title = #{title},
+	        content = #{content}
+	    WHERE post_id = #{postId}
+	</update>
+	
 </mapper>

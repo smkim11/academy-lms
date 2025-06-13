@@ -23,5 +23,10 @@ public class StudyGroupService {
 	 public void insertStudyPost(StudyPost post) {
 		    studyGroupMapper.insertStudyPost(post);
 		}
+	 
+	 public void updateStudyPost(StudyPost post) {
+		    studyGroupMapper.updateStudyPost(post);
+		}
+
 }
 

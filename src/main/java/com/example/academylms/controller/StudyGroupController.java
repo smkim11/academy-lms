@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,18 +51,6 @@ public class StudyGroupController {
 	    return "student/studyPostOne";
 	}
 	
-	@GetMapping("/student/updateStudyPost/{postId}")
-	public String updateStudyPost(@PathVariable int postId, Model model) {
-	    StudyPost post = studyGroupService.getPostById(postId);
-	    model.addAttribute("post", post);
-
-	    int groupId = post.getGroupId();
-	    int lectureId = studyGroupService.getGroupById(groupId).getLectureId();
-	    model.addAttribute("lectureId", lectureId);
-
-	    return "student/updateStudyPost";
-	}
-	
 	@GetMapping("/student/addStudyPost/{groupId}")
 	public String addStudyPost(@PathVariable int groupId, Model model) {
 	    StudyGroup group = studyGroupService.getGroupById(groupId);
@@ -88,4 +77,27 @@ public class StudyGroupController {
 	    StudyGroup group = studyGroupService.getGroupById(groupId);
 	    return "redirect:/student/studyPost/" + group.getLectureId(); // 목록으로 이동
 	}
+	
+	// 수정 폼 보여주기
+	@GetMapping("/student/updateStudyPost/{postId}")
+	public String showUpdateStudyPost(@PathVariable int postId, Model model) {
+	    StudyPost post = studyGroupService.getPostById(postId);
+	    if (post == null) {
+	        return "redirect:/student/errorPage";
+	    }
+
+	    StudyGroup group = studyGroupService.getGroupById(post.getGroupId());
+
+	    model.addAttribute("post", post);
+	    model.addAttribute("lectureId", group.getLectureId());
+	    return "student/updateStudyPost";
+	}
+
+	// 수정 처리
+	@PostMapping("/student/updateStudyPost")
+	public String updateStudyPost(@ModelAttribute StudyPost post) {
+	    studyGroupService.updateStudyPost(post);
+	    return "redirect:/student/studyPostOne/" + post.getPostId();
+	}
+
 }
