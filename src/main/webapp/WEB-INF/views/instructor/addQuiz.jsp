@@ -34,32 +34,29 @@
 	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
 	<form method="post" action="/addQuiz" id="addQuizForm">
 	<input type="hidden" name="lectureId" value="${lectureId}">
+	<input type="hidden" name="source" value="${source}">
+	<input type="hidden" name="currentPage" value="${currentPage}">
 		<table border="1">
 			<tr>
 				<th>주차</th>
 				<td>
-				<c:if test="${week == null }">
-					<select name="week" id="week">
-						<c:forEach var="list" items="${weekList }">
-							<option value="${list.week}">${list.week}</option>
-						</c:forEach>
-					</select>
-				</c:if>
-				<c:if test="${week != null }">
-					<select name="week" id="week">
-						<c:forEach var="list" items="${weekList }">
-							<option value="${week}">${week}</option>
-						</c:forEach>
-					</select>
-				</c:if>
+					<input type="text" name="week" id="week" value="${week}" readonly>
 				</td>
 			</tr>
 			<tr>
 				<th>기간</th>
-				<td>
-					<input type="datetime-local" name="startedAt" value="${startedAt}"> 
-					~ <input type="datetime-local" name="endedAt" value="${endedAt}">
-				</td>
+				<c:if test="${startedAt != null && endedAt != null }">
+					<td>
+						<input type="datetime-local" name="startedAt" id="startedAt" value="${startedAt}" readonly> 
+						~ <input type="datetime-local" name="endedAt" id="endedAt" value="${endedAt}" readonly>
+					</td>
+				</c:if>
+				<c:if test="${startedAt == null || endedAt == null }">
+					<td>
+						<input type="datetime-local" name="startedAt" id="startedAt" value="${startedAt}" > 
+						~ <input type="datetime-local" name="endedAt" id="endedAt" value="${endedAt}" >
+					</td>
+				</c:if>
 			</tr>
 			<tr>
 				<th>유형</th>
@@ -88,23 +85,23 @@
 				if(data == 'gek'){
 					$('#inputQuiz').append(`
 			            <div class="inputList">
-			                번호 <input type="text" name="quizNo" placeholder="번호를 입력해주세요." /><br>
-			                문제 <input type="text" name="question" placeholder="문제를 입력해주세요." /><br>
-		                	보기1 <input type="text" name="option1" placeholder="보기1을 입력해주세요." /><br>
-	                		보기2 <input type="text" name="option2" placeholder="보기2를 입력해주세요." /><br>
-               				보기3 <input type="text" name="option3" placeholder="보기3을 입력해주세요." /><br>
-               				보기4 <input type="text" name="option4" placeholder="보기4를 입력해주세요." /><br>
-	                		정답 <input type="text" name="correctAnswer" placeholder="정답을 입력해주세요." /><br>
-	                		해설 <textarea cols="50" rows="5" name="explanation" placeholder="해설을 입력해주세요."></textarea><br>
+			                번호 <input type="text" name="quizNo" id="quizNo" placeholder="번호를 입력해주세요." /><br>
+			                문제 <input type="text" name="question" id="question" placeholder="문제를 입력해주세요." /><br>
+		                	보기1 <input type="text" name="option1" id="option1" placeholder="보기1을 입력해주세요." /><br>
+	                		보기2 <input type="text" name="option2" id="option2" placeholder="보기2를 입력해주세요." /><br>
+               				보기3 <input type="text" name="option3" id="option3" placeholder="보기3을 입력해주세요." /><br>
+               				보기4 <input type="text" name="option4" id="option4" placeholder="보기4를 입력해주세요." /><br>
+	                		정답 <input type="text" name="correctAnswer" id="correctAnswer" placeholder="정답을 입력해주세요." /><br>
+	                		해설 <textarea cols="50" rows="5" name="explanation" id="explanation" placeholder="해설을 입력해주세요."></textarea><br>
 	                		<button type="button" id="btn">추가</button>
 			        `);
 				}else{
 					$('#inputQuiz').append(`
 			            <div class="inputList">
-			                번호 <input type="text" name="quizNo" placeholder="번호를 입력해주세요." /><br>
-			                문제 <input type="text" name="question" placeholder="문제를 입력해주세요." /><br>
-	                		정답 <input type="text" name="correctAnswer" placeholder="정답을 입력해주세요." /><br>
-	                		해설 <textarea cols="50" rows="5" name="explanation" placeholder="해설을 입력해주세요."></textarea><br>
+			                번호 <input type="text" name="quizNo" id="quizNo" placeholder="번호를 입력해주세요." /><br>
+			                문제 <input type="text" name="question" id="question" placeholder="문제를 입력해주세요." /><br>
+	                		정답 <input type="text" name="correctAnswer" id="correctAnswer" placeholder="정답을 입력해주세요." /><br>
+	                		해설 <textarea cols="50" rows="5" name="explanation" id="explanation" placeholder="해설을 입력해주세요."></textarea><br>
 	                		<button type="button" id="btn">추가</button>
 			        `);
 				}
@@ -113,6 +110,31 @@
 	});
 	
 	$('#inputQuiz').on('click', '#btn', function(){
+		const type = $('input[name="type"]:checked').val();
+	    
+	    if ($('#week').val() == ''  || $('#startedAt').val() == '' || $('#endedAt').val() == '' || 
+	        $('#quizNo').val() == '' || $('#question').val() == '' || 
+	        $('#correctAnswer').val() == '' || $('#explanation').val() == '') {
+	        alert('입력하지 않은 값이 있습니다.');
+	        return;
+	    }
+
+	    // 객관식인 경우 보기 유효성 검사
+	    if (type === '객관식') {
+	        let allOptionsFilled = true;
+
+	        // 보기 입력란이 몇 개인지 동적으로 확인
+	        $('[id^="option"]').each(function() {
+	            if ($(this).val().trim() === '') {
+	                allOptionsFilled = false;
+	            }
+	        });
+
+	        if (!allOptionsFilled) {
+	            alert('객관식 보기 내용을 모두 입력해주세요.');
+	            return;
+	        }
+	    }
 		$('#addQuizForm').submit();
 	});
 </script>

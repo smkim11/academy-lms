@@ -101,21 +101,31 @@
 </main>
 <script>
 	$('#saveBtn').click(function(){
-		if($('#answer').val() == '' || $('#answer').val() === null){
-			alert('정답을 입력하세요.');
-		}else{
-			$('#btn').val('save');
-			$('#quizOneForm').submit();
-		}
+		// 주관식 답
+	    const subjective = $('#answer').val();
+		// 객관식 답
+	    const objective = $('input[name="answer"]:checked').val();
+
+	    if ((subjective === '' || subjective === undefined) && objective === undefined) {
+	        alert('정답을 입력하세요.');
+	    } else {
+	        $('#btn').val('save');
+	        $('#quizOneForm').submit();
+	    }
 	});
-	
+
 	$('#submitBtn').click(function(){
-		if($('#answer').val() == '' || $('#answer').val() === null){
-			alert('정답을 입력하세요.');
-		}else{
-			$('#btn').val('submit');
-			$('#quizOneForm').submit();
-		}
+		// 주관식 답
+	    const subjective = $('#answer').val();
+	 	// 객관식 답
+	    const objective = $('input[name="answer"]:checked').val();
+
+	    if ((subjective === '' || subjective === undefined) && objective === undefined) {
+	        alert('정답을 입력하세요.');
+	    } else {
+	        $('#btn').val('submit');
+	        $('#quizOneForm').submit();
+	    }
 	});
 </script>
 </body>
