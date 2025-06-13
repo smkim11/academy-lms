@@ -66,7 +66,7 @@ public class LectureController {
 		return "";
 	}
 	
-	@GetMapping("/admin/updateLecture")  // 관리자 강의 수정
+	@GetMapping("/admin/updateLecture")  // 관리자 강의 수정 페이지 이동
 	public String updateLecture(@RequestParam int lectureId, Model model, HttpSession session) {
 		
 		log.info("lectureId 값확인:"+ lectureId);
@@ -88,4 +88,20 @@ public class LectureController {
 		
 		return "/admin/updateLecture";
 	}
+	
+	@PostMapping("/admin/updateLecture") // 관리자 강의 페이지 이동
+	public String updateLecture(Lecture lecture) {
+		if(lectureService.updateLecture(lecture) == true) {
+			log.info("업데이트 성공");
+			return "redirect:/mainPage";
+		} else if(lectureService.updateLecture(lecture) == false) {
+			log.info("업데이트 실패");
+			return "redirect:/mainPage";
+		} else {
+			log.info("예외발생 ");
+			
+			return "redirect:/mainPage";
+		}
+	}
+	
 }

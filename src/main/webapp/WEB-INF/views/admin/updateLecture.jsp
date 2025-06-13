@@ -149,12 +149,13 @@
 
   <div class="main-content">
     <main>
-      <h2>강의 개설</h2>
-      <form action="/admin/createLecture" method="post" id ="form" >
+      <h2>강의 수정</h2>
+      <form action="/admin/updateLecture" method="post" id ="form" >
 
 		<input type="hidden" name="adminId" value="${adminId}">
 		<input type="hidden" name="week" id="week" >
 		<input type="hidden" name="day" id="dayHidden"> <!-- 요일 hidden -->
+		<input type="hidden" name="lectureId" value="${lecture.lectureId}">
 		
         <!-- ✅ 1. 강사 선택 -->
         <label for="instructor">강사 선택:</label>
@@ -167,6 +168,7 @@
           </c:forEach>
         </select>
         <br><br>
+        
 		<!-- ✅ 2. 요일 선택 -->
 		<label>요일 선택:</label><br>
 		
@@ -224,11 +226,11 @@
     
     	 <br>
     	 <label for="startdate">시작 날짜: </label>
-	     <input type="date" name="startedAt" value="${lecture.startedAtFormatted}">
+	     <input type="date" name="startedAt" id="startdate" value="${lecture.startedAtFormatted}">
 		
 		 <br>
         <label for="enddate">종료 날짜:</label>
-		<input type="date" name="endedAt" value="${lecture.endedAtFormatted}">
+		<input type="date" name="endedAt" id="enddate" value="${lecture.endedAtFormatted}">
 
         <br><br>
 

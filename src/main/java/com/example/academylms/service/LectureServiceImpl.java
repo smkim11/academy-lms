@@ -43,7 +43,7 @@ public class LectureServiceImpl implements LectureService {
 
 	@Override
 	public boolean createLecture(Lecture lecture) { // 강의 생성 
-		boolean result = false;  // 정상적으로 결과 출력시 1로 반환할 변수
+		boolean result = false;  // 정상적으로 결과 출력시 true로 반환
 		if(lectureMapper.createLecture(lecture) == 1) { // 강의 생성 
 			log.info("강의생성 성공, ID = {}" , lecture.getLectureId());
 			
@@ -60,9 +60,37 @@ public class LectureServiceImpl implements LectureService {
 	}
 
 	@Override
-	public Lecture lectureOneBylectureId(int lectureId) {
+	public Lecture lectureOneBylectureId(int lectureId) { // 강의 상세정보 강의 id로 조회
 		return lectureMapper.lectureOneBylectureId(lectureId); 
 		
+	}
+
+	@Override
+	public boolean updateLecture(Lecture lecture) {
+		
+		boolean result = false;
+		
+		if(lectureMapper.deleteLectureWeek(lecture.getLectureId())!= 0) { // 지운정보가 0이 아니라면 삭제성공
+			log.info("삭제성공");
+			
+			if(lectureMapper.updateLecture(lecture)!= 0) { // 업데이트 정보가 없다면 강의 데이터 반영안됨.
+				 log.info("업데이트 성공");
+				 
+				 for(int i=1;  i<=lecture.getWeek(); i++) { // 강의 주차 만큼 lecture_week 생성
+					lectureMapper.createLectureWeek(lecture.getLectureId(),i);			
+					log.info("강의"+i+"주차생성");
+						
+
+				}
+				 
+				 result = true;
+				 return result;
+			}
+	
+		}
+		
+		log.info("오류발생");
+		return result;
 	}
 	
     

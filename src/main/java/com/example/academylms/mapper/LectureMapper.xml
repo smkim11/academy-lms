@@ -43,4 +43,12 @@ SELECT i.major AS major, i.name AS name , l.title AS title, l.DESCRIPTION AS des
 INNER JOIN instructor i ON l.instructor_id = i.instructor_id   WHERE lecture_id = #{lectureId};   
 </select>
 
+<delete id="deleteLectureWeek" parameterType="int">
+Delete From lecture_week where lecture_id = #{lectureId};
+</delete>
+
+<update id="updateLecture" parameterType="com.example.academylms.dto.Lecture">
+UPDATE lecture SET admin_id = #{adminId}, instructor_id = #{instructorId}, title = #{title}, DESCRIPTION = #{description}, DAY = #{day},  TIME = #{time},  started_at = #{startedAt}, ended_at = #{endedAt}  WHERE lecture_id = #{lectureId};
+</update>
+
 </mapper>

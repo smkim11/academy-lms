@@ -81,7 +81,7 @@ $(function(){
 <body>
 	<h2>과정 만족도 조사</h2>
 	
-	<form action="" method="post">
+	<form action="/student/survey" method="post">
 	<div class="star_rating">
 		<span class="star on" value="1"></span>
 		<span class="star" value="2"></span>
@@ -90,8 +90,9 @@ $(function(){
 		<span class="star" value="5"></span>
 	</div>
 
+    <h2>${enrollmentId}</h2>
 	<input type="hidden" name="rating" id="ratingValue" value="1">
-
+	
 	<textarea class="star_box" placeholder="기타 의견을 작성해주세요."></textarea>
 	
 	<input type="submit" class="btn02" value="만족도조사 등록"/>	

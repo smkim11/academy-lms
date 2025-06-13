@@ -1,3 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.academylms.mapper.SurveyMapper"></mapper>
+<mapper namespace="com.example.academylms.mapper.SurveyMapper">
+<select id="getEnrollmentId" resultType="int"  parameterType="int">
+SELECT enrollment_id  FROM lecture_enrollment WHERE  student_id = #{studentId}  AND lecture_id = #{lectureId};
+</select>
+
+<insert id="addSatisfactionSurvey" parameterType="com.example.academylms.dto.SatisfactionSurvey">
+INSERT INTO satisfaction_survey (enrollment_id, rating, comment) VALUES (#{enrollmentId}, #{rating}, #{comment}); 
+</insert> 
+
+</mapper>
