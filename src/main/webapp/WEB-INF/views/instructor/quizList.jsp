@@ -28,7 +28,6 @@
 	
 <main>
 	<h1>강사 퀴즈 목록</h1>
-	<a href="/addQuiz?lectureId=${lectureId}">퀴즈 추가</a>
 		<table border="1">
 			<tr>
 				<th>주차</th>
@@ -39,22 +38,29 @@
 			<c:forEach var="quizList" items="${quizList}">
 				<tr>
 					<th>${quizList.week}</th>
-					<td>${quizList.startedAt} ~ ${quizList.endedAt}</td>
-					
-					<c:if test="${now >= quizList.startedAt && now <= quizList.endedAt}">
-						<td><a href="/instructor/quizResult?lectureId=${lectureId }&weekId=${quizList.weekId}">응시중</td>
-						<td>삭제불가</td>
+					<c:if test="${quizList.startedAt != null && quizList.endedAt != null}">
+						<td>${quizList.startedAt} ~ ${quizList.endedAt}</td>
+						
+						<c:if test="${now >= quizList.startedAt && now <= quizList.endedAt}">
+							<td><a href="/instructor/quizResult?lectureId=${lectureId }&weekId=${quizList.weekId}">응시중</td>
+							<td>삭제불가</td>
+						</c:if>
+						
+						<c:if test="${now < quizList.startedAt}">
+							<td><a href="/updateQuiz?weekId=${quizList.weekId }">수정하기</a></td>
+							<td><a href="/deleteQuiz?weekId=${quizList.weekId }&lectureId=${lectureId}">삭제하기</td>
+						</c:if>
+						
+						<!-- 강사는 응시기간이 지나면 결과보기 가능 -->
+						<c:if test="${now > quizList.endedAt}">
+							<td><a href="/instructor/quizResult?lectureId=${lectureId }&weekId=${quizList.weekId}">결과보기</a></td>
+							<td>삭제불가</td>
+						</c:if>
 					</c:if>
-					
-					<c:if test="${now < quizList.startedAt}">
-						<td><a href="/updateQuiz?weekId=${quizList.weekId }">수정하기</a></td>
-						<td><a href="/deleteQuiz?weekId=${quizList.weekId }&lectureId=${lectureId}">삭제하기</td>
-					</c:if>
-					
-					<!-- 강사는 응시기간이 지나면 결과보기 가능 -->
-					<c:if test="${now > quizList.endedAt}">
-						<td><a href="/instructor/quizResult?lectureId=${lectureId }&weekId=${quizList.weekId}">결과보기</a></td>
-						<td>삭제불가</td>
+					<c:if test="${quizList.startedAt == null && quizList.endedAt == null}">
+						<td><a href="/addQuiz?lectureId=${lectureId}&week=${quizList.week}">퀴즈 추가</a></td>
+						<td>-</td>
+						<td>-</td>
 					</c:if>
 				</tr>
 			</c:forEach>
