@@ -49,4 +49,5 @@ public interface QuizMapper {
 	void updateQuizNo(int quizId);
 	List<HashMap<String,Object>> selectQuizStatus(int lectureId);
 	List<HashMap<String,Object>> selectSubmissionStudent(int weekId);
+	void updateQuizDate(QuizForm quizForm);
 }

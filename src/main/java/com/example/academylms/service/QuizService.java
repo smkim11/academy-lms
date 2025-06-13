@@ -171,6 +171,11 @@ public class QuizService {
 		quizMapper.updateQuizOption(quizForm,optionNo, option);
 	}
 	
+	// 퀴즈 수정페이지에서 기간수정 시 다른 문제들의 기간도 동일하게 변경
+	public void updateQuizDate(QuizForm quizForm) {
+		quizMapper.updateQuizDate(quizForm);
+	}
+	
 	// 삭제된문제 뒤에있는 문제들 번호-1
 	public void updateQuizNo(int quizId) {
 		quizMapper.updateQuizNo(quizId);

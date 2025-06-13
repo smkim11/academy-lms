@@ -9,7 +9,7 @@
 			AND enrollment_id=(SELECT enrollment_id 
 			FROM lecture_enrollment 
 			WHERE student_id=#{studentId} AND lecture_id=#{lectureId})) joinId
-		FROM lecture_week lw INNER JOIN quiz q ON lw.week_id = q.week_id
+		FROM lecture_week lw LEFT JOIN quiz q ON lw.week_id = q.week_id
 		WHERE lw.lecture_id=#{lectureId};
 	</select>
 	
@@ -193,6 +193,12 @@
 								WHERE lecture_id=#{quizForm.lectureId} AND week=#{quizForm.week})
 						AND quiz_no=#{quizForm.quizNo})
 			and option_no = #{optionNo}
+	</update>
+	
+	<!--퀴즈 수정페이지에서 기간수정 시 다른 문제들의 기간도 동일하게 변경-->
+	<update id="updateQuizDate" parameterType="com.example.academylms.dto.QuizForm">
+		UPDATE quiz SET started_at = #{startedAt}, ended_at = #{endedAt}
+		WHERE week_id=(SELECT week_id from lecture_week WHERE lecture_id=#{lectureId} AND week=#{week})
 	</update>
 	
 	<!--삭제된문제 뒤에있는 문제들 번호-1-->

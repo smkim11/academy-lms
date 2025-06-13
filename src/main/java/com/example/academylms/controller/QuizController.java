@@ -53,17 +53,20 @@ public class QuizController {
 	// 퀴즈 추가
 	@GetMapping("/addQuiz")
 	public String addQuiz(Model model,@RequestParam(defaultValue = "1") int lectureId
-									 ,@RequestParam(required = false) Integer week
+									 ,@RequestParam Integer week
 									 ,@RequestParam(required = false) String startedAt
-									 ,@RequestParam(required = false) String endedAt) {
-		if(week != null && startedAt != null && endedAt != null) {
-			model.addAttribute("week",week);
+									 ,@RequestParam(required = false) String endedAt
+									 ,@RequestParam(required = false) String source
+									 ,@RequestParam(required = false) Integer currentPage) {
+		if(startedAt != null && endedAt != null) {
 			model.addAttribute("startedAt",startedAt);
 			model.addAttribute("endedAt",endedAt);
 		}
 		
-		// 강의가 몇주차까지 있는지 확인
-		model.addAttribute("weekList",quizService.selectWeekByLectureId(lectureId));
+		// 리스트에서 퀴즈추가와 수정페이지에서 문항추가가 각각 이후 이동하는 페이지가 다르게 하기위해 source와 currentPage 넘김
+		model.addAttribute("source",source);
+		model.addAttribute("currentPage",currentPage);
+		model.addAttribute("week",week);
 		model.addAttribute("lectureId",lectureId);
 		return "/instructor/addQuiz";
 	}
@@ -73,6 +76,8 @@ public class QuizController {
 											,@RequestParam(required = false) String option2
 											,@RequestParam(required = false) String option3
 											,@RequestParam(required = false) String option4
+											,@RequestParam(required = false) String source
+											,@RequestParam(required = false) Integer currentPage
 											,RedirectAttributes redirectAttributes) {
 		
 		int wId = quizService.selectWeekId(quizForm.getLectureId(), quizForm.getWeek());
@@ -80,11 +85,16 @@ public class QuizController {
 		// 퀴즈를 출제하는 주차에 이미있는 번호로 출제하면 오류
 		if(quizService.findSameNo(wId, quizForm.getQuizNo()) != 0) {
 			redirectAttributes.addFlashAttribute("msg", "번호를 변경해주세요.");
-			redirectAttributes.addFlashAttribute("week", quizForm.getWeek());
 			redirectAttributes.addFlashAttribute("startedAt", quizForm.getStartedAt());
 			redirectAttributes.addFlashAttribute("endedAt", quizForm.getEndedAt());
+			redirectAttributes.addAttribute("week", quizForm.getWeek());
 			redirectAttributes.addAttribute("lectureId", quizForm.getLectureId());
 			
+			// 수정페이지에서 문항 추가중 오류가나면 source추가
+			if("update".equals(source)) {
+				redirectAttributes.addAttribute("source", "update");
+				redirectAttributes.addAttribute("currentPage", currentPage);
+			}
 			return "redirect:/addQuiz";
 		}
 		
@@ -97,6 +107,18 @@ public class QuizController {
 			quizService.insertQuizOption(quizForm, 2, option2);
 			quizService.insertQuizOption(quizForm, 3, option3);
 			quizService.insertQuizOption(quizForm, 4, option4);
+		}
+		
+		// 수정페이지에서 문항 추가시 수정페이지에서 방금추가한 문항으로 이동
+		if("update".equals(source)) {
+			redirectAttributes.addAttribute("weekId", wId);
+			if(currentPage != null) {
+				currentPage +=1;
+				redirectAttributes.addAttribute("currentPage", currentPage);
+			}else {
+				redirectAttributes.addAttribute("currentPage", 1);
+			}
+			return "redirect:/updateQuiz";
 		}
 		
 		// redirectAttributes 사용하여 return문 url단축
@@ -148,6 +170,9 @@ public class QuizController {
 		// 퀴즈 수정
 		quizService.updateQuiz(quizForm);
 		
+		// 기간 수정 시 동일주차 기간들도 변경
+		quizService.updateQuizDate(quizForm);
+		
 		// 객관식이면 보기까지 수정
 		if(option1 != null && option2 != null && option3 != null && option4 != null) {
 			quizService.updateQuizOption(quizForm, 1, option1);
@@ -165,8 +190,8 @@ public class QuizController {
 	// 퀴즈 응시 페이지
 	@GetMapping("/quizOne")
 	public String quizOne(Model model, HttpSession session
-									 ,@RequestParam(defaultValue = "1") int currentPage
-									 ,@RequestParam int weekId) {
+									,@RequestParam(defaultValue = "1") int currentPage
+									,@RequestParam int weekId) {
 		// weekId에 해당하는 lectureId
 		int lId = quizService.selectLectureIdByweekId(weekId);
 		
