@@ -70,6 +70,10 @@
 		        </li>
 		    </c:forEach>
 		</ul>
+		<h3>개인정보 수정</h3>
+	        <ul>
+		        <li><a class="edit-profile" href="/instructor/mypage">개인정보 수정</a></li>
+	        </ul>
 	</main>
 </body>
 </html>

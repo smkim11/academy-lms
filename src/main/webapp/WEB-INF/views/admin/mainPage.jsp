@@ -67,12 +67,9 @@
 	        <ul>
 	            <c:forEach var="lecture" items="${endedLectures}">
 	                <li>
-	                    <a href="/admin/lectureOne?lectureId=${lecture.lecture_id}">
+	                    <a href="/admin/surveyResult?lectureId=${lecture.lecture_id}">
 	                        ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
 	                    </a>
-		            <a href="/student/surveyResult">
-		            	만족도조사결과
-		            </a>
 	                </li>
 	            </c:forEach>
 	        </ul>

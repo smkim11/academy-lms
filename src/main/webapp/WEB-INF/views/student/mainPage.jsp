@@ -64,15 +64,16 @@
 		<ul>
 		    <c:forEach var="lecture" items="${endedLectures}">
 		        <li>
-		            <a href="/student/lectureOne?lectureId=${lecture.lecture_id}">
+		            <a href="/student/survey?lectureId=${lecture.lecture_id}">
 		                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
-		            </a>
-		            <a href="/student/survey">
-		            	만족도조사
 		            </a>
 		        </li>
 		    </c:forEach>
 		</ul>
+		<h3>개인정보 수정</h3>
+	        <ul>
+		        <li><a class="edit-profile" href="/student/mypage">개인정보 수정</a></li>
+	        </ul>
 	</main>
 </body>
 </html>

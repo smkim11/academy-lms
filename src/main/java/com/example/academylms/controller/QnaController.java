@@ -47,9 +47,11 @@ public class QnaController {
         } else if ("instructor".equals(role)) {
             request.setAttribute("contentPage", "instructor/qnaList.jsp");
             return "instructor/qnaList";
+        } else if ("admin".equals(role)){
+            request.setAttribute("contentPage", "admin/qnaList.jsp");
+            return "admin/qnaList";
         } else {
-            request.setAttribute("contentPage", "instructor/qnaList.jsp");
-            return "instructor/qnaList";
+        	return "redirect:/login";
         }
     }
     
@@ -94,9 +96,11 @@ public class QnaController {
         } else if ("instructor".equals(role)) {
             request.setAttribute("contentPage", "instructor/qnaOne.jsp");
             return "instructor/qnaOne";
+        } else if ("admin".equals(role)){
+            request.setAttribute("contentPage", "admin/qnaOne.jsp");
+            return "admin/qnaOne";
         } else {
-            request.setAttribute("contentPage", "instructor/qnaOne.jsp");
-            return "instructor/qnaOne";
+        	return "redirect:/login";
         }
     }
     
