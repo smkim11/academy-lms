@@ -111,6 +111,21 @@ public class QuizService {
 		return quizMapper.selectQuizIdByWeekIdType(weekId);
 	}
 	
+	// 삭제된 문제 뒤에있는 문제들의 quizId
+	public List<Integer> selectQuizIdByQuizNoWeekId(int quizNo, int weekId){
+		return quizMapper.selectQuizIdByQuizNoWeekId(quizNo, weekId);
+	}
+	
+	// 강의에 수강중인 전체 학생
+	public List<HashMap<String,Object>> selectQuizStatus(int lectureId){
+		return quizMapper.selectQuizStatus(lectureId);
+	}
+	
+	// 퀴즈에 응시한 학생의 정보
+	public List<HashMap<String,Object>> selectSubmissionStudent(int weekId){
+		return quizMapper.selectSubmissionStudent(weekId);
+	}
+	
 	// join_id등록
 	public void insertJoinId(int weekId, int enrollmentId) {
 		quizMapper.insertJoinId(weekId, enrollmentId);
@@ -156,6 +171,11 @@ public class QuizService {
 		quizMapper.updateQuizOption(quizForm,optionNo, option);
 	}
 	
+	// 삭제된문제 뒤에있는 문제들 번호-1
+	public void updateQuizNo(int quizId) {
+		quizMapper.updateQuizNo(quizId);
+	}
+	
 	// 주차에 해당하는 퀴즈 전체삭제
 	public void deleteQuiz(int weekId) {
 		quizMapper.deleteQuiz(weekId);
@@ -164,5 +184,10 @@ public class QuizService {
 	// 퀴즈 전체삭제할때 보기도 삭제
 	public void deleteQuizOption(int quizId) {
 		quizMapper.deleteQuizOption(quizId);
+	}
+	
+	// 퀴즈 한문제 삭제
+	public void deleteQuizOne(int weekId, int quizNo) {
+		quizMapper.deleteQuizOne(weekId, quizNo);
 	}
 }

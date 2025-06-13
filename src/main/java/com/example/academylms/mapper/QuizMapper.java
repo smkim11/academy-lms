@@ -44,4 +44,9 @@ public interface QuizMapper {
 	void deleteQuiz(int weekId);
 	List<Integer> selectQuizIdByWeekIdType(int weekId);
 	void deleteQuizOption(int quizId);
+	void deleteQuizOne(int weekId, int quizNo);
+	List<Integer> selectQuizIdByQuizNoWeekId(int quizNo, int weekId);
+	void updateQuizNo(int quizId);
+	List<HashMap<String,Object>> selectQuizStatus(int lectureId);
+	List<HashMap<String,Object>> selectSubmissionStudent(int weekId);
 }

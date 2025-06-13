@@ -107,6 +107,28 @@
 		SELECT quiz_id FROM quiz WHERE week_id=#{weekId} AND type='객관식'
 	</select>
 	
+	<!--삭제된 문제 뒤에있는 문제들의 quizId-->
+	<select id="selectQuizIdByQuizNoWeekId">
+		SELECT quiz_id FROM quiz WHERE quiz_no>#{quizNo} AND week_id=#{weekId}
+	</select>
+	
+	<!--강의에 수강중인 전체 학생-->
+	<select id="selectQuizStatus" resultType="map">
+		SELECT s.student_id studentId, s.name
+		FROM lecture_enrollment le INNER JOIN student s ON le.student_id = s.student_id
+		WHERE le.lecture_id =#{lectureId}
+		ORDER BY s.name
+	</select>
+	
+	<!--퀴즈에 응시한 학생의 정보-->
+	<select id="selectSubmissionStudent" resultType="map">
+		SELECT s.student_id studentId, s.name, qj.score
+		FROM lecture_enrollment le INNER JOIN student s ON le.student_id = s.student_id
+		INNER JOIN quiz_join qj ON qj.enrollment_id = le.enrollment_id
+		WHERE qj.week_id = #{weekId}
+		ORDER BY s.name
+	</select>
+	
 	<!--join_id 등록-->
 	<insert id="insertJoinId">
 		INSERT INTO quiz_join(week_id, enrollment_id) VALUES(#{weekId},#{enrollmentId});
@@ -173,6 +195,11 @@
 			and option_no = #{optionNo}
 	</update>
 	
+	<!--삭제된문제 뒤에있는 문제들 번호-1-->
+	<update id="updateQuizNo">
+		UPDATE quiz SET quiz_no= quiz_no-1 WHERE quiz_id= #{quizId}
+	</update>
+	
 	<!--주차에 해당하는 퀴즈 전체삭제-->
 	<delete id="deleteQuiz">
 		DELETE FROM quiz WHERE week_id=#{weekId}
@@ -181,5 +208,10 @@
 	<!--퀴즈 전체삭제전에 보기먼저 삭제-->
 	<delete id="deleteQuizOption">
 		DELETE FROM quiz_option WHERE quiz_id=#{quizId}
+	</delete>
+	
+	<!--퀴즈 한문제 삭제-->
+	<delete id="deleteQuizOne">
+		DELETE FROM quiz WHERE week_id=#{weekId} AND quiz_no=#{quizNo}
 	</delete>
 </mapper>

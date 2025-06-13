@@ -28,8 +28,8 @@ public class QuizController {
 	
 	// 강의별 퀴즈 리스트
 	@GetMapping("/quizList")
-	public String quizList(Model model, @RequestParam(defaultValue = "1") int lectureId
-						  ,HttpSession session) {
+	public String quizList(Model model, HttpSession session
+									  , @RequestParam(defaultValue = "1") int lectureId) {
 		
 		List<HashMap<String,Object>> list = 
 				quizService.quizListByLectureId(lectureId,(int)(session.getAttribute("loginUserId")));
@@ -165,8 +165,8 @@ public class QuizController {
 	// 퀴즈 응시 페이지
 	@GetMapping("/quizOne")
 	public String quizOne(Model model, HttpSession session
-						,@RequestParam(defaultValue = "1") int currentPage
-						,@RequestParam int weekId) {
+									 ,@RequestParam(defaultValue = "1") int currentPage
+									 ,@RequestParam int weekId) {
 		// weekId에 해당하는 lectureId
 		int lId = quizService.selectLectureIdByweekId(weekId);
 		
@@ -211,10 +211,10 @@ public class QuizController {
 	}
 	
 	@PostMapping("/quizOne")
-	public String quizOne(@RequestParam(defaultValue = "1") int currentPage
-						,@RequestParam int weekId ,@RequestParam int joinId
-						,@RequestParam String btn ,QuizSubmission quizSubmission
-						,RedirectAttributes redirectAttributes) {
+	public String quizOne(QuizSubmission quizSubmission,RedirectAttributes redirectAttributes
+													   ,@RequestParam(defaultValue = "1") int currentPage
+													   ,@RequestParam int weekId ,@RequestParam int joinId
+													   ,@RequestParam String btn) {
 		
 		// 답안 제출이력 확인
 		Integer sId = quizService.findSubmissionId(quizSubmission);
@@ -273,7 +273,7 @@ public class QuizController {
 		// redirectAttributes 사용하여 return문 url단축
 		redirectAttributes.addAttribute("weekId", weekId);
 		redirectAttributes.addAttribute("joinId", joinId);
-		return "redirect:/quizResult";
+		return "redirect:/student/quizResult";
 	}
 	
 	// 학생용 퀴즈 결과 페이지
@@ -298,15 +298,34 @@ public class QuizController {
 	
 	// 강사용 퀴즈 결과 페이지
 	@GetMapping("/instructor/quizResult")
-	public String instructorQuizResult() {
+	public String instructorQuizResult(Model model, @RequestParam int weekId
+									  			   ,@RequestParam int lectureId) {
+		// 강의에 수강중인 전체학생 ID
+		List<HashMap<String,Object>> list1 = quizService.selectQuizStatus(lectureId);
 		
+		// 시험에 응시한 학생정보
+		List<HashMap<String,Object>> list2 = quizService.selectSubmissionStudent(weekId);
+		
+		// 수강중인 전체학생 리스트에서 응시한 학생은 응시완료, 점수가 리스트에 추가
+		for(HashMap<String,Object> map1 : list1) {
+			for(HashMap<String,Object> map2 : list2) {
+				if(map1.get("studentId").toString()
+						.equals(map2.get("studentId").toString())) {
+					map1.put("status", "응시완료");
+					map1.put("score", map2.get("score"));
+				}
+			}
+		}
+		
+		model.addAttribute("list",list1);
+		model.addAttribute("lectureId",lectureId);
 		return "/instructor/quizResult";
 	}
 	
 	// 퀴즈 전체삭제
 	@GetMapping("/deleteQuiz")
-	public String deleteQuiz(@RequestParam int weekId, @RequestParam int lectureId
-							,RedirectAttributes redirectAttributes) {
+	public String deleteQuiz(RedirectAttributes redirectAttributes, @RequestParam int weekId
+																  , @RequestParam int lectureId) {
 		
 		// 객관식이 있으면 객관식에 해당하는 quizId 출력
 		List<Integer> list = quizService.selectQuizIdByWeekIdType(weekId);
@@ -326,5 +345,43 @@ public class QuizController {
 	}
 	
 	// 퀴즈 한문제 삭제
-	
+	@GetMapping("/deleteQuizOne")
+	public String deleteQuizOne(RedirectAttributes redirectAttributes,@RequestParam int weekId
+																	 ,@RequestParam int currentPage
+																	 ,@RequestParam int quizId) {
+		// 객관식이 있으면 객관식에 해당하는 quizId 출력
+		List<Integer> list = quizService.selectQuizIdByWeekIdType(weekId);
+		
+		// 삭제하는 문제가 객관식이면 보기먼저 삭제 후 문제 삭제
+		if(!list.isEmpty()) {
+			for(int qId : list) {
+				if(qId == quizId) {
+					quizService.deleteQuizOption(qId);
+					break;
+				}
+			}
+		}
+		
+		// 퀴즈 한문제 삭제(한 페이지에 한 문제씩이라 quizNo == currentPage)
+		quizService.deleteQuizOne(weekId, currentPage);
+		
+		// 삭제된 문제 뒤에나오는 문제들의 quizId
+		List<Integer> list2 = quizService.selectQuizIdByQuizNoWeekId(currentPage, weekId);
+		
+		// 삭제하는 문제가 마지막 문제가 아니라면 이후에 나오는 문제들 번호 -1씩
+		if(!list2.isEmpty()) {
+			for(int qId2 : list2) {
+				quizService.updateQuizNo(qId2);
+			}
+			redirectAttributes.addAttribute("weekId", weekId);
+			redirectAttributes.addAttribute("currentPage", currentPage);
+			return "redirect:/updateQuiz";
+		}
+		
+		// 마지막문제면 이전페이지로 리다이렉트
+		currentPage -= 1;
+		redirectAttributes.addAttribute("weekId", weekId);
+		redirectAttributes.addAttribute("currentPage", currentPage);
+		return "redirect:/updateQuiz";
+	}
 }
