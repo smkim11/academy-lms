@@ -6,7 +6,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
 <!-- 상단바 + 사이드바(네비게이션) -->
@@ -31,36 +31,22 @@
 	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
 	<table border="1">
 		<tr>
-			<th>번호</th>
-			<th>작성한 답</th>
-			<th>정답</th>
-			<th>O/X</th>
+			<th>이름</th>
+			<th>상태</th>
+			<th>점수</th>
 		</tr>
-		<c:forEach var="resultList" items="${resultList}">
+		<c:forEach var="list" items="${list}">
 			<tr>
-				<th>${resultList.quizNo }</th>
-				<td>${resultList.answer }</td>
-				<td>${resultList.correctAnswer }</td>
-				<th>${resultList.isCorrect }</th>
-			</tr>
-		</c:forEach>
-		<tr>
-			<th colspan="2">점수</th>
-			<th colspan="2">${score }점</th>
-		</tr>
-	</table>
-	
-	<table border="1">
-		<tr>
-			<th>번호</th>
-			<th>문제</th>
-			<th>해설</th>
-		</tr>
-		<c:forEach var="explainList" items="${explainList}">
-			<tr>
-				<th>${explainList.quizNo}</th>
-				<td>${explainList.question}</td>
-				<td>${explainList.explanation}</td>
+				<th>${list.name }</th>
+				<!-- 리스트에 값이 넘어오면 응시한 학생, 안넘어오면 미응시한 학생 -->
+				<c:if test="${list.status != null && list.score != null }">
+					<td>${list.status }</td>
+					<td>${list.score }</td>
+				</c:if>
+				<c:if test="${list.status == null && list.score == null }">
+					<td>미응시</td>
+					<td>-</td>
+				</c:if>
 			</tr>
 		</c:forEach>
 	</table>
