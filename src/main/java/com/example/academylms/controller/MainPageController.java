@@ -39,6 +39,7 @@ public class MainPageController {
         model.addAttribute("ongoingLectures", lectureMap.get("ongoing"));
         model.addAttribute("upcomingLectures", lectureMap.get("upcoming"));
         model.addAttribute("endedLectures", lectureMap.get("ended"));
+        model.addAttribute("role", role);
 
         return role + "/lectureMainPage";
     }
