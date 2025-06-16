@@ -63,55 +63,76 @@
 	<p>*morning : 08~12 / afternoon : 13~17 / evening : 18~22</p>
 <hr>
 
-  <h2>강의 관리</h2>
+    <div style="width: 50%;">
+      <h2>강의관리</h2>
+      <!-- 진행중인 강의 -->
+      <h4 class="toggle-header" onclick="toggleSection('ongoing')">▸진행중인 강의</h4>
+      <div id="ongoing" class="lecture-section">
+        <c:if test="${empty ongoingLectures}">
+          <p>진행중인 강의가 없습니다.</p>
+        </c:if>
+        <ul>
+          <c:forEach var="lecture" items="${ongoingLectures}">
+            <li>
+              <a href="/admin/lectureOne?lectureId=${lecture.lecture_id}">
+                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
+              </a>
+            </li>
+          </c:forEach>
+        </ul>
+      </div>
 
-  <h3>진행중인 강의</h3>
-  <c:if test="${empty ongoingLectures}">
-    <p>수강중인 강의가 없습니다.</p>
-  </c:if>
-  <ul>
-    <c:forEach var="lecture" items="${ongoingLectures}">
-      <li>
-        <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
-          <c:out value="${lecture.title}" /> (${lecture.started_at} ~ ${lecture.ended_at})
-        </a>
-      </li>
-    </c:forEach>
-  </ul>
+      <!-- 진행예정 강의 -->
+      <h4 class="toggle-header" onclick="toggleSection('upcoming')">▸진행예정 강의</h4>
+      <div id="upcoming" class="lecture-section">
+        <c:if test="${empty upcomingLectures}">
+          <p>진행예정 강의가 없습니다.</p>
+        </c:if>
+        <ul>
+          <c:forEach var="lecture" items="${upcomingLectures}">
+            <li>
+              <a href="/admin/lectureOne?lectureId=${lecture.lecture_id}">
+                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
+              </a>
+            </li>
+          </c:forEach>
+        </ul>
+      </div>
 
-  <h3>진행예정 강의</h3>
-  <c:if test="${empty upcomingLectures}">
-    <p>수강예정 강의가 없습니다.</p>
-  </c:if>
-  <ul>
-    <c:forEach var="lecture" items="${upcomingLectures}">
-      <li>
-        <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
-          <c:out value="${lecture.title}" /> (${lecture.started_at} ~ ${lecture.ended_at})
-        </a>
-      </li>
-    </c:forEach>
-  </ul>
-
-  <h3>종료된 강의</h3>
-  <c:if test="${empty endedLectures}">
-    <p>종료된 강의가 없습니다.</p>
-  </c:if>
-  <ul>
-    <c:forEach var="lecture" items="${endedLectures}">
-      <li>
-        <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
-          <c:out value="${lecture.title}" /> (${lecture.started_at} ~ ${lecture.ended_at})
-        </a>
-      </li>
-    </c:forEach>
-  </ul>
-
-  <h3>개인정보 수정</h3>
-  <ul>
-    <li><a class="edit-profile" href="/instructor/mypage">개인정보 수정</a></li>
-  </ul>
-
+      <!-- 종료된 강의 -->
+      <h4 class="toggle-header" onclick="toggleSection('ended')">▸종료된 강의</h4>
+      <div id="ended" class="lecture-section">
+        <c:if test="${empty endedLectures}">
+          <p>종료된 강의가 없습니다.</p>
+        </c:if>
+        <ul>
+          <c:forEach var="lecture" items="${endedLectures}">
+            <li>
+              <a href="/admin/surveyResult?lectureId=${lecture.lecture_id}">
+                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
+              </a>
+            </li>
+          </c:forEach>
+        </ul>
+      </div>
+    </div>
 </main>
+
+<script>
+function toggleSection(id) {
+    const section = document.getElementById(id);
+    if (section.style.display === "none") {
+      section.style.display = "block";
+    } else {
+      section.style.display = "none";
+    }
+  }
+  // 페이지 로드시 기본은 모두 접기 (선택 사항)
+  window.onload = function() {
+    document.getElementById('ongoing').style.display = 'none';
+    document.getElementById('upcoming').style.display = 'none';
+    document.getElementById('ended').style.display = 'none';
+  };
+</script>
 </body>
 </html>
