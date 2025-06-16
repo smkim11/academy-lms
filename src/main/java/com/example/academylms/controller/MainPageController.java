@@ -26,14 +26,76 @@ public class MainPageController {
     @Autowired
     private LoginService loginService;
     
+    @GetMapping("/lectureMainPage")
+    public String lectureMainPage(HttpSession session, Model model) {
+        Integer userId = (Integer) session.getAttribute("loginUserId");  // ✅ 정확한 세션 키 사용
+        if (userId == null) return "redirect:/login"; // 세션 없으면 로그인으로
+
+        User user = loginService.findById(userId);
+        String role = user.getRole();
+        model.addAttribute("userId", userId);
+        // ✅ 강의 정보 조회
+        Map<String, List<Map<String, Object>>> lectureMap = getLectureMap(userId, role);
+        model.addAttribute("ongoingLectures", lectureMap.get("ongoing"));
+        model.addAttribute("upcomingLectures", lectureMap.get("upcoming"));
+        model.addAttribute("endedLectures", lectureMap.get("ended"));
+
+        return role + "/lectureMainPage";
+    }
+    private Map<String, List<Map<String, Object>>> getLectureMap(int userId, String role) {
+        List<Map<String, Object>> lectureList = new ArrayList<>();
+
+        if ("admin".equals(role)) {
+            lectureList = mainPageService.getAllLectures();
+        } else if ("instructor".equals(role)) {
+            lectureList = mainPageService.getLecturesByInstructor(userId);
+        } else if ("student".equals(role)) {
+            lectureList = mainPageService.getLecturesByStudent(userId);
+        }
+        
+        System.out.println("강의 수: " + lectureList.size()); // ✅ 이거 찍어보기
+        for (Map<String, Object> lecture : lectureList) {
+            System.out.println("startedAt 타입: " + lecture.get("started_at").getClass().getName());
+            System.out.println("endedAt 타입: " + lecture.get("ended_at").getClass().getName());
+        }
+
+        List<Map<String, Object>> ongoingLectures = new ArrayList<>();
+        List<Map<String, Object>> upcomingLectures = new ArrayList<>();
+        List<Map<String, Object>> endedLectures = new ArrayList<>();
+
+        LocalDateTime now = LocalDateTime.now();
+
+        for (Map<String, Object> lecture : lectureList) {
+            LocalDateTime startedAt = (LocalDateTime) lecture.get("started_at");
+            LocalDateTime endedAt = (LocalDateTime) lecture.get("ended_at");
+
+            if (now.isBefore(startedAt)) {
+                upcomingLectures.add(lecture);
+            } else if (now.isAfter(endedAt)) {
+                endedLectures.add(lecture);
+            } else {
+                ongoingLectures.add(lecture);
+            }
+        }
+
+        Map<String, List<Map<String, Object>>> resultMap = new HashMap<>();
+        resultMap.put("ongoing", ongoingLectures);
+        resultMap.put("upcoming", upcomingLectures);
+        resultMap.put("ended", endedLectures);
+        return resultMap;
+    }
+
+
     @GetMapping("/mainPage")
     public String getLectureListForMain(HttpSession session, Model model) {
     	// 진행중, 예정, 종료된 강의들을 구분해서 가져옴 (역할 상관X)
+    	/* 메인페이지에 강의목록표시하고 싶으면 주석해제
     	Map<String, List<Map<String, Object>>> lectureMap = getLectureMap(session);
 
         model.addAttribute("ongoingLectures", lectureMap.get("ongoing"));
         model.addAttribute("upcomingLectures", lectureMap.get("upcoming"));
         model.addAttribute("endedLectures", lectureMap.get("ended"));
+        */
 
         int userId = (int) session.getAttribute("loginUserId");
         User user = loginService.findById(userId);

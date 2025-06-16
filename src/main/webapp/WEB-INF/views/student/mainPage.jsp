@@ -19,10 +19,8 @@
 	</div>
 	<div class="side-bar">
 	  <ul>
-	    <li><a href="#">대시보드</a></li>
-	    <li><a href="#">강의목록</a></li>
-	    <li><a href="#">수강관리</a></li>
-	    <li><a href="#">설정</a></li>
+	    <li><a href="/mainPage">메인페이지</a></li>
+	    <li><a href="/lectureMainPage">강의목록</a></li>
 	  </ul>
 	</div>
 	
@@ -62,76 +60,5 @@
 	<hr>
 		<p>*morning : 08~12 / afternoon : 13~17 / evening : 18~22</p>
 	<hr>
-	
-    <div style="width: 50%;">
-      <h2>강의관리</h2>
-      <!-- 수강중인 강의 -->
-      <h4 class="toggle-header" onclick="toggleSection('ongoing')">▸수강중인 강의</h4>
-      <div id="ongoing" class="lecture-section">
-        <c:if test="${empty ongoingLectures}">
-          <p>수강중인 강의가 없습니다.</p>
-        </c:if>
-        <ul>
-          <c:forEach var="lecture" items="${ongoingLectures}">
-            <li>
-              <a href="/admin/lectureOne?lectureId=${lecture.lecture_id}">
-                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
-              </a>
-            </li>
-          </c:forEach>
-        </ul>
-      </div>
-
-      <!-- 수강예정 강의 -->
-      <h4 class="toggle-header" onclick="toggleSection('upcoming')">▸수강예정 강의</h4>
-      <div id="upcoming" class="lecture-section">
-        <c:if test="${empty upcomingLectures}">
-          <p>수강예정 강의가 없습니다.</p>
-        </c:if>
-        <ul>
-          <c:forEach var="lecture" items="${upcomingLectures}">
-            <li>
-              <a href="/admin/lectureOne?lectureId=${lecture.lecture_id}">
-                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
-              </a>
-            </li>
-          </c:forEach>
-        </ul>
-      </div>
-
-      <!-- 종료된 강의 -->
-      <h4 class="toggle-header" onclick="toggleSection('ended')">▸종료된 강의</h4>
-      <div id="ended" class="lecture-section">
-        <c:if test="${empty endedLectures}">
-          <p>종료된 강의가 없습니다.</p>
-        </c:if>
-        <ul>
-          <c:forEach var="lecture" items="${endedLectures}">
-            <li>
-              <a href="/admin/surveyResult?lectureId=${lecture.lecture_id}">
-                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
-              </a>
-            </li>
-          </c:forEach>
-        </ul>
-      </div>
-    </div>
-</main>	
-<script>
-function toggleSection(id) {
-    const section = document.getElementById(id);
-    if (section.style.display === "none") {
-      section.style.display = "block";
-    } else {
-      section.style.display = "none";
-    }
-  }
-  // 페이지 로드시 기본은 모두 접기 (선택 사항)
-  window.onload = function() {
-    document.getElementById('ongoing').style.display = 'none';
-    document.getElementById('upcoming').style.display = 'none';
-    document.getElementById('ended').style.display = 'none';
-  };
-</script>
 </body>
 </html>
