@@ -27,8 +27,10 @@
 </div>
 	
 <main>
-	<h1>학생 퀴즈 목록</h1>
-		<table border="1">
+	<span style="font-size: 40px">${lectureInfo.title }</span>
+	<span style="font-size: 20px">[${lectureInfo.day }/${lectureInfo.time}]</span> &nbsp;
+	<span style="font-size: 40px">퀴즈 목록</span>
+		<table style="margin-top: 30px" border="1">
 			<tr>
 				<th>주차</th>
 				<th>기간</th>
