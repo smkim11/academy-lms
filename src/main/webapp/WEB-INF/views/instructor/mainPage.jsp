@@ -27,6 +27,7 @@
 	</div>
 	
 <main>
+<hr>
 	<table>
 	  <thead>
 	    <tr>
@@ -50,7 +51,7 @@
 	              </td>
 	            </c:when>
 	            <c:otherwise>
-	              <td>-</td>
+	              <td></td>
 	            </c:otherwise>
 	          </c:choose>
 	        </c:forEach>
@@ -58,6 +59,9 @@
 	    </c:forEach>
 	  </tbody>
 	</table>
+<hr>
+	<p>*morning : 08~12 / afternoon : 13~17 / evening : 18~22</p>
+<hr>
 
   <h2>강의 관리</h2>
 
