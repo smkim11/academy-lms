@@ -26,7 +26,7 @@
   </ul>
 </div>
 <main>
-	<h1>퀴즈 수정</h1>
+	<h1>${week }주차 퀴즈 수정</h1>
 	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
 	
 	<form method="post" action="/updateQuiz" id="updateQuizForm">
@@ -48,6 +48,10 @@
 					</td>
 				</tr>
 				<tr>
+					<th>번호</th>
+					<td><input type="text" name="quizNo" id="quizNo" value="${list.quizNo }" readonly></td>
+				</tr>
+				<tr>
 					<!-- onclick을 사용하여 유형은 변경할 수 없게 설정 -->
 					<th>유형</th>
 					<c:if test="${list.type eq '객관식'}">
@@ -64,7 +68,6 @@
 					</c:if>
 				</tr>
 			</table>
-			번호 <input type="text" name="quizNo" id="quizNo" value="${list.quizNo }" readonly/><br>
 	        문제 <input type="text" name="question" id="question" value="${list.question }" /><br>
 			<!-- 보기 (정답을 입력하고 저장하면 제출한 정답체크) -->
 			<c:if test="${not empty options}">
@@ -81,7 +84,7 @@
 			해설<textarea cols="50" rows="5" name="explanation" id="explanation">${list.explanation}</textarea><br>
 			<button type="button" id="btn">수정</button>
 			<!-- 수정페이지에서 문항을 추가하는경우 addQuiz로 이동할 때 source=modify를 추가 -->
-			<a href="/addQuiz?lectureId=${lectureId}&week=${list.week}&startedAt=${list.startedAt}&endedAt=${list.endedAt}&source=update&currentPage=${p.lastPage}">추가</a>
+			<a href="/addQuiz?lectureId=${lectureId}&week=${list.week}&startedAt=${list.startedAt}&endedAt=${list.endedAt}&quizNo=${p.lastPage}&source=update&currentPage=${p.lastPage}">추가</a>
 			<a href="/deleteQuizOne?weekId=${weekId }&currentPage=${p.currentPage}&quizId=${list.quizId}">삭제</a>
 		</c:forEach>
 		

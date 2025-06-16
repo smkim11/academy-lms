@@ -27,7 +27,7 @@
 </div>
 	
 <main>
-	<h1>학생용 퀴즈 결과</h1>
+	<h1>${week}주차 퀴즈 결과</h1>
 	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
 	<table border="1">
 		<tr>

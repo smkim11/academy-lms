@@ -27,18 +27,19 @@
 </div>
 	
 <main>
-	<h1>퀴즈 응시</h1>
-	<form method="post" action="/quizOne" id="quizOneForm">
-	<input type="hidden" name="weekId" value="${weekId }">
-	<input type="hidden" name="joinId" value="${joinId }">
-	<input type="hidden" name="currentPage" value="${p.currentPage}">
-		<!-- 문제 -->
-		<c:forEach var="quiz" items="${list}">
+	<c:forEach var="quiz" items="${list}">
+		<h1>${quiz.week }주차 퀴즈</h1>
+		<form method="post" action="/quizOne" id="quizOneForm">
+		<input type="hidden" name="weekId" value="${weekId }">
+		<input type="hidden" name="joinId" value="${joinId }">
+		<input type="hidden" name="currentPage" value="${p.currentPage}">
+			
+			<!-- 문제 -->
 		    <div>	
 		    	<input type="hidden" name="quizNo" value="${quiz.quizNo}">
 		        <b>${quiz.quizNo}번 ${quiz.question}</b>
 		    </div>
-		</c:forEach>
+	</c:forEach>
 		
 		<!-- 보기 (정답을 입력하고 저장하면 제출한 정답체크) -->
 		<c:if test="${not empty options}">
