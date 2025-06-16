@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.academylms.dto.StudyGroup;
 import com.example.academylms.dto.StudyPost;
@@ -109,5 +110,49 @@ public class StudyGroupController {
 	    studyGroupService.deleteStudyPost(postId);
 	    return "success";
 	}
+	
+	@GetMapping("/instructor/studyPost/{lectureId}")
+    public String getStudyBoardInstructor(@PathVariable int lectureId, Model model) {
+        List<StudyGroup> groups = studyGroupMapper.getGroupsByLectureId(lectureId);
+        Map<Integer, List<StudyPost>> groupPostMap = new LinkedHashMap<>();
+
+        for (StudyGroup group : groups) {
+            List<StudyPost> posts = studyGroupMapper.getPostsByGroupId(group.getGroupId());
+            groupPostMap.put(group.getGroupId(), posts);
+        }
+
+        model.addAttribute("lectureId", lectureId);
+        model.addAttribute("groupPostMap", groupPostMap);
+        return "instructor/studyPost";
+    }
+	
+	@GetMapping("/instructor/studyPostOne/{postId}")
+	public String studyPostOneInstructor(@PathVariable int postId, Model model) {
+	    StudyPost post = studyGroupService.getPostById(postId);
+	    model.addAttribute("post", post);
+
+	    int groupId = post.getGroupId();
+	    int lectureId = studyGroupService.getGroupById(groupId).getLectureId();
+	    model.addAttribute("groupId", groupId);
+	    model.addAttribute("lectureId", lectureId);
+
+	    return "instructor/studyPostOne";
+	}
+
+	@PostMapping("/instructor/studyPostOne")
+	public String updateFeedback(@RequestParam("postId") int postId,
+	                             @RequestParam("feedback") String feedback,
+	                             @RequestParam("groupId") int groupId,
+	                             RedirectAttributes redirectAttributes) {
+	    try {
+	        studyGroupService.updateFeedback(postId, feedback);
+	        redirectAttributes.addFlashAttribute("message", "피드백이 성공적으로 저장되었습니다.");
+	    } catch (Exception e) {
+	        redirectAttributes.addFlashAttribute("message", "피드백 저장 중 오류가 발생했습니다.");
+	    }
+
+	    return "redirect:/instructor/studyPostOne/" + postId;
+	}
+
 
 }

@@ -17,4 +17,5 @@ public interface StudyGroupMapper {
 	void insertStudyPost(StudyPost post);
 	void updateStudyPost(StudyPost post);
 	void deleteStudyPost(int postId);
+	void updateFeedback(@Param("postId") int postId, @Param("feedback") String feedback);
 }

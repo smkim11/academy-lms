@@ -61,4 +61,10 @@
 	<delete id="deleteStudyPost" parameterType="int">
 		DELETE FROM study_post WHERE post_id = #{postId}
 	</delete>
+	
+	<update id="updateFeedback">
+	    UPDATE study_post
+	    SET feedback = #{feedback}
+	    WHERE post_id = #{postId}
+	</update>
 </mapper>

@@ -31,5 +31,9 @@ public class StudyGroupService {
 	 public void deleteStudyPost(int postId) {
 		    studyGroupMapper.deleteStudyPost(postId);
 		}
+	 
+	 public void updateFeedback(int postId, String feedback) {
+	        studyGroupMapper.updateFeedback(postId, feedback);
+	    }
 }
 
