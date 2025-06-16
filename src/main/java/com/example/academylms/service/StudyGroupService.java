@@ -27,6 +27,9 @@ public class StudyGroupService {
 	 public void updateStudyPost(StudyPost post) {
 		    studyGroupMapper.updateStudyPost(post);
 		}
-
+	 
+	 public void deleteStudyPost(int postId) {
+		    studyGroupMapper.deleteStudyPost(postId);
+		}
 }
 

@@ -8,11 +8,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.academylms.dto.StudyGroup;
 import com.example.academylms.dto.StudyPost;
@@ -98,6 +100,14 @@ public class StudyGroupController {
 	public String updateStudyPost(@ModelAttribute StudyPost post) {
 	    studyGroupService.updateStudyPost(post);
 	    return "redirect:/student/studyPostOne/" + post.getPostId();
+	}
+	
+	// 삭제
+	@DeleteMapping("/student/studyPosts/{postId}")
+	@ResponseBody
+	public String deleteStudyPost(@PathVariable int postId) {
+	    studyGroupService.deleteStudyPost(postId);
+	    return "success";
 	}
 
 }

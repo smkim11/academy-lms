@@ -16,4 +16,5 @@ public interface StudyGroupMapper {
 	StudyGroup getGroupById(int groupId);
 	void insertStudyPost(StudyPost post);
 	void updateStudyPost(StudyPost post);
+	void deleteStudyPost(int postId);
 }

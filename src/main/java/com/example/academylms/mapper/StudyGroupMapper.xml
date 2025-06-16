@@ -58,4 +58,7 @@
 	    WHERE post_id = #{postId}
 	</update>
 	
+	<delete id="deleteStudyPost" parameterType="int">
+		DELETE FROM study_post WHERE post_id = #{postId}
+	</delete>
 </mapper>

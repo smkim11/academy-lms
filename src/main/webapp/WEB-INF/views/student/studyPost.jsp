@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>스터디 게시판</title>
 </head>
 <body>
@@ -44,7 +45,8 @@
                         <td>${post.createDate}</td>
                         <td>
                         	<a href="/student/updateStudyPost/${post.postId}">수정</a>
-                        	<a href="/">삭제</a>
+                        	<a href="javascript:void(0);"
+   								onclick="deleteStudyPost(${post.postId}, ${lectureId})">삭제</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -76,6 +78,23 @@
         if (selectedBtn) {
             selectedBtn.style.backgroundColor = '#4CAF50';
             selectedBtn.style.color = '#fff';
+        }
+    }
+    
+    function deleteStudyPost(postId, lectureId) {
+        if (confirm('정말 삭제하시겠습니까?')) {
+            $.ajax({
+                url: '/student/studyPosts/' + postId,
+                type: 'DELETE',
+                success: function(response) {
+                    alert('게시글이 삭제되었습니다.');
+                    location.href = '/student/studyPost/' + lectureId;
+                },
+                error: function(xhr) {
+                    alert('삭제 중 오류가 발생했습니다.');
+                    console.error(xhr.responseText);
+                }
+            });
         }
     }
 
