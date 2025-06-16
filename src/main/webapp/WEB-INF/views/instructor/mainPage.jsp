@@ -26,54 +26,88 @@
 	  </ul>
 	</div>
 	
-	<main>
-		<h2>강의관리</h2>
-	
-		<h3>진행중인 강의</h3>
-		<c:if test="${empty ongoingLectures}">
-		    <p>수강중인 강의가 없습니다.</p>
-		</c:if>
-		<ul>
-		    <c:forEach var="lecture" items="${ongoingLectures}">
-		        <li>
-		            <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
-		                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
-		            </a>
-		        </li>
-		    </c:forEach>
-		</ul>
-		
-		<h3>진행예정 강의</h3>
-		<c:if test="${empty upcomingLectures}">
-		    <p>수강예정 강의가 없습니다.</p>
-		</c:if>
-		<ul>
-		    <c:forEach var="lecture" items="${upcomingLectures}">
-		        <li>
-		            <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
-		                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
-		            </a>
-		        </li>
-		    </c:forEach>
-		</ul>
-		
-		<h3>종료된 강의</h3>
-		<c:if test="${empty endedLectures}">
-		    <p>종료된 강의가 없습니다.</p>
-		</c:if>
-		<ul>
-		    <c:forEach var="lecture" items="${endedLectures}">
-		        <li>
-		            <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
-		                ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
-		            </a>
-		        </li>
-		    </c:forEach>
-		</ul>
-		<h3>개인정보 수정</h3>
-	        <ul>
-		        <li><a class="edit-profile" href="/instructor/mypage">개인정보 수정</a></li>
-	        </ul>
-	</main>
+<main>
+	<table>
+	  <thead>
+	    <tr>
+	      <th></th>
+	      <c:forEach var="day" items="${dayList}">
+	        <th>${day}</th>
+	      </c:forEach>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <c:forEach var="time" items="${timeList}">
+	      <tr>
+	        <td>${time}</td>
+	        <c:forEach var="day" items="${dayList}">
+	          <c:set var="lecture" value="${timetable[day][time]}" />
+	          <c:choose>
+	            <c:when test="${not empty lecture}">
+	              <c:set var="color" value="${lectureColorMap[lecture.lecture_id]}" />
+	              <td style="background-color: ${color};">
+	                <c:out value="${lecture.title}" />
+	              </td>
+	            </c:when>
+	            <c:otherwise>
+	              <td>-</td>
+	            </c:otherwise>
+	          </c:choose>
+	        </c:forEach>
+	      </tr>
+	    </c:forEach>
+	  </tbody>
+	</table>
+
+  <h2>강의 관리</h2>
+
+  <h3>진행중인 강의</h3>
+  <c:if test="${empty ongoingLectures}">
+    <p>수강중인 강의가 없습니다.</p>
+  </c:if>
+  <ul>
+    <c:forEach var="lecture" items="${ongoingLectures}">
+      <li>
+        <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
+          <c:out value="${lecture.title}" /> (${lecture.started_at} ~ ${lecture.ended_at})
+        </a>
+      </li>
+    </c:forEach>
+  </ul>
+
+  <h3>진행예정 강의</h3>
+  <c:if test="${empty upcomingLectures}">
+    <p>수강예정 강의가 없습니다.</p>
+  </c:if>
+  <ul>
+    <c:forEach var="lecture" items="${upcomingLectures}">
+      <li>
+        <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
+          <c:out value="${lecture.title}" /> (${lecture.started_at} ~ ${lecture.ended_at})
+        </a>
+      </li>
+    </c:forEach>
+  </ul>
+
+  <h3>종료된 강의</h3>
+  <c:if test="${empty endedLectures}">
+    <p>종료된 강의가 없습니다.</p>
+  </c:if>
+  <ul>
+    <c:forEach var="lecture" items="${endedLectures}">
+      <li>
+        <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
+          <c:out value="${lecture.title}" /> (${lecture.started_at} ~ ${lecture.ended_at})
+        </a>
+      </li>
+    </c:forEach>
+  </ul>
+
+  <h3>개인정보 수정</h3>
+  <ul>
+    <li><a class="edit-profile" href="/instructor/mypage">개인정보 수정</a></li>
+  </ul>
+
+</main>
 </body>
 </html>

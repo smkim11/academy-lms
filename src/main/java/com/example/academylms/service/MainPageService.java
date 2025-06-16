@@ -24,4 +24,11 @@ public class MainPageService {
         return mainPageMapper.selectLecturesByStudent(studentId);
     }
     
+    public List<Map<String, Object>> getOngoingLecturesForStudent(int studentId) {
+        return mainPageMapper.selectOngoingLecturesForStudent(studentId);
+    }
+
+    public List<Map<String, Object>> getOngoingLecturesForInstructor(int instructorId) {
+        return mainPageMapper.selectOngoingLecturesForInstructor(instructorId);
+    }
 }

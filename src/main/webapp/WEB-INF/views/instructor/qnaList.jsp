@@ -58,6 +58,19 @@
 	            </tr>
 	        </c:forEach>
 	    </table>
+	<!-- 게시글 리스트 출력 아래쪽에 페이지 버튼 -->
+	<div style="text-align: center; margin-top: 20px;">
+	    <c:forEach var="i" begin="1" end="${totalPages}">
+	        <c:choose>
+	            <c:when test="${i == currentPage}">
+	                <span style="font-weight: bold;">[${i}]</span>
+	            </c:when>
+	            <c:otherwise>
+	                <a href="/qna?lectureId=${lectureId}&page=${i}">[${i}]</a>
+	            </c:otherwise>
+	        </c:choose>
+	    </c:forEach>
+	</div>	    
 	</main>
 </body>
 </html>

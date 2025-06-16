@@ -11,7 +11,10 @@ import com.example.academylms.dto.QnaAnswer;
 
 @Mapper
 public interface QnaMapper {
-	List<Map<String, Object>> selectQnaListByLectureId(int lectureId); 
+	List<Map<String, Object>> selectQnaListByPage(@Param("lectureId") int lectureId,
+			@Param("offset") int offset,
+			@Param("limit") int limit);
+	int selectQnaCount(int lectureId);
     Qna selectQnaOne(int qnaId);
     Integer findEnrollmentId(@Param("studentId") int studentId, @Param("lectureId") int lectureId);
     void insertQna(Qna qna);
@@ -22,4 +25,6 @@ public interface QnaMapper {
     void deleteQnaAnswer(int answerId);
     void deleteQna(int qnaId);
     void deleteAnswersByQnaId(int qnaId);
+    void updateQna(Qna qna);
+    List<Map<String, Object>> selectMyQnaList(int lectureId, int studentId);
 }

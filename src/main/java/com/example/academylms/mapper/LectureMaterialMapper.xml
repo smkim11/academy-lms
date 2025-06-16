@@ -39,4 +39,10 @@
 		    DELETE FROM lecture_material
 		    WHERE material_id = #{materialId}
 		</delete>
+		
+		<select id="selectAvailableWeeks" resultType="int">
+		    SELECT DISTINCT week_id
+		    FROM lecture_material
+		    ORDER BY week_id ASC
+		</select>
 </mapper>

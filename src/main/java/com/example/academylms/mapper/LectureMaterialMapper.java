@@ -22,4 +22,7 @@ public interface LectureMaterialMapper {
     
     // 강의자료 삭제
     void deleteLectureMaterial(int materialId);
+    
+    // 주차별 게시판
+    List<Integer> selectAvailableWeeks();
 }

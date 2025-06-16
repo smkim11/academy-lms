@@ -54,8 +54,19 @@ public class QnaService {
 	    qnaMapper.deleteAnswersByQnaId(qnaId);
 	}
 	
-	public List<Map<String, Object>> getQnaList(int lectureId) {
-	    return qnaMapper.selectQnaListByLectureId(lectureId);
+	public void updateQna(Qna qna) {
+	    qnaMapper.updateQna(qna);
 	}
 	
+	public List<Map<String, Object>> getQnaListByPage(int lectureId, int offset, int limit) {
+	    return qnaMapper.selectQnaListByPage(lectureId, offset, limit);
+	}
+
+	public int getQnaCount(int lectureId) {
+	    return qnaMapper.selectQnaCount(lectureId);
+	}
+	
+	public List<Map<String, Object>> getMyQnaList(int lectureId, int studentId) {
+	    return qnaMapper.selectMyQnaList(lectureId, studentId);
+	}
 }

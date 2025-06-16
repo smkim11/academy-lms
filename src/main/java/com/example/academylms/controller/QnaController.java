@@ -31,27 +31,37 @@ public class QnaController {
 
 //QnA 리스트
     @GetMapping("/qna")
-    public String qnaList(@RequestParam int lectureId, HttpServletRequest request) {
-    	List<Map<String, Object>> list = qnaService.getQnaList(lectureId);
-        request.setAttribute("qnaList", list);
+    public String qnaList(@RequestParam int lectureId,
+                          @RequestParam(defaultValue = "1") int page,
+                          HttpServletRequest request) {
+
+        int pageSize = 10; // 한 페이지당 게시글 수
+        int offset = (page - 1) * pageSize;
+
+        List<Map<String, Object>> qnaList = qnaService.getQnaListByPage(lectureId, offset, pageSize);
+        int totalCount = qnaService.getQnaCount(lectureId);
+
+        int totalPages = (int) Math.ceil((double) totalCount / pageSize);
+
+        request.setAttribute("qnaList", qnaList);
         request.setAttribute("lectureId", lectureId);
-        //세션정보
+        request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+
+        // 세션 → 역할별 JSP
         HttpSession session = request.getSession();
-        int userId = (int)session.getAttribute("loginUserId"); // 세션 값 호출
-        User user = loginService.findById(userId); 
-        String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
-        
+        int userId = (int) session.getAttribute("loginUserId");
+        User user = loginService.findById(userId);
+        String role = user.getRole();
+
         if ("student".equals(role)) {
-            request.setAttribute("contentPage", "student/qnaList.jsp");
             return "student/qnaList";
         } else if ("instructor".equals(role)) {
-            request.setAttribute("contentPage", "instructor/qnaList.jsp");
             return "instructor/qnaList";
-        } else if ("admin".equals(role)){
-            request.setAttribute("contentPage", "admin/qnaList.jsp");
+        } else if ("admin".equals(role)) {
             return "admin/qnaList";
         } else {
-        	return "redirect:/login";
+            return "redirect:/login";
         }
     }
     
@@ -160,38 +170,9 @@ public class QnaController {
         return "redirect:/qna?lectureId=" + lectureId;
     }
 
-//QnA 답변달기
-    @PostMapping("/addAnswer")
-    public String addAnswer(@RequestParam("lectureId") int lectureId, QnaAnswer answer) {
-        qnaService.insertAnswer(answer);
-        return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId;
-    }
+    //QnA 수정/삭제
     
-//QnA 답변삭제
-    @PostMapping("/deleteAnswer")
-    public String deleteAnswer(@RequestParam("answerId") int answerId,
-                               @RequestParam("qnaId") int qnaId, 
-                               @RequestParam("lectureId") int lectureId, 
-                               HttpServletRequest request) {
-    	System.out.println("==> deleteAnswer 호출됨, answerId=" + answerId + ", qnaId=" + qnaId);
-    	//세션정보
-    	HttpSession session = request.getSession();
-        Object userIdObj = session.getAttribute("loginUserId");
-        if (userIdObj == null) {
-            // 로그인 안된 상태 → 로그인 페이지로 이동
-            return "redirect:/login";
-        }
-        int userId = (int) userIdObj;
-        User user = loginService.findById(userId); 
-        String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
-        
-        if (!"instructor".equals(role)) {
-        	return "redirect:/qnaOne?id=" + qnaId + "&lectureId=" + lectureId;
-        }
-        qnaService.deleteAnswer(answerId);
-        return "redirect:/qnaOne?id=" + qnaId + "&lectureId=" + lectureId;
-    }
-    
+//QnA 삭제
     @PostMapping("/deleteQna")
     public String deleteQna(@RequestParam("qnaId") int qnaId, 
     						@RequestParam("lectureId") int lectureId, 
@@ -215,4 +196,126 @@ public class QnaController {
         }
         return "redirect:/qna?lectureId=" + lectureId;
     }
+    
+//QnA 수정
+    @GetMapping("/updateQna")
+    public String updateQnaForm(@RequestParam("qnaId") int qnaId,
+                                @RequestParam("lectureId") int lectureId,
+                                HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Object userIdObj = session.getAttribute("loginUserId");
+        if (userIdObj == null) {
+            return "redirect:/login";
+        }
+        int userId = (int) userIdObj;
+
+        Qna qna = qnaService.getQnaOne(qnaId);
+        int qnaStudentId = qnaService.getStudentIdByQna(qnaId);
+
+        // 본인 확인
+        if (userId != qnaStudentId) {
+            return "redirect:/qnaOne?id=" + qnaId + "&lectureId=" + lectureId;
+        }
+
+        request.setAttribute("qna", qna);
+        request.setAttribute("lectureId", lectureId);
+        return "student/updateQna";  
+    }
+    @PostMapping("/updateQna")
+    public String updateQna(@RequestParam("qnaId") int qnaId,
+                            @RequestParam("lectureId") int lectureId,
+                            @RequestParam("title") String title,
+                            @RequestParam("question") String question,
+                            @RequestParam("isPublic") int isPublic,
+                            @RequestParam("file") MultipartFile file,
+                            HttpServletRequest request) throws Exception {
+
+        HttpSession session = request.getSession();
+        Object userIdObj = session.getAttribute("loginUserId");
+        if (userIdObj == null) {
+            return "redirect:/login";
+        }
+        int userId = (int) userIdObj;
+
+        // 작성자 확인
+        int qnaStudentId = qnaService.getStudentIdByQna(qnaId);
+        if (userId != qnaStudentId) {
+            return "redirect:/qnaOne?id=" + qnaId + "&lectureId=" + lectureId;
+        }
+
+        Qna qna = new Qna();
+        qna.setQnaId(qnaId);
+        qna.setTitle(title);
+        qna.setQuestion(question);
+        qna.setIsPublic(isPublic);
+
+        // 파일 수정 시 새로 저장
+        if (file != null && !file.isEmpty()) {
+            String uploadDir = "C:/semi";
+            String originalFilename = file.getOriginalFilename();
+            String savedFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+            File targetFile = new File(uploadDir, savedFilename);
+            file.transferTo(targetFile);
+            qna.setFileUrl("/semi/" + savedFilename);
+        }
+
+        qnaService.updateQna(qna);  
+        return "redirect:/qnaOne?id=" + qnaId + "&lectureId=" + lectureId;
+    }
+
+    
+    //QnA 답변
+    
+//QnA 답변달기
+      @PostMapping("/addAnswer")
+      public String addAnswer(@RequestParam("lectureId") int lectureId, QnaAnswer answer) {
+          qnaService.insertAnswer(answer);
+          return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId;
+      }
+      
+//QnA 답변삭제
+      @PostMapping("/deleteAnswer")
+      public String deleteAnswer(@RequestParam("answerId") int answerId,
+                                 @RequestParam("qnaId") int qnaId, 
+                                 @RequestParam("lectureId") int lectureId, 
+                                 HttpServletRequest request) {
+      	System.out.println("==> deleteAnswer 호출됨, answerId=" + answerId + ", qnaId=" + qnaId);
+      	//세션정보
+      	HttpSession session = request.getSession();
+          Object userIdObj = session.getAttribute("loginUserId");
+          if (userIdObj == null) {
+              // 로그인 안된 상태 → 로그인 페이지로 이동
+              return "redirect:/login";
+          }
+          int userId = (int) userIdObj;
+          User user = loginService.findById(userId); 
+          String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
+          
+          if (!"instructor".equals(role)) {
+          	return "redirect:/qnaOne?id=" + qnaId + "&lectureId=" + lectureId;
+          }
+          qnaService.deleteAnswer(answerId);
+          return "redirect:/qnaOne?id=" + qnaId + "&lectureId=" + lectureId;
+      }
+
+//내가 쓴 QnA글만 보기
+      @GetMapping("/myQna")
+      public String myQnaList(@RequestParam int lectureId, HttpServletRequest request) {
+          HttpSession session = request.getSession();
+          Object userIdObj = session.getAttribute("loginUserId");
+          if (userIdObj == null) return "redirect:/login";
+
+          int userId = (int) userIdObj;
+          User user = loginService.findById(userId);
+          String role = user.getRole();
+          if (!"student".equals(role)) return "redirect:/qna?lectureId=" + lectureId;
+
+          List<Map<String, Object>> myQnaList = qnaService.getMyQnaList(lectureId, userId);
+
+          request.setAttribute("qnaList", myQnaList);
+          request.setAttribute("lectureId", lectureId);
+          request.setAttribute("currentPage", 1);
+          request.setAttribute("totalPages", 1); // 페이징 안 했으면 1로 고정
+          return "student/qnaList"; 
+      }
 }

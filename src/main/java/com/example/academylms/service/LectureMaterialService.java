@@ -31,4 +31,8 @@ public class LectureMaterialService {
     public void deleteLectureMaterial(int materialId) {
     	lectureMaterialMapper.deleteLectureMaterial(materialId);
     };
+    
+    public List<Integer> getAvailableWeeks() {
+        return lectureMaterialMapper.selectAvailableWeeks();
+    };
 }

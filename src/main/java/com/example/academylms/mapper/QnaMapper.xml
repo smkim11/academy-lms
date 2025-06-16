@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.academylms.mapper.QnaMapper">
-	<select id="selectQnaListByLectureId" resultType="map">
+	<select id="selectQnaListByPage" resultType="map">
 	    SELECT q.qna_id AS qnaId,
 	           q.title,
 	           q.is_public AS isPublic,
 	           q.create_date AS createDate,
 	           u.user_id AS writerName
 	    FROM qna q
-	    JOIN lecture_enrollment e ON q.enrollment_id = e.enrollment_id
-	    JOIN user u ON e.student_id = u.user_id
-	    WHERE e.lecture_id = #{lectureId}
+	    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
+	    JOIN user u ON le.student_id = u.user_id
+	    WHERE le.lecture_id = #{lectureId}
 	    ORDER BY q.create_date DESC
+	    LIMIT #{offset}, #{limit}
+	</select>
+	
+	<select id="selectQnaCount" resultType="int">
+	    SELECT COUNT(*)
+	    FROM qna q
+	    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
+	    WHERE le.lecture_id = #{lectureId}
 	</select>
     
     <select id="selectQnaOne" resultType="com.example.academylms.dto.Qna">
@@ -77,4 +85,28 @@
 	    DELETE FROM qna_answer
 	    WHERE qna_id = #{qnaId}
 	</delete>
+	<update id="updateQna" parameterType="com.example.academylms.dto.Qna">
+	    UPDATE qna
+	    SET title = #{title},
+	        question = #{question},
+	        is_public = #{isPublic}
+	        <if test="fileUrl != null">
+	            , file_url = #{fileUrl}
+	        </if>
+	    WHERE qna_id = #{qnaId}
+	</update>
+	
+	<select id="selectMyQnaList" resultType="map">
+	    SELECT q.qna_id AS qnaId,
+	           q.title,
+	           q.is_public AS isPublic,
+	           q.create_date AS createDate,
+	           u.user_id AS writerName
+	    FROM qna q
+	    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
+	    JOIN user u ON le.student_id = u.user_id
+	    WHERE le.lecture_id = #{lectureId}
+	      AND le.student_id = #{studentId}
+	    ORDER BY q.create_date DESC
+	</select>
 </mapper>

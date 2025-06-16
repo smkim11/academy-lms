@@ -10,4 +10,6 @@ public interface MainPageMapper {
     List<Map<String, Object>> selectAllLectures();
     List<Map<String, Object>> selectLecturesByInstructor(int instructorId);
     List<Map<String, Object>> selectLecturesByStudent(int studentId);
+    List<Map<String, Object>> selectOngoingLecturesForStudent(int studentId);
+    List<Map<String, Object>> selectOngoingLecturesForInstructor(int instructorId);
 }

@@ -42,6 +42,21 @@
 	    <div style="text-align: right; margin-bottom: 10px;">
 	        <a href="/addQna?lectureId=${lectureId}" class="btn" style="font-weight: bold; color: #333;">글쓰기</a>
 	    </div>
+<!-- 내가 쓴 글 보기(학생용) -->	    
+		<c:choose>
+		    <c:when test="${param.view == 'my'}">
+		        <!-- 내 글만 보는 중 → 전체 글 보기 버튼 출력 -->
+		        <a href="/qna?lectureId=${lectureId}">
+		            <button type="button">전체 글 보기</button>
+		        </a>
+		    </c:when>
+		    <c:otherwise>
+		        <!-- 전체 글 보는 중 → 내 글 보기 버튼 출력 -->
+		        <a href="/myQna?lectureId=${lectureId}&view=my">
+		            <button type="button">내가 쓴 글만 보기</button>
+		        </a>
+		    </c:otherwise>
+		</c:choose>
 	
 <!-- QnA 게시판 테이블 -->
 	    <table border="1" style="width: 100%; border-collapse: collapse; text-align: center;">
@@ -71,6 +86,20 @@
 	            </tr>
 	        </c:forEach>
 	    </table>
+	    
+	<!-- 게시글 리스트 출력 아래쪽에 페이지 버튼 -->
+	<div style="text-align: center; margin-top: 20px;">
+	    <c:forEach var="i" begin="1" end="${totalPages}">
+	        <c:choose>
+	            <c:when test="${i == currentPage}">
+	                <span style="font-weight: bold;">[${i}]</span>
+	            </c:when>
+	            <c:otherwise>
+	                <a href="/qna?lectureId=${lectureId}&page=${i}">[${i}]</a>
+	            </c:otherwise>
+	        </c:choose>
+	    </c:forEach>
+	</div>
 	</main>
 </body>
 </html>

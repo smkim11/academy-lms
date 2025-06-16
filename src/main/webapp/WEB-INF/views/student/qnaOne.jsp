@@ -46,13 +46,19 @@
 	        </c:choose>
 	    </p>
 	
-<!-- 질문 작성자 삭제 버튼 노출 (학생 본인만 가능) -->
+<!-- 질문 작성자 수정/삭제 버튼 노출 (학생 본인만 가능) -->
+		<a href="/updateQna?qnaId=${qna.qnaId}&lectureId=${lectureId}">
+		    <button type="button"
+		            style="padding: 8px 16px; font-size: 14px; font-weight: bold; background-color: black; color: white; border: none; cursor: pointer;">
+		        수정하기
+		    </button>
+		</a>
 	    <c:if test="${loginRole == 'student' and loginUserId == qnaStudentId}">
-	        <form action="/deleteQna" method="post" style="text-align: right; margin-top: 10px;">
+	        <form action="/deleteQna" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
 	            <input type="hidden" name="qnaId" value="${qna.qnaId}" />
 	            <input type="hidden" name="lectureId" value="${lectureId}" />
 	            <button type="submit"
-	                    style="padding: 8px 16px; font-size: 14px; font-weight: bold; background-color: #f44336; color: white; border: none; cursor: pointer;">
+	                    style="padding: 8px 16px; font-size: 14px; font-weight: bold; background-color: black; color: white; border: none; cursor: pointer;">
 	                삭제하기
 	            </button>
 	        </form>

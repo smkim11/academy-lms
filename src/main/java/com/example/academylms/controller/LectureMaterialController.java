@@ -57,22 +57,21 @@ public class LectureMaterialController {
 //강의자료상세정보
     @GetMapping("/lectureMaterialOne")
     public String lectureMaterialDetail(@RequestParam int materialId,
-    									HttpServletRequest request,
-    									Model model) {
-    	//세션정보
-    	HttpSession session = request.getSession();
-        Object userIdObj = session.getAttribute("loginUserId");
-        if (userIdObj == null) {
-            return "redirect:/login";
-        }
-        int userId = (int) userIdObj;
-        User user = loginService.findById(userId); 
+                                        HttpServletRequest request,
+                                        Model model) {
+        HttpSession session = request.getSession();
+        int userId = (int) session.getAttribute("loginUserId");
+        User user = loginService.findById(userId);
         String role = user.getRole();
-        
-        //나머지 작업들
+
         LectureMaterial material = lectureMaterialService.getLectureMaterialById(materialId);
         model.addAttribute("material", material);
         request.setAttribute("loginRole", role);
+
+        // 여기서 weekId를 material에서 꺼내서 이후 redirect 등에 써야 함
+        int weekId = material.getWeekId();
+        model.addAttribute("weekId", weekId); // 필요시 추가
+
         if ("instructor".equals(role)) {
             return "instructor/lectureMaterialOne";
         } else if ("student".equals(role)) {
@@ -81,7 +80,7 @@ public class LectureMaterialController {
             return "lectureMaterialList";
         }
     }
-
+    
 //강의자료추가
     @GetMapping("/addLectureMaterial")
     public String lectureMaterialAddForm(@RequestParam int weekId, Model model, HttpSession session) {
@@ -106,34 +105,32 @@ public class LectureMaterialController {
 //강의자료추가    
     @PostMapping("/addLectureMaterial")
     public String lectureMaterialAdd(@RequestParam int weekId,
-                                     @RequestParam String title,
-                                     @RequestParam MultipartFile file,
+                                     @RequestParam("titles") List<String> titles,
+                                     @RequestParam("files") MultipartFile[] files,
                                      HttpSession session) throws IOException {
-    	//세션정보
-    	Object userIdObj = session.getAttribute("loginUserId");
-        if (userIdObj == null) {
-            return "redirect:/login";
+
+        Object userIdObj = session.getAttribute("loginUserId");
+        if (userIdObj == null) return "redirect:/login";
+
+        for (int i = 0; i < files.length; i++) {
+            MultipartFile file = files[i];
+            String title = titles.get(i);
+
+            if (file != null && !file.isEmpty()) {
+                String uploadDir = "C:/semi";
+                String originalFilename = file.getOriginalFilename();
+                String savedFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+                File targetFile = new File(uploadDir, savedFilename);
+                file.transferTo(targetFile);
+
+                LectureMaterial material = new LectureMaterial();
+                material.setWeekId(weekId);
+                material.setTitle(title);
+                material.setFileUrl("/semi/" + savedFilename);
+
+                lectureMaterialService.addLectureMaterial(material);
+            }
         }
-        int userId = (int) userIdObj;
-        User user = loginService.findById(userId);
-        String role = user.getRole();
-        
-        if (!"instructor".equals(role)) {
-            return "redirect:/lectureMaterialList?weekId=" + weekId;
-        }
-
-        String uploadDir = "C:/semi";
-        String originalFilename = file.getOriginalFilename();
-        String savedFilename = UUID.randomUUID().toString() + "_" + originalFilename;
-        File targetFile = new File(uploadDir, savedFilename);
-        file.transferTo(targetFile);
-
-        LectureMaterial material = new LectureMaterial();
-        material.setWeekId(weekId);
-        material.setTitle(title);
-        material.setFileUrl("/semi/" + savedFilename);
-
-        lectureMaterialService.addLectureMaterial(material);
 
         return "redirect:/lectureMaterialList?weekId=" + weekId;
     }
@@ -221,14 +218,39 @@ public class LectureMaterialController {
             return "redirect:/lectureMaterialOne?materialId=" + materialId;
         }
 
-        // 1️⃣ 삭제 전에 먼저 weekId 조회
+        // 1️.삭제 전에 먼저 weekId 조회
         LectureMaterial material = lectureMaterialService.getLectureMaterialById(materialId);
         int weekId = material != null ? material.getWeekId() : 0; // 혹시 모르니 안전하게 처리
 
-        // 2️⃣ 삭제 수행
+        // 2️.삭제 수행
         lectureMaterialService.deleteLectureMaterial(materialId);
 
-        // 3️⃣ 리다이렉트
         return "redirect:/lectureMaterialList?weekId=" + weekId;
+    }
+    
+//주차별 게시판
+    @GetMapping("/lectureMaterialWeekList")
+    public String lectureWeekList(Model model, HttpSession session) {
+    	//세션정보
+        Object userIdObj = session.getAttribute("loginUserId");
+        if (userIdObj == null) {
+            return "redirect:/login";
+        }
+        int userId = (int) userIdObj;
+        User user = loginService.findById(userId);
+        String role = user.getRole();
+
+        // 전체 주차 리스트 불러오기 (주차에 자료가 있는 주차만)
+        List<Integer> availableWeeks = lectureMaterialService.getAvailableWeeks();
+        model.addAttribute("availableWeeks", availableWeeks);
+        model.addAttribute("role", role);
+        
+        if ("student".equals(role)) {
+            return "student/lectureMaterialWeekList";
+        } else if("instructor".equals(role)) {
+        	return "instructor/lectureMaterialWeekList";
+        } else {
+        	return "admin/lectureMaterialWeekList";
+        }
     }
 }

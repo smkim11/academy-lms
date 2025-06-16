@@ -103,8 +103,4 @@ public class QnaRest {
         return "Answer deleted successfully.";
     }
     
-    @GetMapping("/rest/qnaList")
-    public List<Map<String, Object>> getQnaList(@RequestParam int lectureId) {
-        return qnaService.getQnaList(lectureId);
-    }
 }

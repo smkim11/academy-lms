@@ -27,6 +27,39 @@
 	</div>
 	
 	<main>
+		<table>
+		  <thead>
+		    <tr>
+		      <th></th>
+		      <c:forEach var="day" items="${dayList}">
+		        <th>${day}</th>
+		      </c:forEach>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <c:forEach var="time" items="${timeList}">
+		      <tr>
+		        <td>${time}</td>
+		        <c:forEach var="day" items="${dayList}">
+		          <c:set var="lecture" value="${timetable[day][time]}" />
+		          <c:choose>
+		            <c:when test="${not empty lecture}">
+		              <c:set var="color" value="${lectureColorMap[lecture.lecture_id]}" />
+		              <td style="background-color: ${color};">
+		                <c:out value="${lecture.title}" />
+		              </td>
+		            </c:when>
+		            <c:otherwise>
+		              <td>-</td>
+		            </c:otherwise>
+		          </c:choose>
+		        </c:forEach>
+		      </tr>
+		    </c:forEach>
+		  </tbody>
+		</table>
+	
+	
 		<h2>강의관리</h2>
 		
 		<h3>수강중인 강의</h3>
