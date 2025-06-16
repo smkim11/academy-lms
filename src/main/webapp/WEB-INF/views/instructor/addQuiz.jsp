@@ -27,7 +27,7 @@
 </div>
 	
 <main>
-	<h1>퀴즈 추가</h1>
+	<h1>${week}주차 퀴즈 추가</h1>
 	<c:if test="${not empty msg}">
 		<div style="color:red">${msg }</div>
 	</c:if>
@@ -59,6 +59,12 @@
 				</c:if>
 			</tr>
 			<tr>
+				<th>번호</th>
+				<td>
+					<input type="text" name="quizNo" id="quizNo" value="${quizNo}" readonly>
+				</td>
+			</tr>
+			<tr>
 				<th>유형</th>
 				<td>
 					<input type="radio" name="type" value="객관식">객관식
@@ -85,7 +91,6 @@
 				if(data == 'gek'){
 					$('#inputQuiz').append(`
 			            <div class="inputList">
-			                번호 <input type="text" name="quizNo" id="quizNo" placeholder="번호를 입력해주세요." /><br>
 			                문제 <input type="text" name="question" id="question" placeholder="문제를 입력해주세요." /><br>
 		                	보기1 <input type="text" name="option1" id="option1" placeholder="보기1을 입력해주세요." /><br>
 	                		보기2 <input type="text" name="option2" id="option2" placeholder="보기2를 입력해주세요." /><br>
@@ -98,7 +103,6 @@
 				}else{
 					$('#inputQuiz').append(`
 			            <div class="inputList">
-			                번호 <input type="text" name="quizNo" id="quizNo" placeholder="번호를 입력해주세요." /><br>
 			                문제 <input type="text" name="question" id="question" placeholder="문제를 입력해주세요." /><br>
 	                		정답 <input type="text" name="correctAnswer" id="correctAnswer" placeholder="정답을 입력해주세요." /><br>
 	                		해설 <textarea cols="50" rows="5" name="explanation" id="explanation" placeholder="해설을 입력해주세요."></textarea><br>
