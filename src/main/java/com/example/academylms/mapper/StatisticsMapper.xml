@@ -1,4 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.academylms.mapper.StatisticsMapper">
+
+	<!--강사별 누적 수강인원 수-->
+	<select id="selectCountStudentByInstructorTotal" resultType="map">
+		SELECT i.name, COUNT(*) cnt
+		FROM instructor i INNER JOIN lecture l ON i.instructor_id = l.instructor_id
+		INNER JOIN lecture_enrollment le ON le.lecture_id = l.lecture_id
+		WHERE le.status = 1
+		GROUP BY i.name
+		ORDER BY cnt desc
+	</select>
+	
+	<!--강사별 현재 수강인원 수-->
+	<select id="selectCountStudentByInstructorCurrent" resultType="map">
+		SELECT i.name, COUNT(*) cnt
+		FROM instructor i INNER JOIN lecture l ON i.instructor_id = l.instructor_id
+		INNER JOIN lecture_enrollment le ON le.lecture_id = l.lecture_id
+		WHERE le.status = 1 AND DATE(NOW()) BETWEEN DATE(l.started_at) AND DATE(l.ended_at)
+		GROUP BY i.name
+		ORDER BY cnt desc
+	</select>
+	
+	<!--강사별 진행중, 예정 총 강의 수 &lt; == '<' , &gt; == '>' -->
+	<select id="selectLectureDo" resultType="map">
+		SELECT i.name, COUNT(*) cnt
+		FROM instructor i INNER JOIN lecture l ON i.instructor_id = l.instructor_id
+		WHERE (l.started_at &lt;= NOW() AND l.ended_at &gt;= NOW()) OR NOW() &lt; l.started_at
+		GROUP BY i.name
+	</select>
+	
+	<!--강사별 별점 평균-->
+	<select id="selectSurveyAvg" resultType="map">
+		SELECT i.name, truncate(AVG(ss.rating),1) rating
+		FROM instructor i INNER JOIN lecture l ON i.instructor_id = l.instructor_id
+		INNER JOIN lecture_enrollment le ON le.lecture_id = l.lecture_id
+		INNER JOIN satisfaction_survey ss ON le.enrollment_id = ss.enrollment_id
+		WHERE i.instructor_id = l.instructor_id
+		GROUP BY i.name
+	</select>
+	
+	<!--연도별 누적 학생 수-->
+	<select id="selectCountStudentByYear" resultType="map">
+		SELECT distinct substring(create_date,1,4) year, 
+		count(*) OVER (ORDER BY substring(create_date,1,4)) cnt
+		FROM student
+	</select>
+	
+	<!--수강생들 나이 분포-->
+	<select id="selectStudentAgeDistribution" resultType="map">
+		SELECT if(MONTH(birth) &gt; MONTH(NOW()) 
+		OR (MONTH(birth) = MONTH(NOW()) AND day(birth) &gt; day(NOW())),truncate((year(NOW())-YEAR(birth)-1),-1),
+		truncate((year(NOW())-YEAR(birth)),-1)) age, COUNT(*) cnt
+		FROM user 
+		WHERE ROLE='student'
+		GROUP BY age
+	</select>
+	
+	<!--최근 1년간 강의별 인원 수-->
+	<select id="selectCountByLectureThePastYear" resultType="map">
+		SELECT l.title, COUNT(*) cnt
+		FROM lecture l INNER JOIN lecture_enrollment le ON l.lecture_id = le.lecture_id
+		WHERE le.status = 1 
+		AND (DATE(l.started_at) BETWEEN DATE_SUB(DATE(NOW()), INTERVAL 1 YEAR) AND DATE(NOW()))
+		OR (DATE(l.ended_at) BETWEEN DATE_SUB(DATE(NOW()), INTERVAL 1 YEAR) AND DATE(NOW()))
+		GROUP BY l.title
+	</select>
 </mapper>
