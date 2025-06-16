@@ -56,6 +56,14 @@
 	    WHERE q.qna_id = #{qnaId}
 	</select>
 	
+	<select id="findAdminIdByQna" resultType="int">
+	    SELECT l.admin_id
+	    FROM qna q
+	    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
+	    JOIN lecture l ON le.lecture_id = l.lecture_id
+	    WHERE q.qna_id = #{qnaId}
+	</select>
+	
 	<update id="updateQnaAnswer">
 	    UPDATE qna
 	    SET answer = #{answer}, last_update = NOW()

@@ -53,7 +53,7 @@
 		        수정하기
 		    </button>
 		</a>
-	    <c:if test="${loginRole == 'student' and loginUserId == qnaStudentId}">
+	    <c:if test="${(loginRole == 'student' and loginUserId == qnaStudentId)||loginRole=='admin'}">
 	        <form action="/deleteQna" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
 	            <input type="hidden" name="qnaId" value="${qna.qnaId}" />
 	            <input type="hidden" name="lectureId" value="${lectureId}" />

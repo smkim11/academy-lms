@@ -49,6 +49,8 @@ public class LectureMaterialController {
             return "instructor/lectureMaterialList";
         } else if ("student".equals(role)) {
             return "student/lectureMaterialList";
+        } else if ("admin".equals(role)) {
+            return "admin/lectureMaterialList";
         } else {
             return "lectureOne";
         }
@@ -76,7 +78,9 @@ public class LectureMaterialController {
             return "instructor/lectureMaterialOne";
         } else if ("student".equals(role)) {
             return "student/lectureMaterialOne";
-        } else {
+        } else if ("admin".equals(role)) {
+            return "admin/lectureMaterialOne";
+        }	else {
             return "lectureMaterialList";
         }
     }
@@ -93,7 +97,7 @@ public class LectureMaterialController {
         User user = loginService.findById(userId);
         String role = user.getRole();
         
-        if (!"instructor".equals(role)) {
+        if (!"instructor".equals(role) && !"admin".equals(role)) {
             // 권한 없음 → 강사는 아니므로 redirect
             return "redirect:/lectureMaterialList?weekId=" + weekId;
         }
@@ -147,7 +151,7 @@ public class LectureMaterialController {
         User user = loginService.findById(userId);
         String role = user.getRole();
         
-        if (!"instructor".equals(role)) {
+        if (!"instructor".equals(role) && !"admin".equals(role)) {
             // 권한 없음 → redirect
             LectureMaterial material = lectureMaterialService.getLectureMaterialById(materialId);
             return "redirect:/lectureMaterialOne?materialId=" + materialId;
@@ -173,7 +177,7 @@ public class LectureMaterialController {
         User user = loginService.findById(userId);
         String role = user.getRole();
         
-        if (!"instructor".equals(role)) {
+        if (!"instructor".equals(role) && !"admin".equals(role)) {
             return "redirect:/lectureMaterialOne?materialId=" + materialId;
         }
 
@@ -214,7 +218,7 @@ public class LectureMaterialController {
         User user = loginService.findById(userId);
         String role = user.getRole();
         
-        if (!"instructor".equals(role)) {
+        if (!"instructor".equals(role) && !"admin".equals(role)) {
             return "redirect:/lectureMaterialOne?materialId=" + materialId;
         }
 
@@ -249,8 +253,9 @@ public class LectureMaterialController {
             return "student/lectureMaterialWeekList";
         } else if("instructor".equals(role)) {
         	return "instructor/lectureMaterialWeekList";
-        } else {
+        } else if("admin".equals(role)){
         	return "admin/lectureMaterialWeekList";
         }
+        	return "redirect:/login";
     }
 }

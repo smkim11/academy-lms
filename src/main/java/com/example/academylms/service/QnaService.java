@@ -33,6 +33,10 @@ public class QnaService {
 	public int getStudentIdByQna(int qnaId) {
 	    return qnaMapper.findStudentIdByQna(qnaId);
 	}
+	
+	public int getAdminIdByQna(int qnaId) {
+	    return qnaMapper.findAdminIdByQna(qnaId);
+	}
 
 	public void addAnswerToQna(int qnaId, String answer) {
 	    qnaMapper.updateQnaAnswer(qnaId, answer);

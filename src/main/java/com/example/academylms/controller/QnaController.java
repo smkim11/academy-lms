@@ -85,8 +85,8 @@ public class QnaController {
         int qnaStudentId = qnaService.getStudentIdByQna(qnaId); 
         if (qna.getIsPublic() == 0) { // 비공개글이면
             boolean canView = false;
-            if ("instructor".equals(role)) {
-                canView = true; // 강사는 OK
+            if ("instructor".equals(role)||"admin".equals(role)) {
+                canView = true; // 강사 관리자는 OK
             } else if ("student".equals(role) && userId == qnaStudentId) {
                 canView = true; // 작성한 학생이면 OK
             }
@@ -187,8 +187,9 @@ public class QnaController {
 
         // 글 작성자 확인
         int qnaStudentId = qnaService.getStudentIdByQna(qnaId);
-        // 학생 본인만 삭제 가능
-        if (userId == qnaStudentId) {
+        int qnaAdminId = qnaService.getAdminIdByQna(qnaId);
+        // 학생 본인&관리자만 삭제 가능
+        if (userId == qnaStudentId||userId == qnaAdminId) {
             // 답변 먼저 삭제
             qnaService.deleteAnswersByQnaId(qnaId);
             // 질문 삭제
@@ -291,7 +292,7 @@ public class QnaController {
           User user = loginService.findById(userId); 
           String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
           
-          if (!"instructor".equals(role)) {
+          if (!"instructor".equals(role)&&!"admin".equals(role)) {
           	return "redirect:/qnaOne?id=" + qnaId + "&lectureId=" + lectureId;
           }
           qnaService.deleteAnswer(answerId);

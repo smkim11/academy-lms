@@ -19,6 +19,7 @@ public interface QnaMapper {
     Integer findEnrollmentId(@Param("studentId") int studentId, @Param("lectureId") int lectureId);
     void insertQna(Qna qna);
     int findStudentIdByQna(int qnaId);
+    int findAdminIdByQna(int qnaId);
     void updateQnaAnswer(@Param("qnaId") int qnaId, @Param("answer") String answer);
     void insertAnswer(QnaAnswer answer); 
     List<QnaAnswer> selectQnaAnswer(int qnaId);

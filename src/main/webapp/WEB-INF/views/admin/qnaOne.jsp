@@ -45,20 +45,16 @@
 	            </c:otherwise>
 	        </c:choose>
 	    </p>
-	
-<!-- 답변 등록 (강사만) -->
-	    <c:if test="${loginRole == 'instructor'}">
-				<form action="/addAnswer" method="post" style="margin-top: 20px;">
-				    <input type="hidden" name="qnaId" value="${qna.qnaId}" />
-				    <input type="hidden" name="lectureId" value="${lectureId}" /> <!-- 추가 -->
-				    <textarea name="answer" style="width: 100%; height: 100px; padding: 8px; font-size: 14px;"></textarea>
-				    <div style="text-align: right; margin-top: 10px;">
-				        <button type="submit"
-				                style="padding: 8px 16px; font-size: 14px; font-weight: bold; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
-				            답변 등록
-				        </button>
-				    </div>
-				</form>
+<!-- 글삭제 -->
+	    <c:if test="${(loginRole == 'student' and loginUserId == qnaStudentId)||loginRole=='admin'}">
+	        <form action="/deleteQna" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
+	            <input type="hidden" name="qnaId" value="${qna.qnaId}" />
+	            <input type="hidden" name="lectureId" value="${lectureId}" />
+	            <button type="submit"
+	                    style="padding: 8px 16px; font-size: 14px; font-weight: bold; background-color: black; color: white; border: none; cursor: pointer;">
+	                삭제하기
+	            </button>
+	        </form>
 	    </c:if>
 	
 <!-- 기존 답변 리스트 -->
@@ -67,7 +63,7 @@
 	            <p>${answer.answer}</p>
 	            <p style="font-size: 12px; color: gray;">${answer.createDate}</p>
 	            
-	            <c:if test="${loginRole == 'instructor'}">
+	            <c:if test="${loginRole == 'instructor'||loginRole == 'admin'}">
 	                <form action="/deleteAnswer" method="post" style="display: inline;">
 					    <input type="hidden" name="answerId" value="${answer.answerId}" />
 					    <input type="hidden" name="qnaId" value="${qna.qnaId}" />
