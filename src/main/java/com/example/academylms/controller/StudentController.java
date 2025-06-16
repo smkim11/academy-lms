@@ -60,7 +60,8 @@ public class StudentController {
 
         List<Student> students = studentService.getStudentsByLecture(lectureId, beginRow, rowPerPage, searchWord);
         int totalPage = (totalCount + rowPerPage - 1) / rowPerPage;
-
+        
+        
         model.addAttribute("students", students);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPage", totalPage);

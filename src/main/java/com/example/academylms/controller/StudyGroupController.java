@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.academylms.dto.Student;
 import com.example.academylms.dto.StudyGroup;
 import com.example.academylms.dto.StudyPost;
 import com.example.academylms.mapper.StudyGroupMapper;
@@ -152,6 +153,21 @@ public class StudyGroupController {
 	    }
 
 	    return "redirect:/instructor/studyPostOne/" + postId;
+	}
+	
+	@GetMapping("/instructor/studyGroupForm")
+	public String showGroupForm(@RequestParam int lectureId, Model model) {
+		List<Student> students = studyGroupService.getStudentsByLectureId(lectureId); // 조장 후보
+		model.addAttribute("lectureId", lectureId);
+		model.addAttribute("students", students);
+		return "instructor/studyGroupForm";
+	   }
+	
+	@PostMapping("/instructor/studyGroup/create")
+	public String createGroup(@RequestParam int lectureId,
+	                          @RequestParam(required = false) Integer leaderStudentId) {
+	    studyGroupService.createStudyGroup(lectureId, leaderStudentId);
+	    return "redirect:/instructor/studyGroup/list?lectureId=" + lectureId;
 	}
 
 

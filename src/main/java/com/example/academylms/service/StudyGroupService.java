@@ -1,8 +1,11 @@
 package com.example.academylms.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.academylms.dto.Student;
 import com.example.academylms.dto.StudyGroup;
 import com.example.academylms.dto.StudyPost;
 import com.example.academylms.mapper.StudyGroupMapper;
@@ -34,6 +37,14 @@ public class StudyGroupService {
 	 
 	 public void updateFeedback(int postId, String feedback) {
 	        studyGroupMapper.updateFeedback(postId, feedback);
+	    }
+	 
+	 public List<Student> getStudentsByLectureId(int lectureId) {
+	        return studyGroupMapper.selectStudentsByLectureId(lectureId);
+	    }
+	 
+	 public void createStudyGroup(int lectureId, Integer leaderStudentId) {
+	        studyGroupMapper.insertStudyGroup(lectureId, leaderStudentId);
 	    }
 }
 
