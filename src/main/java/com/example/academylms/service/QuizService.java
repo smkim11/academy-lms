@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.academylms.dto.LectureWeek;
+import com.example.academylms.dto.Lecture;
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.Quiz;
 import com.example.academylms.dto.QuizForm;
@@ -101,9 +101,14 @@ public class QuizService {
 		return quizMapper.findSameNo(weekId, quizNo);
 	}
 	
-	// 해당강의 몇주차까지 있는지 확인
-	public List<LectureWeek> selectWeekByLectureId(int lectureId){
-		return quizMapper.selectWeekByLectureId(lectureId);
+	// 강의번호에 맞는 강의제목, 시간
+	public Lecture selectTitleByLectureId(int lectureId) {
+		return quizMapper.selectTitleByLectureId(lectureId);
+	}
+	
+	// 몇주차인지 확인
+	public int selectWeekByWeekId(int weekId){
+		return quizMapper.selectWeekByWeekId(weekId);
 	}
 	
 	// 객관식문제 quidId 확인

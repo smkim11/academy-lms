@@ -97,9 +97,14 @@
 		SELECT COUNT(*) FROM quiz WHERE week_id=#{weekId} AND quiz_no=#{quizNo}
 	</select>
 	
-	<!--해당강의 몇주차까지 있는지 확인-->
-	<select id="selectWeekByLectureId" resultType="com.example.academylms.dto.LectureWeek">
-		SELECT week FROM lecture_week WHERE lecture_id=#{lectureId}
+	<!--강의번호에 맞는 강의제목, 시간-->
+	<select id="selectTitleByLectureId" resultType="com.example.academylms.dto.Lecture">
+		SELECT title, day, time FROM lecture WHERE lecture_id=#{lectureId}
+	</select>
+	
+	<!--몇주차인지 확인-->
+	<select id="selectWeekByWeekId">
+		SELECT week FROM lecture_week WHERE week_id=#{weekId}
 	</select>
 	
 	<!--객관식문제 quidId 확인-->

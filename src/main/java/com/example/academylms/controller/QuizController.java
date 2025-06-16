@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.academylms.dto.Lecture;
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.QuizForm;
 import com.example.academylms.dto.QuizOption;
@@ -40,6 +41,10 @@ public class QuizController {
 		// 역할 찾기
 		String role = quizService.selectRoleByUserId((int)(session.getAttribute("loginUserId")));
 		
+		// 강의번호에 맞는 강의제목, 시간
+		Lecture lectureInfo = quizService.selectTitleByLectureId(lectureId);
+		
+		model.addAttribute("lectureInfo",lectureInfo);
 		model.addAttribute("lectureId",lectureId);
 		model.addAttribute("quizList",list);
 		model.addAttribute("now",now);
@@ -52,21 +57,26 @@ public class QuizController {
 	
 	// 퀴즈 추가
 	@GetMapping("/addQuiz")
-	public String addQuiz(Model model,@RequestParam(defaultValue = "1") int lectureId
+	public String addQuiz(Model model,@RequestParam int lectureId
 									 ,@RequestParam Integer week
 									 ,@RequestParam(required = false) String startedAt
 									 ,@RequestParam(required = false) String endedAt
 									 ,@RequestParam(required = false) String source
-									 ,@RequestParam(required = false) Integer currentPage) {
+									 ,@RequestParam(required = false) Integer currentPage
+									 ,@RequestParam(defaultValue = "0") Integer quizNo) {
 		if(startedAt != null && endedAt != null) {
 			model.addAttribute("startedAt",startedAt);
 			model.addAttribute("endedAt",endedAt);
 		}
 		
+		// 문항 번호 자동증가
+		quizNo += 1;
+		
 		// 리스트에서 퀴즈추가와 수정페이지에서 문항추가가 각각 이후 이동하는 페이지가 다르게 하기위해 source와 currentPage 넘김
 		model.addAttribute("source",source);
 		model.addAttribute("currentPage",currentPage);
 		model.addAttribute("week",week);
+		model.addAttribute("quizNo",quizNo);
 		model.addAttribute("lectureId",lectureId);
 		return "/instructor/addQuiz";
 	}
@@ -89,6 +99,7 @@ public class QuizController {
 			redirectAttributes.addFlashAttribute("endedAt", quizForm.getEndedAt());
 			redirectAttributes.addAttribute("week", quizForm.getWeek());
 			redirectAttributes.addAttribute("lectureId", quizForm.getLectureId());
+			redirectAttributes.addAttribute("quizNo", quizForm.getQuizNo());
 			
 			// 수정페이지에서 문항 추가중 오류가나면 source추가
 			if("update".equals(source)) {
@@ -126,6 +137,7 @@ public class QuizController {
 		redirectAttributes.addAttribute("week", quizForm.getWeek());
 		redirectAttributes.addAttribute("startedAt", quizForm.getStartedAt());
 		redirectAttributes.addAttribute("endedAt", quizForm.getEndedAt());
+		redirectAttributes.addAttribute("quizNo", quizForm.getQuizNo());
 		return "redirect:/addQuiz";
 	}
 	
@@ -151,6 +163,7 @@ public class QuizController {
 		model.addAttribute("p",page);
 		model.addAttribute("weekId",weekId);
 		model.addAttribute("lectureId",quizService.selectLectureIdByweekId(weekId));
+		model.addAttribute("week",quizService.selectWeekByWeekId(weekId));
 		model.addAttribute("list",list);
 		return "/instructor/updateQuiz";
 	}
@@ -317,6 +330,7 @@ public class QuizController {
 		model.addAttribute("score",score);
 		model.addAttribute("resultList", resultList);
 		model.addAttribute("lectureId",lId);
+		model.addAttribute("week",quizService.selectWeekByWeekId(weekId));
 		model.addAttribute("explainList", quizService.quizExplanation(weekId));
 		return "/student/quizResult";
 	}
@@ -324,7 +338,8 @@ public class QuizController {
 	// 강사용 퀴즈 결과 페이지
 	@GetMapping("/instructor/quizResult")
 	public String instructorQuizResult(Model model, @RequestParam int weekId
-									  			   ,@RequestParam int lectureId) {
+									  			   ,@RequestParam int lectureId
+									  			   ,@RequestParam(required = false) String status) {
 		// 강의에 수강중인 전체학생 ID
 		List<HashMap<String,Object>> list1 = quizService.selectQuizStatus(lectureId);
 		
@@ -342,8 +357,16 @@ public class QuizController {
 			}
 		}
 		
+		// 퀴즈가 응시중이면 현황으로 끝났으면 결과 반환
+		if(status != null) {
+			model.addAttribute("status","결과");
+		}else {
+			model.addAttribute("status","현황");
+		}
+		
 		model.addAttribute("list",list1);
 		model.addAttribute("lectureId",lectureId);
+		model.addAttribute("week",quizService.selectWeekByWeekId(weekId));
 		return "/instructor/quizResult";
 	}
 	
