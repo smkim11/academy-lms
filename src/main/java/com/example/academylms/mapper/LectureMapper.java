@@ -19,6 +19,7 @@ public interface LectureMapper {
 	Lecture lectureOneBylectureId(int lectureId); // lectureId 로 강의 정보 조회
 	int deleteLectureWeek(int lectureId); // lectureId로 강의 정보 삭제
 	int updateLecture(Lecture lecture); // 강의 업데이트 
+	int deleteLecture(int lectureId); // 강의 삭제
 	
 
 }

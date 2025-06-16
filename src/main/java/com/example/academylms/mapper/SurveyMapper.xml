@@ -13,4 +13,27 @@ INSERT INTO satisfaction_survey (enrollment_id, rating, comment) VALUES (#{enrol
 <select id="checkSurveyParticipation" parameterType="int" resultType="int">
 SELECT COUNT(*) FROM satisfaction_survey WHERE enrollment_id = #{enrollmentId};
 </select>
+
+<select id="surveyAvgResult" parameterType="int" resultType="double">
+SELECT AVG(sa.rating) AS average_rating   FROM lecture_enrollment le INNER JOIN satisfaction_survey sa 
+ON le.enrollment_id = sa.enrollment_id WHERE le.lecture_id = #{lectureId};
+</select>
+ 
+<select id="countSurveys" parameterType="int" resultType="int">  
+SELECT COUNT(*) 
+FROM satisfaction_survey ss
+JOIN lecture_enrollment le ON ss.enrollment_id = le.enrollment_id
+WHERE le.lecture_id = #{lectureId};
+
+</select>
+
+<select id="getSurveyPage" parameterType="map" resultType="com.example.academylms.dto.SatisfactionSurvey">
+SELECT ss.rating, ss.comment, ss.create_date AS createDate
+FROM satisfaction_survey ss
+JOIN lecture_enrollment le ON ss.enrollment_id = le.enrollment_id
+WHERE le.lecture_id = #{lectureId}
+ORDER BY ss.create_date DESC
+LIMIT #{page.rowPerPage} OFFSET #{page.beginRow}
+</select>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.example.academylms.controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
@@ -50,15 +51,25 @@ public class LectureController {
 	@GetMapping("/admin/lectureOne") // 관리자 강의 상세정보 
 	public String lectureOneByAdmin(@RequestParam int lectureId, Model model) {
 	  Lecture lecture = lectureService.lectureOneBylectureId(lectureId);  // lectureId 로 강의 정보 가져오기
-		
+	  
+	  LocalDateTime now = LocalDateTime.now();
+	  
 	  model.addAttribute("lecture", lecture);
+	  model.addAttribute("now", now);
 	  
 	  return "/admin/lectureOne";
 	}
 	
 	@GetMapping("/instructor/lectureOne") // 강사 강의 상세정보
-	public String lectureOneByInstructor() {
-		return "";
+	public String lectureOneByInstructor(@RequestParam int lectureId, Model model) {
+	  Lecture lecture = lectureService.lectureOneBylectureId(lectureId);  // lectureId 로 강의 정보 가져오기
+	  				    lectureService.NoticeListBylectureId(lectureId);
+	  
+	  
+	  model.addAttribute("lecture", lecture);
+	  
+		
+		return "/instructor/lectureOne";
 	}
 	
 	@GetMapping("/student/lectureOne")  // 학생 강의 상세정보
@@ -104,4 +115,13 @@ public class LectureController {
 		}
 	}
 	
+	@GetMapping("/admin/lectureDelete") // 강의 삭제
+	public String deleteLecture(@RequestParam int lectureId) {
+		if(lectureService.deleteLecture(lectureId) != 0) {
+			log.info("강의 삭제");
+			return  "redirect:/mainPage";
+		}
+			log.info("강의 삭제 x");
+			return "redirect:/admin/lectureOne?lectureId="+lectureId;
+	}
 }

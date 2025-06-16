@@ -13,7 +13,7 @@ public class Page {
 	// 검색 없는 페이징
 	public Page(int currentPage, int rowPerPage, int totalPage){
 	 		this.rowPerPage = rowPerPage;
-			this.currentPage = currentPage;
+                                                 			this.currentPage = currentPage;
 			this.totalPage = totalPage;
 			this.beginRow = (currentPage-1)*rowPerPage;
 	 }

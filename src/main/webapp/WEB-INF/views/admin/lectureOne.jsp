@@ -31,12 +31,19 @@
   <section class="lecture-summary" style="max-width: 800px; margin-left: 10px;">
     <div style="display: flex; align-items: center;">
       <h2 style="margin-right: 10px;">${lecture.title}</h2>
+      <c:if test="${now lt lecture.startedAt }">
         <a href="/admin/updateLecture?lectureId=${lecture.lectureId}" class="edit-button" style="font-size: 14px;">✏️ 수정</a>
+        <a href="/admin/lectureDelete?lectureId=${lecture.lectureId}" class="edit-button" style="font-size: 14px; color: red;" onclick="return confirm('정말 삭제하시겠습니까?');">🗑️ 삭제</a>
+      </c:if>
     </div>
     <p><strong>강사:</strong> ${lecture.name}</p>
     <p><strong>시간:</strong> ${lecture.day} / ${lecture.time}</p>
     <p><strong>기간:</strong> ${lecture.startedAt} ~ ${lecture.endedAt}</p>
   </section>
+  
+  
+  
+  
 </main>
 
 </body>

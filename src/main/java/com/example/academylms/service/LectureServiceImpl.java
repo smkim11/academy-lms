@@ -92,6 +92,21 @@ public class LectureServiceImpl implements LectureService {
 		log.info("오류발생");
 		return result;
 	}
+
+	@Override
+	public int deleteLecture(int lectureId) { // 강의 정보 삭제
+		int result = 0;
+		if(lectureMapper.deleteLectureWeek(lectureId)!= 0) { // 강의 주차 삭제
+			
+			log.info("강의주차 삭제");
+			
+			lectureMapper.deleteLecture(lectureId); // 강의 정보 삭제
+			result = 1;
+		}
+		
+		
+		return result; // 0이면 삭제 오류 1이면 삭제
+	}
 	
     
     

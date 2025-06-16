@@ -1,8 +1,11 @@
 package com.example.academylms.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.academylms.dto.Page;
 import com.example.academylms.dto.SatisfactionSurvey;
 import com.example.academylms.mapper.SurveyMapper;
 
@@ -28,6 +31,21 @@ public class SurveyService{
 		return surveyMapper.checkSurveyParticipation(enrollmentId);
 		
 	}
+
+	public double surveyAvgResult(int lectureId) { // 설문 평균 구하기
+		return surveyMapper.surveyAvgResult(lectureId); // 평균 점수
+		
+	}
+
+	public int countSurveys(int lectureId) { // 전체 설문 개수 가지고 오기
+ 		return surveyMapper.countSurveys(lectureId);
+	}
+
+	public List<SatisfactionSurvey> getSurveyPage(int lectureId, Page page) { // 설문 리스트 가져오기 
+		return surveyMapper.getSurveyPage(lectureId, page); // 설문리스트 페이징 처리
+	}
+
+
 	
 	
 	

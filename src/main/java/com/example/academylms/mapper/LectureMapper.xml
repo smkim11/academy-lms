@@ -51,4 +51,9 @@ Delete From lecture_week where lecture_id = #{lectureId};
 UPDATE lecture SET admin_id = #{adminId}, instructor_id = #{instructorId}, title = #{title}, DESCRIPTION = #{description}, DAY = #{day},  TIME = #{time},  started_at = #{startedAt}, ended_at = #{endedAt}  WHERE lecture_id = #{lectureId};
 </update>
 
+<delete id="deleteLecture" parameterType="int">
+Delete From lecture WHERE lecture_id = #{lectureId};
+
+</delete>
+
 </mapper>
