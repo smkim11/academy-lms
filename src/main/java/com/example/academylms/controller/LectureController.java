@@ -21,6 +21,9 @@ import com.example.academylms.dto.LectureWeekMaterial;
 import com.example.academylms.dto.Notice;
 import com.example.academylms.dto.QnaList;
 import com.example.academylms.dto.QuizWeekList;
+import com.example.academylms.dto.StudyGroup;
+import com.example.academylms.dto.StudyPost;
+import com.example.academylms.dto.StudyPostList;
 import com.example.academylms.service.LectureService;
 
 import jakarta.servlet.http.HttpSession;
@@ -93,6 +96,7 @@ public class LectureController {
 		  List<Notice> lectureNoticeList = lectureService.lectureOneNoticeList(lectureId); // 공지사항 가져오기
 		  List<QuizWeekList> quizList = lectureService.lectureOneQuizList(lectureId); // quiz 리스트 가져오기
 		  List<QnaList> qnaList = lectureService.lectureOneQnaList(lectureId); // qna 리스트 가져오기
+		  List<StudyPostList> postList = lectureService.lectureOneStduyGroupList(lectureId); // 스터디 그룹 리스트 가져오기
 		  
 		  Map<Integer, List<LectureWeekMaterial>> weekMaterialMap = new HashMap<>();
 		  for (LectureWeekMaterial m : lectureWeekMaterial) { // 강의주차 가지고 옴.
@@ -102,9 +106,6 @@ public class LectureController {
 			  
 		  }
 		  
-		 
-		 
-		  
 		  LocalDateTime now = LocalDateTime.now();
 		  
 		  model.addAttribute("lecture", lecture);
@@ -113,7 +114,7 @@ public class LectureController {
 		  model.addAttribute("weekMaterialMap", weekMaterialMap);
 		  model.addAttribute("quizList", quizList);
 		  model.addAttribute("qnaList", qnaList);
-		  
+		  model.addAttribute("postList", postList);
 	  
 		
 		return "/instructor/lectureOne";
@@ -126,6 +127,7 @@ public class LectureController {
 		  List<Notice> lectureNoticeList = lectureService.lectureOneNoticeList(lectureId); // 공지사항 가져오기
 		  List<QuizWeekList> quizList = lectureService.lectureOneQuizList(lectureId); // quiz 리스트 가져오기
 		  List<QnaList> qnaList = lectureService.lectureOneQnaList(lectureId); // qna 리스트 가져오기
+		  List<StudyPostList> postList = lectureService.lectureOneStduyGroupList(lectureId); // 스터디그룹 리스트 가져오기
 		  
 		  Map<Integer, List<LectureWeekMaterial>> weekMaterialMap = new HashMap<>();
 		  for (LectureWeekMaterial m : lectureWeekMaterial) { // 강의주차 가지고 옴.
@@ -143,6 +145,7 @@ public class LectureController {
 		  model.addAttribute("weekMaterialMap", weekMaterialMap);
 		  model.addAttribute("quizList", quizList);
 		  model.addAttribute("qnaList", qnaList);
+		  model.addAttribute("postList", postList);
 		
 		return "/student/lectureOne";
 	}

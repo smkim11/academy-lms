@@ -12,6 +12,9 @@ import com.example.academylms.dto.LectureWeekMaterial;
 import com.example.academylms.dto.Notice;
 import com.example.academylms.dto.QnaList;
 import com.example.academylms.dto.QuizWeekList;
+import com.example.academylms.dto.StudyGroup;
+import com.example.academylms.dto.StudyPost;
+import com.example.academylms.dto.StudyPostList;
 import com.example.academylms.mapper.LectureMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -130,6 +133,11 @@ public class LectureServiceImpl implements LectureService {
 	@Override
 	public List<QnaList> lectureOneQnaList(int lectureId) {
 		return lectureMapper.lectureOneQnaList(lectureId);
+	}
+
+	@Override
+	public List<StudyPostList> lectureOneStduyGroupList(int lectureId) {
+		return lectureMapper.lectureOneStduyGroupList(lectureId);
 	}
 
 

@@ -3,6 +3,9 @@ package com.example.academylms.service;
 import java.util.List;
 
 import com.example.academylms.dto.QuizWeekList;
+import com.example.academylms.dto.StudyGroup;
+import com.example.academylms.dto.StudyPost;
+import com.example.academylms.dto.StudyPostList;
 import com.example.academylms.dto.QnaList;
 import com.example.academylms.dto.InstructorInfo;
 import com.example.academylms.dto.Lecture;
@@ -22,5 +25,6 @@ public interface LectureService {
 	List<LectureWeekMaterial> lectureOneWeekList(int lectureId);
 	List<Notice> lectureOneNoticeList(int lectureId);
 	List<QuizWeekList> lectureOneQuizList(int lectureId);
-	List<QnaList> lectureOneQnaList(int lectureId); 
+	List<QnaList> lectureOneQnaList(int lectureId);
+	List<StudyPostList> lectureOneStduyGroupList(int lectureId); 
 }

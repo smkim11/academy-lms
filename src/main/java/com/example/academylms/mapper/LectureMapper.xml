@@ -92,6 +92,7 @@ SELECT
 
 <select id="lectureOneQuizList" parameterType="int" resultType="com.example.academylms.dto.QuizWeekList">
    SELECT 
+   	  DISTINCT
       lw.week_id AS weekId,
       lw.week AS week,
       q.started_at AS startedAt,
@@ -115,5 +116,22 @@ SELECT
     WHERE le.lecture_id = #{lectureId}
    	ORDER BY q.create_date DESC
     LIMIT 5;
+</select>
+
+<select id="lectureOneStduyGroupList" parameterType="int" resultType="com.example.academylms.dto.StudyPostList">
+     SELECT 
+    p.post_id AS postId,
+    p.group_id AS groupId,
+    p.title AS title,
+    p.content AS content,
+    p.feedback AS feedback,
+    p.create_date AS createDate,
+    g.student_id AS id
+	FROM study_post p
+	JOIN study_group g ON p.group_id = g.group_id
+	WHERE g.lecture_id = #{lectureId}
+	ORDER BY p.create_date DESC
+	LIMIT 5;
+
 </select>
 </mapper>

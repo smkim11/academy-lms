@@ -11,6 +11,9 @@ import com.example.academylms.dto.LectureWeekMaterial;
 import com.example.academylms.dto.Notice;
 import com.example.academylms.dto.QnaList;
 import com.example.academylms.dto.QuizWeekList;
+import com.example.academylms.dto.StudyGroup;
+import com.example.academylms.dto.StudyPost;
+import com.example.academylms.dto.StudyPostList;
 
 @Mapper
 public interface LectureMapper {
@@ -28,6 +31,7 @@ public interface LectureMapper {
 	List<Notice> lectureOneNoticeList(int lectureId); // 공지 리스트 5개 출력
 	List<QuizWeekList> lectureOneQuizList(int lectureId); // 5주차 퀴즈리스트 까지 출력
 	List<QnaList> lectureOneQnaList(int lectureId); // 5개의 최근 Qna  불러오기
+	List<StudyPostList> lectureOneStduyGroupList(int lectureId); // 최근 5개의 스터디 그룹 리스트
 	
 
 }
