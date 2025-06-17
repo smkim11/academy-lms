@@ -35,7 +35,6 @@
 				<th>주차</th>
 				<th>기간</th>
 				<th>상태</th>
-				<th>삭제</th>
 			</tr>
 			<c:forEach var="quizList" items="${quizList}">
 				<tr>
@@ -45,23 +44,19 @@
 						
 						<c:if test="${now >= quizList.startedAt && now <= quizList.endedAt}">
 							<td><a href="/quizResult?lectureId=${lectureId }&weekId=${quizList.weekId}">응시중</td>
-							<td>삭제불가</td>
 						</c:if>
 						
 						<c:if test="${now < quizList.startedAt}">
-							<td><a href="/updateQuiz?weekId=${quizList.weekId }">수정하기</a></td>
-							<td><a href="/deleteQuiz?weekId=${quizList.weekId }&lectureId=${lectureId}">삭제하기</td>
+							<td>응시전</td>
 						</c:if>
 						
 						<!-- 강사는 응시기간이 지나면 결과보기 가능 -->
 						<c:if test="${now > quizList.endedAt}">
 							<td><a href="/quizResult?lectureId=${lectureId }&weekId=${quizList.weekId}&status=end">결과보기</a></td>
-							<td>삭제불가</td>
 						</c:if>
 					</c:if>
 					<c:if test="${quizList.startedAt == null && quizList.endedAt == null}">
-						<td><a href="/addQuiz?lectureId=${lectureId}&week=${quizList.week}">퀴즈 추가</a></td>
-						<td>-</td>
+						<td>등록된 시험이 없습니다.</td>
 						<td>-</td>
 					</c:if>
 				</tr>

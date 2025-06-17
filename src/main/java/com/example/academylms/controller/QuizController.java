@@ -51,6 +51,8 @@ public class QuizController {
 		
 		if(role.equals("student")) {
 			return "/student/quizList";
+		}else if(role.equals("admin")) {
+			return "/admin/quizList";
 		}
 		return "/instructor/quizList";
 	}
@@ -335,9 +337,10 @@ public class QuizController {
 		return "/student/quizResult";
 	}
 	
-	// 강사용 퀴즈 결과 페이지
-	@GetMapping("/instructor/quizResult")
-	public String instructorQuizResult(Model model, @RequestParam int weekId
+	// 강사,관리자 퀴즈 결과 페이지
+	@GetMapping("/quizResult")
+	public String instructorQuizResult(Model model, HttpSession session
+												   ,@RequestParam int weekId
 									  			   ,@RequestParam int lectureId
 									  			   ,@RequestParam(required = false) String status) {
 		// 강의에 수강중인 전체학생 ID
@@ -364,9 +367,15 @@ public class QuizController {
 			model.addAttribute("status","현황");
 		}
 		
+		// 역할 찾기
+		String role = quizService.selectRoleByUserId((int)(session.getAttribute("loginUserId")));
+		
 		model.addAttribute("list",list1);
 		model.addAttribute("lectureId",lectureId);
 		model.addAttribute("week",quizService.selectWeekByWeekId(weekId));
+		if(role.equals("admin")) {
+			return "/admin/quizResult";
+		}
 		return "/instructor/quizResult";
 	}
 	
