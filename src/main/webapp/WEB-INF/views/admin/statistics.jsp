@@ -12,6 +12,7 @@
 <div>
 	<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
 </div>
+<main>
 	<h1>통계</h1>
 	<div>
 		<canvas id="chart1" style="width:100%;max-width:400px"></canvas>
@@ -34,7 +35,7 @@
 	<div>
 		<canvas id="chart7" style="width:100%;max-width:400px"></canvas>
 	</div>
-
+</main>
 <script>
 //chart1 (bar chart)
 $.ajax({
