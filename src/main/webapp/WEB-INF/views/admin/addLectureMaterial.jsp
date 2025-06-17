@@ -38,25 +38,35 @@
                 <input type="text" name="titles" required>
                 <label>파일:</label>
                 <input type="file" name="files" required>
+                <button type="button" class="remove-btn">삭제</button>
             </div>
         </div>
 
-        <button type="button" onclick="addUploadField()">+ 자료 추가</button>
+        <button type="button" id="addRowBtn">+ 자료 추가</button>
         <button type="submit">📤 업로드</button>
     </form>
 
     <script>
-    function addUploadField() {
-        const group = document.createElement('div');
-        group.className = "file-group";
-        group.innerHTML = `
-            <label>자료명:</label>
-            <input type="text" name="titles" required>
-            <label>파일:</label>
-            <input type="file" name="files" required>
-        `;
-        document.getElementById("upload-area").appendChild(group);
-    }
+    $(document).ready(function () {
+        // 추가 버튼
+        $('#addRowBtn').on('click', function () {
+            const newField = `
+                <div class="file-group">
+                    <label>자료명:</label>
+                    <input type="text" name="titles" required>
+                    <label>파일:</label>
+                    <input type="file" name="files" required>
+                    <button type="button" class="remove-btn">삭제</button>
+                </div>
+            `;
+            $('#upload-area').append(newField);
+        });
+
+        // 삭제 버튼 (이벤트 위임으로 처리)
+        $('#upload-area').on('click', '.remove-btn', function () {
+            $(this).closest('.file-group').remove();
+        });
+    });
     </script>
 </main>
 </body>
