@@ -64,6 +64,7 @@ public class LectureController {
 	public String lectureOneByInstructor(@RequestParam int lectureId, Model model) {
 	  Lecture lecture = lectureService.lectureOneBylectureId(lectureId);  // lectureId 로 강의 정보 가져오기
 	  				    lectureService.lectureOneWeekList(lectureId);
+	  				    
 	  
 	  
 	  model.addAttribute("lecture", lecture);
