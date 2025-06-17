@@ -71,6 +71,9 @@
 	        </c:choose>
 	    </c:forEach>
 	</div>	    
+			<a href="/instructor/lectureOne?lectureId=${lectureId}">
+			    강의정보로 돌아가기
+			</a>
 	</main>
 </body>
 </html>

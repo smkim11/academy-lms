@@ -42,6 +42,9 @@
         <button type="submit">➕ 주차 게시판 생성</button>
     </form>
 </c:if>
+			<a href="/admin/lectureOne?lectureId=${lectureId}">
+			    강의정보로 돌아가기
+			</a>
 </main>
 </body>
 </html>

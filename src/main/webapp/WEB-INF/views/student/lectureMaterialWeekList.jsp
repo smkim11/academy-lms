@@ -34,6 +34,10 @@
         </a>
     </li>
 </c:forEach>
+
+			<a href="/student/lectureOne?lectureId=${lectureId}">
+			    강의정보로 돌아가기
+			</a>
     </ul>
 </main>
 </body>
