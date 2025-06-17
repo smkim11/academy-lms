@@ -49,6 +49,10 @@
 	            </tr>
 	        </c:forEach>
 	    </table>
+	    
+	    	<a href="/lectureMaterialWeekList?lectureId=${lectureId}">
+			    주차별 리스트로 돌아가기
+			</a>
 	</main>
 </body>
 </html>
