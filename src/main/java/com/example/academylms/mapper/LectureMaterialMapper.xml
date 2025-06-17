@@ -13,13 +13,12 @@
 	    </select>
 	
 	    <select id="selectLectureMaterialById" resultType="com.example.academylms.dto.LectureMaterial">
-	        SELECT material_id AS materialId,
-	               week_id AS weekId,
-	               title,
-	               file_url AS fileUrl,
-	               create_date AS createDate
-	        FROM lecture_material
-	        WHERE material_id = #{materialId}
+		    SELECT week_id AS weekId,
+		           lecture_id AS lectureId,
+		           week,
+		           create_date AS createDate
+		    FROM lecture_week
+		    WHERE week_id = #{weekId}
 	    </select>
 	
 	    <insert id="insertLectureMaterial" parameterType="com.example.academylms.dto.LectureMaterial">
@@ -52,7 +51,11 @@
 		</select>
 		
 		<select id="getLectureWeekById" resultType="com.example.academylms.dto.LectureWeek">
-		    SELECT *
+		    SELECT
+		        week_id AS weekId,
+		        lecture_id AS lectureId,
+		        week,
+		        create_date AS createDate
 		    FROM lecture_week
 		    WHERE week_id = #{weekId}
 		</select>

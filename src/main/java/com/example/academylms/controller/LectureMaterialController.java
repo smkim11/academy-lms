@@ -1,6 +1,5 @@
 package com.example.academylms.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,12 +51,13 @@ public class LectureMaterialController {
         model.addAttribute("materialList", materialList);
         model.addAttribute("weekId", weekId);
 
-        // 주차 번호 조회해서 추가
-        LectureWeek weekInfo = lectureMaterialService.getLectureWeekById(weekId); 
+        // 주차 정보에서 강의 ID, 주차 번호 추출
+        LectureWeek weekInfo = lectureMaterialMapper.getLectureWeekById(weekId); 
         if (weekInfo != null) {
             model.addAttribute("week", weekInfo.getWeek());  // JSP에서 사용할 ${week}
+            model.addAttribute("lectureId", weekInfo.getLectureId()); 
         }
-        
+        System.out.println("📌 weekInfo.getLectureId() = " + weekInfo.getLectureId());
         if ("instructor".equals(role)) {
             return "instructor/lectureMaterialList";
         } else if ("student".equals(role)) {
