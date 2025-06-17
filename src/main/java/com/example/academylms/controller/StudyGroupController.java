@@ -214,5 +214,88 @@ public class StudyGroupController {
 	    studyGroupService.changeMemberGroup(lectureId, studentId, newGroupId);
 	    return "redirect:/admin/studentList/" + lectureId;
 	}
+	
+	@GetMapping("/admin/studyPost/{lectureId}")
+    public String getStudyBoardAdmin(@PathVariable int lectureId, Model model) {
+        List<StudyGroup> groups = studyGroupMapper.getGroupsByLectureId(lectureId);
+        Map<Integer, List<StudyPost>> groupPostMap = new LinkedHashMap<>();
 
+        for (StudyGroup group : groups) {
+            List<StudyPost> posts = studyGroupMapper.getPostsByGroupId(group.getGroupId());
+            groupPostMap.put(group.getGroupId(), posts);
+        }
+
+        model.addAttribute("lectureId", lectureId);
+        model.addAttribute("groupPostMap", groupPostMap);
+        return "admin/studyPost";
+    }
+	
+	@GetMapping("/admin/studyPostOne/{postId}")
+	public String studyPostOneAdmin(@PathVariable int postId, Model model) {
+	    StudyPost post = studyGroupService.getPostById(postId);
+	    model.addAttribute("post", post);
+
+	    int groupId = post.getGroupId();
+	    int lectureId = studyGroupService.getGroupById(groupId).getLectureId();
+	    model.addAttribute("lectureId", lectureId);
+
+	    return "admin/studyPostOne";
+	}
+	
+	@GetMapping("/admin/addStudyPost/{groupId}")
+	public String addStudyPostAdmin(@PathVariable int groupId, Model model) {
+	    StudyGroup group = studyGroupService.getGroupById(groupId);
+	    if (group == null) {
+	        return "redirect:/admin/errorPage";
+	    }
+
+	    model.addAttribute("groupId", groupId);
+	    model.addAttribute("lectureId", group.getLectureId());
+	    return "admin/addStudyPost";
+	}
+	
+	@PostMapping("/admin/addStudyPost")
+	public String writePostAdmin(@RequestParam int groupId,
+	                        @RequestParam String title,
+	                        @RequestParam String content) {
+	    StudyPost post = new StudyPost();
+	    post.setGroupId(groupId);
+	    post.setTitle(title);
+	    post.setContent(content);
+	    post.setCreateDate(LocalDateTime.now().toString()); // 또는 DB에 자동 생성되게
+
+	    studyGroupService.insertStudyPost(post);
+	    StudyGroup group = studyGroupService.getGroupById(groupId);
+	    return "redirect:/admin/studyPost/" + group.getLectureId(); // 목록으로 이동
+	}
+	
+	// 수정 폼 보여주기
+	@GetMapping("/admin/updateStudyPost/{postId}")
+	public String showUpdateStudyPostAdmin(@PathVariable int postId, Model model) {
+	    StudyPost post = studyGroupService.getPostById(postId);
+	    if (post == null) {
+	        return "redirect:/admin/errorPage";
+	    }
+
+	    StudyGroup group = studyGroupService.getGroupById(post.getGroupId());
+
+	    model.addAttribute("post", post);
+	    model.addAttribute("lectureId", group.getLectureId());
+	    return "admin/updateStudyPost";
+	}
+
+	// 수정 처리
+	@PostMapping("/admin/updateStudyPost")
+	public String updateStudyPostAdmin(@ModelAttribute StudyPost post) {
+	    studyGroupService.updateStudyPost(post);
+	    return "redirect:/admin/studyPostOne/" + post.getPostId();
+	}
+	
+	// 삭제
+	@DeleteMapping("/admin/studyPosts/{postId}")
+	@ResponseBody
+	public String deleteStudyPostAdmin(@PathVariable int postId) {
+	    studyGroupService.deleteStudyPost(postId);
+	    return "success";
+	}
 }
