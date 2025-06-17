@@ -1,0 +1,80 @@
+
+:root {
+  --main-color: #4f46e5;
+  --light-gray: #f4f4f6;
+  --text-dark: #2e2e2e;
+  --text-light: #666;
+  --border-color: #e0e0e0;
+}
+
+/* 제목 섹션 */
+main > span:first-of-type {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-dark);
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+main > span:nth-of-type(2) {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-left: 10px;
+}
+
+main > span:last-of-type {
+  display: block;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--main-color);
+  margin-top: 30px;
+  border-left: 4px solid var(--main-color);
+  padding-left: 10px;
+}
+
+/* 퀴즈 테이블 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+th, td {
+  padding: 14px 16px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--text-dark);
+  border-bottom: 1px solid var(--border-color);
+}
+
+th {
+  background-color: var(--light-gray);
+  font-weight: 600;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* 상태 링크 */
+a {
+  color: var(--main-color);
+  font-weight: 500;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* 시험 없음 메시지 */
+td[colspan="2"] {
+  color: #999;
+  font-style: italic;
+}
