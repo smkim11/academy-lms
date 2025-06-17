@@ -176,6 +176,15 @@ public class StudyGroupController {
 	    studyGroupService.createStudyGroup(lectureId, studentId);
 	    return "redirect:/instructor/studentList/" + lectureId;
 	}
+	
+	@PostMapping("/instructor/studyGroup/changeGroup")
+	public String changeStudentGroup(@RequestParam int lectureId,
+	                                 @RequestParam int studentId,
+	                                 @RequestParam int newGroupId) {
+	    studyGroupService.changeMemberGroup(lectureId, studentId, newGroupId);
+	    return "redirect:/instructor/studentList/" + lectureId;
+	}
+
 
 
 

@@ -1,6 +1,7 @@
 package com.example.academylms.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -23,4 +24,15 @@ public interface StudyGroupMapper {
 	void insertStudyGroup(@Param("lectureId") int lectureId,
             @Param("studentId") Integer studentId);
 	Integer findGroupIdByStudentId(@Param("studentId") int studentId);
+	List<Map<String, Object>> selectStudentGroupIdsByLectureId(int lectureId);
+	List<Integer> selectGroupIdsByLectureId(int lectureId);
+	int selectEnrollmentId(@Param("studentId") int studentId, @Param("lectureId") int lectureId);
+    void insertStudyMember(@Param("groupId") int groupId,
+                           @Param("enrollmentId") int enrollmentId);
+    int updateMemberGroup(@Param("lectureId") int lectureId,
+            @Param("studentId") int studentId,
+            @Param("newGroupId") int newGroupId);
+    int insertMemberGroup(@Param("lectureId") int lectureId,
+            @Param("studentId") int studentId,
+            @Param("newGroupId") int newGroupId);
 }

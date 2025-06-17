@@ -85,4 +85,51 @@
     <select id="findGroupIdByStudentId" resultType="int">
 	    SELECT group_id FROM study_group WHERE student_id = #{studentId}
 	</select>
+	
+	<select id="selectStudentGroupIdsByLectureId" resultType="map" parameterType="int">
+	    SELECT s.student_id,
+	           sg.group_id
+	    FROM student s
+	    JOIN lecture_enrollment le ON s.student_id = le.student_id
+	    LEFT JOIN study_group sg ON sg.student_id = s.student_id AND sg.lecture_id = le.lecture_id
+	    WHERE le.lecture_id = #{lectureId}
+	</select>
+	
+	<select id="selectGroupIdsByLectureId" resultType="int" parameterType="int">
+	    SELECT DISTINCT group_id
+	    FROM study_group
+	    WHERE lecture_id = #{lectureId}
+	</select>
+	
+	<insert id="insertStudyMember">
+	    INSERT INTO study_member (group_id, enrollment_id, create_date)
+	    VALUES (#{groupId}, #{enrollmentId}, NOW())
+	</insert>
+	
+	<select id="selectEnrollmentId" resultType="int">
+	    SELECT enrollment_id
+	    FROM lecture_enrollment
+	    WHERE student_id = #{studentId}
+	      AND lecture_id = #{lectureId}
+	    LIMIT 1
+	</select>
+	
+	<!-- study_member의 group 변경 -->
+	<update id="updateMemberGroup" parameterType="map">
+	    UPDATE study_member sm
+	    JOIN lecture_enrollment le ON sm.enrollment_id = le.enrollment_id
+	    SET sm.group_id = #{newGroupId}
+	    WHERE le.student_id = #{studentId}
+	      AND le.lecture_id = #{lectureId}
+	</update>
+
+	<!-- study_member에 새 참가자 추가 -->
+	<insert id="insertMemberGroup" parameterType="map">
+	    INSERT INTO study_member (group_id, enrollment_id, create_date)
+	    SELECT #{newGroupId}, le.enrollment_id, NOW()
+	    FROM lecture_enrollment le
+	    WHERE le.student_id = #{studentId} AND le.lecture_id = #{lectureId}
+	</insert>
+	
+	
 </mapper>

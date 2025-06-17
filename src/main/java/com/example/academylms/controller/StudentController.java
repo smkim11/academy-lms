@@ -1,6 +1,7 @@
 package com.example.academylms.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import com.example.academylms.dto.Page;
 import com.example.academylms.dto.Student;
 import com.example.academylms.mapper.StudentMapper;
 import com.example.academylms.service.StudentService;
+import com.example.academylms.service.StudyGroupService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -25,6 +27,7 @@ public class StudentController {
 	
 	@Autowired StudentService studentService;
 	@Autowired StudentMapper studentMapper;
+	@Autowired StudyGroupService studyGroupService;
 	
 	@GetMapping("/instructor/studentList/{lectureId}")
 	public String studentListByLecture(
@@ -33,7 +36,6 @@ public class StudentController {
 	        @RequestParam(name = "searchWord", required = false) String searchWord,
 	        Model model) {
 
-	    // 페이징, 검색 처리
 	    int rowPerPage = 10;
 	    int totalCount = studentService.getStudentsCountByLecture(lectureId, searchWord);
 	    int beginRow = (currentPage - 1) * rowPerPage;
@@ -41,14 +43,24 @@ public class StudentController {
 	    List<Student> students = studentService.getStudentsByLecture(lectureId, beginRow, rowPerPage, searchWord);
 	    int totalPage = (totalCount + rowPerPage - 1) / rowPerPage;
 
+	    // Map<Integer, Integer> -> Map<String, Integer> 타입으로 변경
+	    Map<String, Integer> groupMap = studyGroupService.getStudentGroupIdsByLectureId(lectureId);
+
+	    List<Integer> groupIds = studyGroupService.getGroupIdsByLectureId(lectureId);
+
 	    model.addAttribute("students", students);
 	    model.addAttribute("currentPage", currentPage);
 	    model.addAttribute("totalPage", totalPage);
 	    model.addAttribute("lectureId", lectureId);
 	    model.addAttribute("searchWord", searchWord);
-	    
+	    model.addAttribute("groupMap", groupMap);
+	    model.addAttribute("groupIds", groupIds);
+
 	    return "/instructor/studentList";
 	}
+
+
+
 
 
 	

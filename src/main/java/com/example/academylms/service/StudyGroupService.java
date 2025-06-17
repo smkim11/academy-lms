@@ -1,6 +1,8 @@
 package com.example.academylms.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,49 @@ public class StudyGroupService {
 		    Integer result = studyGroupMapper.findGroupIdByStudentId(studentId);
 		    return result != null;
 		}
+	 
+	 public Map<String, Integer> getStudentGroupIdsByLectureId(int lectureId) {
+		    List<Map<String, Object>> list = studyGroupMapper.selectStudentGroupIdsByLectureId(lectureId);
+		    Map<String, Integer> map = new HashMap<>();
+		    for (Map<String, Object> row : list) {
+		        String studentId = String.valueOf(row.get("student_id"));  // String으로 변환
+		        Integer groupId = (Integer) row.get("group_id");
+		        map.put(studentId, groupId);
+		    }
+		    return map;
+		}
+
+	 
+	 public List<Integer> getExistingGroupIdsByLecture(int lectureId) {
+		    return studyGroupMapper.selectGroupIdsByLectureId(lectureId);
+		}
+	 
+	 public void addMemberToGroup(int lectureId, int studentId, int groupId) {
+		    int enrollmentId = studyGroupMapper.selectEnrollmentId(studentId, lectureId);
+		    if (enrollmentId == 0) {
+		        throw new RuntimeException("수강생의 수강정보(enrollment)가 존재하지 않습니다.");
+		    }
+		    studyGroupMapper.insertStudyMember(groupId, enrollmentId);
+		}
+	 
+	 public List<Integer> getGroupIdsByLectureId(int lectureId) {
+		    return studyGroupMapper.selectGroupIdsByLectureId(lectureId);
+		}
+	 
+	 public void changeMemberGroup(int lectureId, int studentId, int newGroupId) {
+		    // study_member 테이블에 이미 참가자가 있으면 update, 없으면 insert 처리 (예: upsert)
+		    // 여기서는 studyGroupMapper의 update 또는 insert 호출
+
+		    // 예) 기존 참가자가 있으면 update
+		    int updated = studyGroupMapper.updateMemberGroup(lectureId, studentId, newGroupId);
+
+		    if (updated == 0) {
+		        // 참가자가 없으면 새로 insert
+		        studyGroupMapper.insertMemberGroup(lectureId, studentId, newGroupId);
+		    }
+		}
+
+
 
 }
 
