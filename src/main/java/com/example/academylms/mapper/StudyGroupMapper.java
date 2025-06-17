@@ -35,4 +35,6 @@ public interface StudyGroupMapper {
     int insertMemberGroup(@Param("lectureId") int lectureId,
             @Param("studentId") int studentId,
             @Param("newGroupId") int newGroupId);
+    List<Map<String, Object>> getStudentGroupMappingByLectureId(int lectureId);
+    
 }

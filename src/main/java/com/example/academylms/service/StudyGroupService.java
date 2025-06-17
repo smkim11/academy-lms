@@ -54,16 +54,21 @@ public class StudyGroupService {
 		    return result != null;
 		}
 	 
-	 public Map<String, Integer> getStudentGroupIdsByLectureId(int lectureId) {
+	 public Map<Integer, Integer> getStudentGroupIdsByLectureId(int lectureId) {
 		    List<Map<String, Object>> list = studyGroupMapper.selectStudentGroupIdsByLectureId(lectureId);
-		    Map<String, Integer> map = new HashMap<>();
+		    Map<Integer, Integer> map = new HashMap<>();
 		    for (Map<String, Object> row : list) {
-		        String studentId = String.valueOf(row.get("student_id"));  // String으로 변환
-		        Integer groupId = (Integer) row.get("group_id");
+		        System.out.println("row = " + row);
+		    }
+		    for (Map<String, Object> row : list) {
+		        Integer studentId = (Integer) row.get("studentId");
+		        Integer groupId = (Integer) row.get("groupId");
 		        map.put(studentId, groupId);
 		    }
+		    System.out.println("최종 groupMap = " + map);
 		    return map;
 		}
+
 
 	 
 	 public List<Integer> getExistingGroupIdsByLecture(int lectureId) {
@@ -94,8 +99,10 @@ public class StudyGroupService {
 		        studyGroupMapper.insertMemberGroup(lectureId, studentId, newGroupId);
 		    }
 		}
-
-
+	 
+	 public List<Map<String, Object>> getStudentGroupMappingByLectureId(int lectureId) {
+	        return studyGroupMapper.getStudentGroupMappingByLectureId(lectureId);
+	    }
 
 }
 

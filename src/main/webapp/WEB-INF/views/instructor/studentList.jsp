@@ -32,12 +32,12 @@
     </thead>
     <tbody>
         <c:forEach var="student" items="${students}">
-            <tr>
-                <td>${student.name}</td>
-                <td>${student.email}</td>
-                <td>${student.phone}</td>
-                <td>${student.createDate}</td>
-                <td>
+		    <tr>
+		        <td>${student.name}</td>
+		        <td>${student.email}</td>
+		        <td>${student.phone}</td>
+		        <td>${student.createDate}</td>
+		        <td>
 				    <c:choose>
 				        <c:when test="${groupMap[student.studentId] != null}">
 				            ${groupMap[student.studentId]}조
@@ -47,21 +47,31 @@
 				        </c:otherwise>
 				    </c:choose>
 				</td>
-                <td>
-					<form method="post" action="/instructor/studyGroup/changeGroup">
-					    <input type="hidden" name="lectureId" value="${lectureId}" />
-					    <input type="hidden" name="studentId" value="${student.studentId}" />
-					    <select name="newGroupId" required>
-					        <option value="">-- 조 선택 --</option>
-					        <c:forEach var="gid" items="${groupIds}">
-					            <option value="${gid}" <c:if test="${groupMap[student.studentId] == gid}">selected</c:if>>${gid}조</option>
-					        </c:forEach>
-					    </select>
-					    <button type="submit">조 변경</button>
-					</form>
-				</td>
-            </tr>
-        </c:forEach>
+
+		        <td>
+		            <form method="post" action="/instructor/studyGroup/changeGroup">
+		                <input type="hidden" name="lectureId" value="${lectureId}" />
+		                <input type="hidden" name="studentId" value="${student.studentId}" />
+		                <select name="newGroupId" required>
+		                    <option value="">-- 조 선택 --</option>
+		                    <c:forEach var="gid" items="${groupIds}">
+		                        <option value="${gid}" <c:if test="${groupMap[student.studentId] == gid}">selected</c:if>>${gid}조</option>
+		                    </c:forEach>
+		                </select>
+		                <button type="submit">조 변경</button>
+		            </form>
+		        </td>
+		    </tr>
+		    <c:set var="studentIdStr" value="${student.studentId}" />
+			<tr>
+			  <td colspan="6">
+			    studentId: ${student.studentId} |
+			    groupMap[studentId]: ${groupMap[studentIdStr] != null ? groupMap[studentIdStr] : '미배정'}
+			  </td>
+			</tr>
+
+		</c:forEach>
+
         <c:if test="${empty students}">
             <tr>
                 <td colspan="4">수강생이 없습니다.</td>
