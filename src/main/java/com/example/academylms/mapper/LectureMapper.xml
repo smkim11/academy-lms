@@ -53,7 +53,41 @@ UPDATE lecture SET admin_id = #{adminId}, instructor_id = #{instructorId}, title
 
 <delete id="deleteLecture" parameterType="int">
 Delete From lecture WHERE lecture_id = #{lectureId};
-
 </delete>
+
+<select id="lectureOneWeekList" parameterType="int" resultType="com.example.academylms.dto.LectureWeekMaterial"> 
+SELECT 
+    lw.week AS week, 
+    lw.week_id AS weekId, 
+    lm.material_id AS materialId, 
+    lm.title AS title, 
+    lm.file_url AS fileUrl, 
+    lm.create_date AS createDate 
+FROM 
+    lecture_week lw
+LEFT JOIN 
+    lecture_material lm ON lw.week_id = lm.week_id
+WHERE 
+    lw.lecture_id = #{lectureId}
+    AND lw.week BETWEEN 1 AND 5
+ORDER BY 
+    lw.week ASC;
+
+</select>
+
+<select id="lectureOneNoticeList" parameterType="int" resultType="com.example.academylms.dto.Notice">
+SELECT 
+      notice_id noticeId,
+      lecture_id lectureId,
+      notice_type noticeType,
+      title,
+      content,
+      create_date createDate
+  FROM notice
+  WHERE lecture_id = #{lectureId}
+  ORDER BY create_date DESC
+  LIMIT 5;
+
+</select>
 
 </mapper>

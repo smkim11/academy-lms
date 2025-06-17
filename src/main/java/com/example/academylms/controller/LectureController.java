@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.academylms.dto.InstructorInfo;
 import com.example.academylms.dto.Lecture;
+import com.example.academylms.dto.LectureWeekMaterial;
+import com.example.academylms.dto.Notice;
 import com.example.academylms.service.LectureService;
 
 import jakarta.servlet.http.HttpSession;
@@ -51,10 +53,15 @@ public class LectureController {
 	@GetMapping("/admin/lectureOne") // 관리자 강의 상세정보 
 	public String lectureOneByAdmin(@RequestParam int lectureId, Model model) {
 	  Lecture lecture = lectureService.lectureOneBylectureId(lectureId);  // lectureId 로 강의 정보 가져오기
+	  List<LectureWeekMaterial> lectureWeekMaterial = lectureService.lectureOneWeekList(lectureId); // 강의자료 5주차까지 출력
+	  List<Notice> lectureNoticeList = lectureService.lectureOneNoticeList(lectureId); // 공지사항 가져오기
+	  
 	  
 	  LocalDateTime now = LocalDateTime.now();
 	  
 	  model.addAttribute("lecture", lecture);
+	  model.addAttribute("lecMaterial", lectureWeekMaterial);
+	  model.addAttribute("lectureNoticeList", lectureNoticeList);
 	  model.addAttribute("now", now);
 	  
 	  return "/admin/lectureOne";
@@ -63,11 +70,12 @@ public class LectureController {
 	@GetMapping("/instructor/lectureOne") // 강사 강의 상세정보
 	public String lectureOneByInstructor(@RequestParam int lectureId, Model model) {
 	  Lecture lecture = lectureService.lectureOneBylectureId(lectureId);  // lectureId 로 강의 정보 가져오기
-	  				    lectureService.lectureOneWeekList(lectureId);
+	  List<LectureWeekMaterial> lectureWeekMaterial = lectureService.lectureOneWeekList(lectureId);
 	  				    
 	  
 	  
 	  model.addAttribute("lecture", lecture);
+	  model.addAttribute("lecMaterial", lectureWeekMaterial);
 	  
 		
 		return "/instructor/lectureOne";

@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.academylms.dto.InstructorInfo;
 import com.example.academylms.dto.Lecture;
+import com.example.academylms.dto.LectureWeekMaterial;
+import com.example.academylms.dto.Notice;
 import com.example.academylms.mapper.LectureMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -109,10 +111,16 @@ public class LectureServiceImpl implements LectureService {
 	}
 
 	@Override
-	public int lectureOneWeekList(int lectureId) { // 강의자료 5주차까지 자료내용 보여주기.
-		return lectureMapper.lectureOneWeekList(lectureId); 
+	public List<LectureWeekMaterial> lectureOneWeekList(int lectureId) { // 5주차까지 강의 상세정보
+		return lectureMapper.lectureOneWeekList(lectureId);
 	}
-	
+
+	@Override
+	public List<Notice> lectureOneNoticeList(int lectureId) { // 5개까지의 공지사항 상세정보 노출
+		return lectureMapper.lectureOneNoticeList(lectureId);
+	}
+
+
     
     
 }

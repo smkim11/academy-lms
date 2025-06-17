@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.example.academylms.dto.InstructorInfo;
 import com.example.academylms.dto.Lecture;
+import com.example.academylms.dto.LectureWeekMaterial;
+import com.example.academylms.dto.Notice;
 
 public interface LectureService {
     List<Lecture> getLecturesByInstructor(int instructorId);
@@ -15,5 +17,6 @@ public interface LectureService {
 	Lecture lectureOneBylectureId(int lectureId);
 	boolean updateLecture(Lecture lecture);
 	int deleteLecture(int lectureId);
-	int lectureOneWeekList(int lectureId); 
+	List<LectureWeekMaterial> lectureOneWeekList(int lectureId);
+	List<Notice> lectureOneNoticeList(int lectureId); 
 }
