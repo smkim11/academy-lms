@@ -85,6 +85,9 @@
         <a href="/updateQuiz?weekId=${weekId }&currentPage=${p.currentPage+1 }">다음</a>
     </c:if>
 </main>
+<div>
+	<jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 <script>
 $('#btn').click(function() {
     const type = $('input[name="type"]:checked').val();

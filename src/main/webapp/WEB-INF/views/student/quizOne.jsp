@@ -85,6 +85,9 @@
         <a href="/quizOne?weekId=${weekId }&currentPage=${p.currentPage+1 }">다음</a>
     </c:if>
 </main>
+<div>
+	<jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 <script>
 	$('#saveBtn').click(function(){
 		// 주관식 답

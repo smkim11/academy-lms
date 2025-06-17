@@ -59,6 +59,9 @@
 			</c:forEach>
 		</table>
 </main>
+<div>
+	<jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 <script>
    // 퀴즈 응시하기 클릭시 안내메세지 
 	$('#joinQuiz').click(function(){

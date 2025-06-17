@@ -36,6 +36,9 @@
 		<canvas id="chart7" style="width:100%;max-width:400px"></canvas>
 	</div>
 </main>
+<div>
+	<jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 <script>
 //chart1 (bar chart)
 $.ajax({

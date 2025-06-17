@@ -63,7 +63,9 @@
 		</div>
 	</form>
 </main>
-
+<div>
+	<jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 <script>
 	// 문제유형에 따라 다른 입력칸 출력
 	$('input[name="type"]').click(function(){

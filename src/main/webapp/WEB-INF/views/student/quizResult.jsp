@@ -50,5 +50,8 @@
 		</c:forEach>
 	</table>
 </main>
+<div>
+	<jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

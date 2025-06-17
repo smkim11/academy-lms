@@ -6,7 +6,6 @@ body, ul, li {
   padding: 0;
   list-style: none;
 }
-
 a {
   color: inherit;
   text-decoration: none;
@@ -19,13 +18,21 @@ a {
   --top-bar-height: 100px;
 }
 
-/* 전체 배경 */
+/* 전체 배경 및 레이아웃 */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 body {
-  background-color: #f9f9f9;  /* 밝은 배경으로 수정 */
+  background-color: #f9f9f9;
   font-family: sans-serif;
-  padding-top: var(--top-bar-height);
-  padding-left: var(--side-bar-width);
+  padding: 0;
   box-sizing: border-box;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
 }
 
 /* 상단 바 */
@@ -44,6 +51,7 @@ body {
   box-sizing: border-box;
   z-index: 1000;
 }
+
 .top-bar .user-info {
   display: flex;
   flex-direction: column;
@@ -58,9 +66,9 @@ body {
   margin-right: 15px;
 }
 
-.edit-profile{
+.edit-profile {
   margin-right: 5px;
- }
+}
 .user-info .edit-profile {
   font-size: 0.85rem;
   color: #888;
@@ -68,14 +76,11 @@ body {
   margin-top: 2px;
   cursor: pointer;
 }
-
 .user-info .edit-profile:hover {
   color: #555;
 }
 
-
-
-/* 왼쪽 사이드바 */
+/* 왼쪽 사이드바 (고정) */
 .side-bar {
   position: fixed;
   top: var(--top-bar-height);
@@ -86,32 +91,47 @@ body {
   color: white;
   padding-top: 20px;
   box-sizing: border-box;
+  overflow-y: auto;
+  z-index: 1;
 }
 
-/* 메뉴 스타일 */
 .side-bar ul > li > a {
   display: block;
   padding: 15px 20px;
   font-size: 1rem;
-  font-weight: normal;
   color: white;
   transition: 0.3s;
 }
-
 .side-bar ul > li:hover > a {
   background-color: #444;
 }
 
-
 /* 본문 */
 main {
+  flex: 1; /* 남은 공간을 차지 */
+  margin-left: var(--side-bar-width);
   padding: 30px;
+  padding-top: calc(var(--top-bar-height) + 30px);
+  box-sizing: border-box;
+  position: relative;
+  z-index: 0;
+  /* min-height 제거 */
 }
 
 main h1 {
   color: #333;
 }
-
 main p {
   color: #555;
+}
+
+/* 푸터 */
+#footer_fix {
+  background-color: #ffffff;
+  padding: 15px 20px;
+  font-size: 12px;
+  margin-top: 0;
+  position: relative;
+  z-index: 9999; /* 사이드바 위에 표시 */
+  border-top: 1px solid #ddd;
 }
