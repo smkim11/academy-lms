@@ -34,7 +34,7 @@ public class MainPageController {
         User user = loginService.findById(userId);
         String role = user.getRole();
         model.addAttribute("userId", userId);
-        // ✅ 강의 정보 조회
+        // 강의 정보 조회
         Map<String, List<Map<String, Object>>> lectureMap = getLectureMap(userId, role);
         model.addAttribute("ongoingLectures", lectureMap.get("ongoing"));
         model.addAttribute("upcomingLectures", lectureMap.get("upcoming"));
@@ -54,7 +54,6 @@ public class MainPageController {
             lectureList = mainPageService.getLecturesByStudent(userId);
         }
         
-        System.out.println("강의 수: " + lectureList.size()); // ✅ 이거 찍어보기
         for (Map<String, Object> lecture : lectureList) {
             System.out.println("startedAt 타입: " + lecture.get("started_at").getClass().getName());
             System.out.println("endedAt 타입: " + lecture.get("ended_at").getClass().getName());
@@ -98,7 +97,8 @@ public class MainPageController {
         model.addAttribute("endedLectures", lectureMap.get("ended"));
         */
 
-        int userId = (int) session.getAttribute("loginUserId");
+        Integer userId = (Integer) session.getAttribute("loginUserId");
+        if (userId == null) return "redirect:/login";
         User user = loginService.findById(userId);
         String role = user.getRole();
 

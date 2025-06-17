@@ -13,13 +13,12 @@
 	    </select>
 	
 	    <select id="selectLectureMaterialById" resultType="com.example.academylms.dto.LectureMaterial">
-	        SELECT material_id AS materialId,
-	               week_id AS weekId,
-	               title,
-	               file_url AS fileUrl,
-	               create_date AS createDate
-	        FROM lecture_material
-	        WHERE material_id = #{materialId}
+		    SELECT week_id AS weekId,
+		           lecture_id AS lectureId,
+		           week,
+		           create_date AS createDate
+		    FROM lecture_week
+		    WHERE week_id = #{weekId}
 	    </select>
 	
 	    <insert id="insertLectureMaterial" parameterType="com.example.academylms.dto.LectureMaterial">
@@ -40,9 +39,35 @@
 		    WHERE material_id = #{materialId}
 		</delete>
 		
-		<select id="selectAvailableWeeks" resultType="int">
-		    SELECT DISTINCT week_id
-		    FROM lecture_material
-		    ORDER BY week_id ASC
+		<select id="selectWeeksByLectureId" resultType="com.example.academylms.dto.LectureWeek">
+		    SELECT lw.week_id AS weekId,
+		           lw.lecture_id AS lectureId,
+		           lw.week AS week,
+		           lw.create_date AS createDate
+		    FROM lecture_week lw
+		    JOIN lecture l ON lw.lecture_id = l.lecture_id
+		    WHERE lw.lecture_id = #{lectureId}
+		    ORDER BY week ASC
 		</select>
+		
+		<select id="getLectureWeekById" resultType="com.example.academylms.dto.LectureWeek">
+		    SELECT
+		        week_id AS weekId,
+		        lecture_id AS lectureId,
+		        week,
+		        create_date AS createDate
+		    FROM lecture_week
+		    WHERE week_id = #{weekId}
+		</select>
+		
+		<select id="getLastWeekNumber" resultType="int">
+		    SELECT MAX(week)
+		    FROM lecture_week
+		    WHERE lecture_id = #{lectureId}
+		</select>
+		
+		<insert id="insertLectureWeek" parameterType="com.example.academylms.dto.LectureWeek" useGeneratedKeys="true" keyProperty="weekId">
+		    INSERT INTO lecture_week (lecture_id, week, create_date)
+		    VALUES (#{lectureId}, #{week}, NOW())
+		</insert>
 </mapper>

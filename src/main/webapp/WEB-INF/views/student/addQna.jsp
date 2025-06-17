@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 <link rel="stylesheet" href="css/styles.css">
@@ -24,6 +25,13 @@
 
 
 	<main style="max-width: 800px; margin: 20px auto; padding: 20px;">
+<!-- 에러 메시지 출력 영역(유효성 조작 사용자 대비 보안차원) -->
+    <c:if test="${not empty errorMsg}">
+        <div style="color: red; margin-bottom: 15px; text-align: center; font-weight: bold;">
+            ${errorMsg}
+        </div>
+    </c:if>
+	
 	    <h2 style="text-align: center;">QnA 글쓰기</h2>
 	    <form action="/addQna" method="post" enctype="multipart/form-data">
 	        <input type="hidden" name="lectureId" value="${lectureId}">

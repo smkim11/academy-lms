@@ -2,10 +2,12 @@ package com.example.academylms.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.academylms.dto.LectureMaterial;
+import com.example.academylms.dto.LectureWeek;
 import com.example.academylms.mapper.LectureMaterialMapper;
 
 @Service
@@ -32,7 +34,19 @@ public class LectureMaterialService {
     	lectureMaterialMapper.deleteLectureMaterial(materialId);
     };
     
-    public List<Integer> getAvailableWeeks() {
-        return lectureMaterialMapper.selectAvailableWeeks();
+    public List<LectureWeek> getWeeksByLectureId(int lectureId) {
+        return lectureMaterialMapper.selectWeeksByLectureId(lectureId);
+    }
+    
+    public LectureWeek getLectureWeekById(int weekId) {
+        return lectureMaterialMapper.getLectureWeekById(weekId);
+    }
+    
+    public Integer getLastWeekNumber(int lectureId) {
+    	return lectureMaterialMapper.getLastWeekNumber(lectureId);
+    };
+    
+    public void insertLectureWeek(LectureWeek week) {
+    	lectureMaterialMapper.insertLectureWeek(week);
     };
 }

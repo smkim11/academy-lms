@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.example.academylms.dto.LectureMaterial;
+import com.example.academylms.dto.LectureWeek;
 
 @Mapper
 public interface LectureMaterialMapper {
@@ -24,5 +25,11 @@ public interface LectureMaterialMapper {
     void deleteLectureMaterial(int materialId);
     
     // 주차별 게시판
-    List<Integer> selectAvailableWeeks();
+    List<LectureWeek> selectWeeksByLectureId(int lectureId);
+    
+    // 주차 카운트
+    LectureWeek getLectureWeekById(int weekId);
+    
+    Integer getLastWeekNumber(int lectureId);
+    void insertLectureWeek(LectureWeek week);
 }

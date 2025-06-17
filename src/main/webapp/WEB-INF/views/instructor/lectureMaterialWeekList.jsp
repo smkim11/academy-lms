@@ -27,12 +27,21 @@
 <main>
     <h2>강의자료 주차별 보기</h2>
     <ul>
-        <c:forEach var="week" items="${availableWeeks}">
-            <li>
-                <a href="/lectureMaterialList?weekId=${week}">${week}주차 강의자료 보기</a>
-            </li>
-        </c:forEach>
+<c:forEach var="week" items="${weekList}">
+    <li>
+        <a href="/lectureMaterialList?weekId=${week.weekId}">
+            ${week.week}주차
+        </a>
+    </li>
+</c:forEach>
     </ul>
+    
+    <c:if test="${loginRole eq 'instructor' || loginRole eq 'admin'}">
+    <form action="/addLectureWeek" method="get" style="text-align: right; margin-bottom: 10px;">
+        <input type="hidden" name="lectureId" value="${lectureId}" />
+        <button type="submit">➕ 주차 게시판 생성</button>
+    </form>
+</c:if>
 </main>
 </body>
 </html>

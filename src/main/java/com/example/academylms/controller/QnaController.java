@@ -145,6 +145,12 @@ public class QnaController {
         Integer enrollmentId = qnaService.getEnrollmentId(userId, lectureId);
         //디버깅용
         System.out.println("==> enrollmentId = " + enrollmentId);
+        // 유효성 검사
+        if (title == null || title.trim().isEmpty() || question == null || question.trim().isEmpty()) {
+            request.setAttribute("errorMsg", "제목과 내용을 모두 입력해주세요");
+            request.setAttribute("lectureId", lectureId);
+            return "student/addQna";
+        }
         
         if (enrollmentId != null) {
             Qna qna = new Qna();
@@ -243,7 +249,14 @@ public class QnaController {
         if (userId != qnaStudentId) {
             return "redirect:/qnaOne?id=" + qnaId + "&lectureId=" + lectureId;
         }
-
+        // 유효성 검사
+        if (title == null || title.trim().isEmpty() || question == null || question.trim().isEmpty()) {
+            request.setAttribute("errorMsg", "제목과 내용을 모두 입력해주세요");
+            request.setAttribute("lectureId", lectureId);
+            request.setAttribute("qna", qnaService.getQnaOne(qnaId));
+            return "student/updateQna";
+        }
+        
         Qna qna = new Qna();
         qna.setQnaId(qnaId);
         qna.setTitle(title);
@@ -268,11 +281,15 @@ public class QnaController {
     //QnA 답변
     
 //QnA 답변달기
-      @PostMapping("/addAnswer")
-      public String addAnswer(@RequestParam("lectureId") int lectureId, QnaAnswer answer) {
-          qnaService.insertAnswer(answer);
-          return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId;
-      }
+     @PostMapping("/addAnswer")
+     public String addAnswer(@RequestParam("lectureId") int lectureId, QnaAnswer answer, HttpServletRequest request) {
+         if (answer.getAnswer() == null || answer.getAnswer().trim().isEmpty()) {
+             request.setAttribute("errorMsg", "답변 내용을 입력해주세요");
+             return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId;
+         }
+         qnaService.insertAnswer(answer);
+         return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId;
+     }
       
 //QnA 답변삭제
       @PostMapping("/deleteAnswer")

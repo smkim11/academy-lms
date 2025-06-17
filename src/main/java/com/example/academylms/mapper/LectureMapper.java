@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 
 import com.example.academylms.dto.InstructorInfo;
 import com.example.academylms.dto.Lecture;
+import com.example.academylms.dto.LectureWeekMaterial;
+import com.example.academylms.dto.Notice;
 
 @Mapper
 public interface LectureMapper {
@@ -20,7 +22,8 @@ public interface LectureMapper {
 	int deleteLectureWeek(int lectureId); // lectureId로 강의 정보 삭제
 	int updateLecture(Lecture lecture); // 강의 업데이트 
 	int deleteLecture(int lectureId); // 강의 삭제
-	int lectureOneWeekList(int lectureId); // 강의주차 5개 출력하기
+	List<LectureWeekMaterial> lectureOneWeekList(int lectureId); // 5주차 강의까지 출력
+	List<Notice> lectureOneNoticeList(int lectureId); // 공지 리스트 5개 출력
 	
 
 }

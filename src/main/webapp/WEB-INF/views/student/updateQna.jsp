@@ -27,6 +27,13 @@
 	</div>
 	
 <main>
+<!-- 에러 메시지 출력 영역(유효성 조작 사용자 대비 보안차원) -->
+    <c:if test="${not empty errorMsg}">
+        <div style="color: red; margin-bottom: 15px; text-align: center; font-weight: bold;">
+            ${errorMsg}
+        </div>
+    </c:if>
+    
 	<form action="/updateQna" method="post" enctype="multipart/form-data">
 	    <input type="hidden" name="qnaId" value="${qna.qnaId}">
 	    <input type="hidden" name="lectureId" value="${lectureId}">
