@@ -43,8 +43,14 @@ public class StudyGroupService {
 	        return studyGroupMapper.selectStudentsByLectureId(lectureId);
 	    }
 	 
-	 public void createStudyGroup(int lectureId, Integer leaderStudentId) {
-	        studyGroupMapper.insertStudyGroup(lectureId, leaderStudentId);
+	 public void createStudyGroup(int lectureId, Integer studentId) {
+	        studyGroupMapper.insertStudyGroup(lectureId, studentId);
 	    }
+	 
+	 public boolean isStudentAlreadyLeader(int studentId) {
+		    Integer result = studyGroupMapper.findGroupIdByStudentId(studentId);
+		    return result != null;
+		}
+
 }
 

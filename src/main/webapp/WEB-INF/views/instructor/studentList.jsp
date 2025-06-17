@@ -8,7 +8,7 @@
 <body>
 
 <h2>강의별 수강생 목록</h2>
-
+<p>studentId: ${studentId}</p>
 <!-- 🔍 검색 폼 -->
 <form method="get" action="/instructor/studentList/${lectureId}">
     <input type="text" name="searchWord" placeholder="이름 검색" value="${searchWord}" />

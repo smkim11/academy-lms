@@ -18,6 +18,8 @@ import com.example.academylms.dto.Student;
 import com.example.academylms.mapper.StudentMapper;
 import com.example.academylms.service.StudentService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class StudentController {
 	
@@ -31,6 +33,7 @@ public class StudentController {
 	        @RequestParam(name = "searchWord", required = false) String searchWord,
 	        Model model) {
 
+	    // 페이징, 검색 처리
 	    int rowPerPage = 10;
 	    int totalCount = studentService.getStudentsCountByLecture(lectureId, searchWord);
 	    int beginRow = (currentPage - 1) * rowPerPage;
@@ -43,9 +46,11 @@ public class StudentController {
 	    model.addAttribute("totalPage", totalPage);
 	    model.addAttribute("lectureId", lectureId);
 	    model.addAttribute("searchWord", searchWord);
-
+	    
 	    return "/instructor/studentList";
 	}
+
+
 	
 	@GetMapping("/admin/studentList/{lectureId}")
     public String adminStudentListByLecture(

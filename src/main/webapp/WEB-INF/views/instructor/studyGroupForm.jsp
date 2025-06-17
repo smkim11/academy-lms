@@ -6,19 +6,21 @@
     <title>스터디 그룹 생성(강사)</title>
 </head>
 <body>
-
 <h2>스터디 그룹 생성(강사)</h2>
-
+<p>studentId: ${studentId}</p>
 <form action="/instructor/studyGroup/create" method="post">
     <input type="hidden" name="lectureId" value="${lectureId}" />
 
     <label>조장 선택 (선택): </label>
-    <select name="leaderStudentId">
+    <select name="studentId" required>
         <option value="">-- 선택 안함 --</option>
         <c:forEach var="student" items="${students}">
             <option value="${student.studentId}">${student.name} (${student.email})</option>
         </c:forEach>
     </select>
+    <c:if test="${not empty errorMsg}">
+	    <p style="color: red;">${errorMsg}</p>
+	</c:if>
     <br/><br/>
 
     <button type="submit">그룹 생성</button>

@@ -165,10 +165,18 @@ public class StudyGroupController {
 	
 	@PostMapping("/instructor/studyGroup/create")
 	public String createGroup(@RequestParam int lectureId,
-	                          @RequestParam(required = false) Integer leaderStudentId) {
-	    studyGroupService.createStudyGroup(lectureId, leaderStudentId);
-	    return "redirect:/instructor/studyGroup/list?lectureId=" + lectureId;
+	                          @RequestParam(required = false) Integer studentId,
+	                          Model model, RedirectAttributes redirectAttributes) {
+
+	    if (studentId != null && studyGroupService.isStudentAlreadyLeader(studentId)) {
+	        redirectAttributes.addFlashAttribute("errorMsg", "이미 조장으로 등록된 학생입니다.");
+	        return "redirect:/instructor/studyGroupForm?lectureId=" + lectureId;
+	    }
+
+	    studyGroupService.createStudyGroup(lectureId, studentId);
+	    return "redirect:/instructor/studentList/" + lectureId;
 	}
+
 
 
 }

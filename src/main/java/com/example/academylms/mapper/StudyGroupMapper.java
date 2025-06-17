@@ -21,5 +21,6 @@ public interface StudyGroupMapper {
 	void updateFeedback(@Param("postId") int postId, @Param("feedback") String feedback);
 	List<Student> selectStudentsByLectureId(int lectureId);
 	void insertStudyGroup(@Param("lectureId") int lectureId,
-            @Param("leaderStudentId") Integer leaderStudentId);
+            @Param("studentId") Integer studentId);
+	Integer findGroupIdByStudentId(@Param("studentId") int studentId);
 }
