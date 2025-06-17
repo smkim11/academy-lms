@@ -16,6 +16,9 @@
 <main>
 	<span class="page-title">${lectureInfo.title }</span>
 	<span class="page-subtitle">[${lectureInfo.day }/${lectureInfo.time}]</span> &nbsp;
+	<div>
+		<a href="/instructor/lectureOne?lectureId=${lectureId }">돌아가기</a>
+	</div>
 	<span class="quiz-list-title">퀴즈 목록</span>
 		<table class="quiz-table">
 			<tr>
