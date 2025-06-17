@@ -19,6 +19,8 @@ import com.example.academylms.dto.InstructorInfo;
 import com.example.academylms.dto.Lecture;
 import com.example.academylms.dto.LectureWeekMaterial;
 import com.example.academylms.dto.Notice;
+import com.example.academylms.dto.QnaList;
+import com.example.academylms.dto.QuizWeekList;
 import com.example.academylms.service.LectureService;
 
 import jakarta.servlet.http.HttpSession;
@@ -58,6 +60,8 @@ public class LectureController {
 	  Lecture lecture = lectureService.lectureOneBylectureId(lectureId);  // lectureId 로 강의 정보 가져오기
 	  List<LectureWeekMaterial> lectureWeekMaterial = lectureService.lectureOneWeekList(lectureId); // 강의자료 5주차까지 출력
 	  List<Notice> lectureNoticeList = lectureService.lectureOneNoticeList(lectureId); // 공지사항 가져오기
+	  List<QuizWeekList> quizList = lectureService.lectureOneQuizList(lectureId); // quiz 리스트 가져오기
+	  List<QnaList> qnaList = lectureService.lectureOneQnaList(lectureId); // qna 리스트 가져오기
 	  
 	  Map<Integer, List<LectureWeekMaterial>> weekMaterialMap = new HashMap<>();
 	  for (LectureWeekMaterial m : lectureWeekMaterial) { // 강의주차 가지고 옴.
@@ -66,6 +70,8 @@ public class LectureController {
 		  .add(m);
 		  
 	  }
+	  
+	 
 	 
 	  
 	  LocalDateTime now = LocalDateTime.now();
@@ -74,27 +80,71 @@ public class LectureController {
 	  model.addAttribute("lectureNoticeList", lectureNoticeList);
 	  model.addAttribute("now", now);
 	  model.addAttribute("weekMaterialMap", weekMaterialMap);
+	  model.addAttribute("quizList", quizList);
+	  model.addAttribute("qnaList", qnaList);
 	  
 	  return "/admin/lectureOne";
 	}
 	
 	@GetMapping("/instructor/lectureOne") // 강사 강의 상세정보
 	public String lectureOneByInstructor(@RequestParam int lectureId, Model model) {
-	  Lecture lecture = lectureService.lectureOneBylectureId(lectureId);  // lectureId 로 강의 정보 가져오기
-	  List<LectureWeekMaterial> lectureWeekMaterial = lectureService.lectureOneWeekList(lectureId);
-	  				    
-	  
-	  
-	  model.addAttribute("lecture", lecture);
-	  model.addAttribute("lecMaterial", lectureWeekMaterial);
+		Lecture lecture = lectureService.lectureOneBylectureId(lectureId);  // lectureId 로 강의 정보 가져오기
+		  List<LectureWeekMaterial> lectureWeekMaterial = lectureService.lectureOneWeekList(lectureId); // 강의자료 5주차까지 출력
+		  List<Notice> lectureNoticeList = lectureService.lectureOneNoticeList(lectureId); // 공지사항 가져오기
+		  List<QuizWeekList> quizList = lectureService.lectureOneQuizList(lectureId); // quiz 리스트 가져오기
+		  List<QnaList> qnaList = lectureService.lectureOneQnaList(lectureId); // qna 리스트 가져오기
+		  
+		  Map<Integer, List<LectureWeekMaterial>> weekMaterialMap = new HashMap<>();
+		  for (LectureWeekMaterial m : lectureWeekMaterial) { // 강의주차 가지고 옴.
+			  int week = m.getWeek();
+			  weekMaterialMap.computeIfAbsent(week , k  -> new ArrayList<>())
+			  .add(m);
+			  
+		  }
+		  
+		 
+		 
+		  
+		  LocalDateTime now = LocalDateTime.now();
+		  
+		  model.addAttribute("lecture", lecture);
+		  model.addAttribute("lectureNoticeList", lectureNoticeList);
+		  model.addAttribute("now", now);
+		  model.addAttribute("weekMaterialMap", weekMaterialMap);
+		  model.addAttribute("quizList", quizList);
+		  model.addAttribute("qnaList", qnaList);
+		  
 	  
 		
 		return "/instructor/lectureOne";
 	}
 	
 	@GetMapping("/student/lectureOne")  // 학생 강의 상세정보
-	public String lectureOneByStudent() {
-		return "";
+	public String lectureOneByStudent(@RequestParam int lectureId, Model model) {
+		Lecture lecture = lectureService.lectureOneBylectureId(lectureId);  // lectureId 로 강의 정보 가져오기
+		  List<LectureWeekMaterial> lectureWeekMaterial = lectureService.lectureOneWeekList(lectureId); // 강의자료 5주차까지 출력
+		  List<Notice> lectureNoticeList = lectureService.lectureOneNoticeList(lectureId); // 공지사항 가져오기
+		  List<QuizWeekList> quizList = lectureService.lectureOneQuizList(lectureId); // quiz 리스트 가져오기
+		  List<QnaList> qnaList = lectureService.lectureOneQnaList(lectureId); // qna 리스트 가져오기
+		  
+		  Map<Integer, List<LectureWeekMaterial>> weekMaterialMap = new HashMap<>();
+		  for (LectureWeekMaterial m : lectureWeekMaterial) { // 강의주차 가지고 옴.
+			  int week = m.getWeek();
+			  weekMaterialMap.computeIfAbsent(week , k  -> new ArrayList<>())
+			  .add(m);
+			  
+		  }
+		  
+		  LocalDateTime now = LocalDateTime.now();
+		  
+		  model.addAttribute("lecture", lecture);
+		  model.addAttribute("lectureNoticeList", lectureNoticeList);
+		  model.addAttribute("now", now);
+		  model.addAttribute("weekMaterialMap", weekMaterialMap);
+		  model.addAttribute("quizList", quizList);
+		  model.addAttribute("qnaList", qnaList);
+		
+		return "/student/lectureOne";
 	}
 	
 	@GetMapping("/admin/updateLecture")  // 관리자 강의 수정 페이지 이동

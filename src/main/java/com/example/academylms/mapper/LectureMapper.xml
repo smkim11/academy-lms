@@ -90,4 +90,30 @@ SELECT
 
 </select>
 
+<select id="lectureOneQuizList" parameterType="int" resultType="com.example.academylms.dto.QuizWeekList">
+   SELECT 
+      lw.week_id AS weekId,
+      lw.week AS week,
+      q.started_at AS startedAt,
+      q.ended_at AS endedAt
+   FROM lecture_week lw
+   LEFT JOIN quiz q ON lw.week_id = q.week_id
+   WHERE lw.lecture_id = #{lectureId}
+     AND lw.week BETWEEN 1 AND 5
+   ORDER BY lw.week ASC
+</select>
+
+<select id="lectureOneQnaList" parameterType="int" resultType="com.example.academylms.dto.QnaList">
+    SELECT q.qna_id AS qnaId,
+             q.title,
+             q.is_public AS isPublic,
+             q.create_date AS createDate,
+             u.user_id AS writerName
+    FROM qna q
+    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
+    JOIN user u ON le.student_id = u.user_id
+    WHERE le.lecture_id = #{lectureId}
+   	ORDER BY q.create_date DESC
+    LIMIT 5;
+</select>
 </mapper>

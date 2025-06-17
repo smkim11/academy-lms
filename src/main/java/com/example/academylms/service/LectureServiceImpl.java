@@ -10,6 +10,8 @@ import com.example.academylms.dto.InstructorInfo;
 import com.example.academylms.dto.Lecture;
 import com.example.academylms.dto.LectureWeekMaterial;
 import com.example.academylms.dto.Notice;
+import com.example.academylms.dto.QnaList;
+import com.example.academylms.dto.QuizWeekList;
 import com.example.academylms.mapper.LectureMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -118,6 +120,16 @@ public class LectureServiceImpl implements LectureService {
 	@Override
 	public List<Notice> lectureOneNoticeList(int lectureId) { // 5개까지의 공지사항 상세정보 노출
 		return lectureMapper.lectureOneNoticeList(lectureId);
+	}
+
+	@Override
+	public List<QuizWeekList> lectureOneQuizList(int lectureId) { // 5주차까지 퀴즈 정보 노출
+		return lectureMapper.lectureOneQuizList(lectureId);
+	}
+
+	@Override
+	public List<QnaList> lectureOneQnaList(int lectureId) {
+		return lectureMapper.lectureOneQnaList(lectureId);
 	}
 
 
