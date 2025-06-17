@@ -3,7 +3,10 @@ package com.example.academylms.controller;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,13 +59,21 @@ public class LectureController {
 	  List<LectureWeekMaterial> lectureWeekMaterial = lectureService.lectureOneWeekList(lectureId); // 강의자료 5주차까지 출력
 	  List<Notice> lectureNoticeList = lectureService.lectureOneNoticeList(lectureId); // 공지사항 가져오기
 	  
+	  Map<Integer, List<LectureWeekMaterial>> weekMaterialMap = new HashMap<>();
+	  for (LectureWeekMaterial m : lectureWeekMaterial) { // 강의주차 가지고 옴.
+		  int week = m.getWeek();
+		  weekMaterialMap.computeIfAbsent(week , k  -> new ArrayList<>())
+		  .add(m);
+		  
+	  }
+	 
 	  
 	  LocalDateTime now = LocalDateTime.now();
 	  
 	  model.addAttribute("lecture", lecture);
-	  model.addAttribute("lecMaterial", lectureWeekMaterial);
 	  model.addAttribute("lectureNoticeList", lectureNoticeList);
 	  model.addAttribute("now", now);
+	  model.addAttribute("weekMaterialMap", weekMaterialMap);
 	  
 	  return "/admin/lectureOne";
 	}

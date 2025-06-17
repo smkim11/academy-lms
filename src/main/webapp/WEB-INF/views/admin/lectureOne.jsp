@@ -51,10 +51,45 @@
           👥 학생 리스트 보기
         </a>
       </div>
+	
+	<br> <br>
 
-      <div style="margin-top: 10px;">
-        
-      </div>
+<a href="/lectureMaterialWeekList?lectureId=${lecture.lectureId}"> 강의자료 더보기</a>	
+	
+<table border="1">
+  <thead>
+    <tr>
+      <th>주차</th>
+      <th>자료 목록</th>
+    </tr>
+  </thead>
+  <tbody>
+    <c:forEach var="week" begin="1" end="5">
+      <tr>
+        <td>${week}주차</td>
+        <td>
+          <c:choose>
+            <c:when test="${not empty weekMaterialMap[week]}">
+              <ul>
+                <c:forEach var="material" items="${weekMaterialMap[week]}">
+                  <li>
+                    <a href="${material.fileUrl}" download>${material.title}</a>
+                  </li>
+                </c:forEach>
+              </ul>
+            </c:when>
+            <c:otherwise>내용 없음</c:otherwise>
+          </c:choose>
+        </td>
+      </tr>
+    </c:forEach>
+  </tbody>
+</table>
+
+
+
+	
+     
     </section>
 
     <!-- 📋 오른쪽: 공지사항 테이블 -->
