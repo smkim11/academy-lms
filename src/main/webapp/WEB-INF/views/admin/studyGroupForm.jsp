@@ -3,12 +3,12 @@
 
 <html>
 <head>
-    <title>스터디 그룹 생성(강사)</title>
+    <title>스터디 그룹 생성(관리자)</title>
 </head>
 <body>
-<h2>스터디 그룹 생성(강사)</h2>
+<h2>스터디 그룹 생성(관리자)</h2>
 
-<form action="/instructor/studyGroup/create" method="post">
+<form action="/admin/studyGroup/create" method="post">
     <input type="hidden" name="lectureId" value="${lectureId}" />
 
     <label>조장 선택 (선택): </label>
@@ -27,7 +27,7 @@
 </form>
 
 <br/>
-<a href="/instructor/studentList/${lectureId}">← 수강생 목록으로 돌아가기</a>
+<a href="/admin/studentList/${lectureId}">← 수강생 목록으로 돌아가기</a>
 
 </body>
 </html>

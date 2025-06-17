@@ -8,7 +8,6 @@
 <body>
 
 <h2>강의별 수강생 목록</h2>
-<p>studentId: ${studentId}</p>
 <!-- 🔍 검색 폼 -->
 <form method="get" action="/instructor/studentList/${lectureId}">
     <input type="text" name="searchWord" placeholder="이름 검색" value="${searchWord}" />
@@ -63,12 +62,6 @@
 		        </td>
 		    </tr>
 		    <c:set var="studentIdStr" value="${student.studentId}" />
-			<tr>
-			  <td colspan="6">
-			    studentId: ${student.studentId} |
-			    groupMap[studentId]: ${groupMap[studentIdStr] != null ? groupMap[studentIdStr] : '미배정'}
-			  </td>
-			</tr>
 
 		</c:forEach>
 

@@ -71,31 +71,28 @@ public class StudentController {
 	    int totalCount = studentService.getStudentsCountByLecture(lectureId, searchWord);
 	    int beginRow = (currentPage - 1) * rowPerPage;
 
+	    // 수강생 목록
 	    List<Student> students = studentService.getStudentsByLecture(lectureId, beginRow, rowPerPage, searchWord);
 	    int totalPage = (totalCount + rowPerPage - 1) / rowPerPage;
 
-	    // study_group 매핑 리스트 조회
-	    List<Map<String, Object>> studentGroupList = studyGroupService.getStudentGroupMappingByLectureId(lectureId);
+	    // 학생별 그룹 매핑 정보
+	    Map<Integer, Integer> groupMap = studyGroupService.getStudentGroupIdsByLectureId(lectureId);
 
-	    // Map<Integer, Integer>로 변환 (studentId -> groupId)
-	    Map<String, Integer> groupMap = new HashMap<>();
-	    for (Map<String, Object> map : studentGroupList) {
-	        Object studentId = map.get("studentId");
-	        Object groupId = map.get("groupId");
-	        if (studentId != null && groupId != null) {
-	            groupMap.put(String.valueOf(studentId), (Integer) groupId);
-	        }
-	    }
+	    // 그룹 ID 목록 (드롭다운에 사용)
+	    List<Integer> groupIds = studyGroupService.getGroupIdsByLectureId(lectureId);
 
+	    // JSP에 데이터 전달
 	    model.addAttribute("students", students);
 	    model.addAttribute("currentPage", currentPage);
 	    model.addAttribute("totalPage", totalPage);
 	    model.addAttribute("lectureId", lectureId);
 	    model.addAttribute("searchWord", searchWord);
 	    model.addAttribute("groupMap", groupMap);
-	    System.out.println("groupMap = " + groupMap);
+	    model.addAttribute("groupIds", groupIds);
+
 	    return "/admin/studentList";
 	}
+
 
 
 	
