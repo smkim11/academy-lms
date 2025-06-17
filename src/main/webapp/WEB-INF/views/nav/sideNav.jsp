@@ -12,6 +12,7 @@
 		 <ul>
 			<li><a href="/mainPage">메인페이지</a></li>
 			<li><a href="/lectureMainPage">강의목록</a></li>
+			<li><a href="/logOut">로그아웃</a></li>
 		 </ul>
 	</div>
 </nav>
