@@ -39,6 +39,14 @@
     <p><strong>강사:</strong> ${lecture.name}</p>
     <p><strong>시간:</strong> ${lecture.day} / ${lecture.time}</p>
     <p><strong>기간:</strong> ${lecture.startedAt} ~ ${lecture.endedAt}</p>
+    
+        <!-- ✅ 액션 버튼 영역 -->
+    <div style="margin-top: 25px;">
+      <a href="/admin/studentList/${lecture.lectureId}" 
+         style="display: inline-block; padding: 8px 16px; background-color: #3498db; color: white; border-radius: 4px; text-decoration: none; font-size: 14px;">
+        👥 학생 리스트 보기
+      </a>
+    </div>
   </section>
   
   

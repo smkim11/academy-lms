@@ -14,5 +14,6 @@ public interface LectureService {
 	boolean createLecture(Lecture lecture);
 	Lecture lectureOneBylectureId(int lectureId);
 	boolean updateLecture(Lecture lecture);
-	int deleteLecture(int lectureId); 
+	int deleteLecture(int lectureId);
+	int lectureOneWeekList(int lectureId); 
 }

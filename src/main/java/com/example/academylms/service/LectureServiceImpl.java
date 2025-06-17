@@ -107,6 +107,11 @@ public class LectureServiceImpl implements LectureService {
 		
 		return result; // 0이면 삭제 오류 1이면 삭제
 	}
+
+	@Override
+	public int lectureOneWeekList(int lectureId) { // 강의자료 5주차까지 자료내용 보여주기.
+		return lectureMapper.lectureOneWeekList(lectureId); 
+	}
 	
     
     

@@ -63,7 +63,7 @@ public class LectureController {
 	@GetMapping("/instructor/lectureOne") // 강사 강의 상세정보
 	public String lectureOneByInstructor(@RequestParam int lectureId, Model model) {
 	  Lecture lecture = lectureService.lectureOneBylectureId(lectureId);  // lectureId 로 강의 정보 가져오기
-	  				    lectureService.NoticeListBylectureId(lectureId);
+	  				    lectureService.lectureOneWeekList(lectureId);
 	  
 	  
 	  model.addAttribute("lecture", lecture);
@@ -124,4 +124,6 @@ public class LectureController {
 			log.info("강의 삭제 x");
 			return "redirect:/admin/lectureOne?lectureId="+lectureId;
 	}
+	
+	
 }
