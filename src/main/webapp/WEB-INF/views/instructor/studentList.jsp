@@ -17,6 +17,8 @@
 
 <br/>
 
+<a href="/instructor/studyGroupForm?lectureId=${lectureId}">스터디 그룹 생성</a>
+
 <table border="1" cellpadding="5" cellspacing="0">
     <thead>
         <tr>

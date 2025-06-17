@@ -67,4 +67,18 @@
 	    SET feedback = #{feedback}
 	    WHERE post_id = #{postId}
 	</update>
+	
+	<!-- [1] 강의별 수강생 조회 -->
+    <select id="selectStudentsByLectureId" resultType="com.example.academylms.dto.Student">
+        SELECT s.student_id, s.name, s.email, s.phone, s.create_date
+        FROM student s
+        JOIN lecture_enrollment e ON s.student_id = e.student_id
+        WHERE e.lecture_id = #{lectureId}
+    </select>
+
+    <!-- [2] 스터디 그룹 생성 -->
+    <insert id="insertStudyGroup">
+        INSERT INTO study_group (lecture_id, student_id, group_name, create_date)
+        VALUES (#{lectureId}, #{leaderStudentId}, #{groupName}, NOW())
+    </insert>
 </mapper>
