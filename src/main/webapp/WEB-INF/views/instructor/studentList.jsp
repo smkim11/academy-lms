@@ -72,7 +72,8 @@
         </c:if>
     </tbody>
 </table>
-
+<br>
+<a href="/instructor/lectureOne?lectureId=${lectureId}">← 강의페이지로 돌아가기</a>
 <!-- 페이지 네비게이션 -->
 <div style="margin-top:10px;">
     <c:forEach begin="1" end="${totalPage}" var="i">

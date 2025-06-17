@@ -26,6 +26,7 @@
             </c:forEach>
         </tbody>
     </table>
-    <a href="/">← 강의 목록으로</a>
+<br>
+<a href="/student/lectureOne?lectureId=${lectureId}">← 강의페이지로 돌아가기</a>
 </body>
 </html>

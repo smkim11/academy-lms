@@ -63,5 +63,7 @@
             </c:forEach>
         </tbody>
     </table>
+<br>
+<a href="/admin/lectureOne?lectureId=${lectureId}">← 강의페이지로 돌아가기</a>
 </body>
 </html>

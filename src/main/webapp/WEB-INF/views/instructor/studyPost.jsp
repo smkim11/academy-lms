@@ -44,7 +44,8 @@
         </table>
     </div>
 </c:forEach>
-
+<br>
+<a href="/instructor/lectureOne?lectureId=${lectureId}">← 강의페이지로 돌아가기</a>
 <script>
     function showGroup(groupId) {
         // 모든 테이블 숨김
