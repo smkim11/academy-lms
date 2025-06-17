@@ -27,7 +27,7 @@
 	</div>
 
 	<main style="max-width: 1200px; margin: 20px auto; padding: 20px;">
-	    <h2 style="text-align: center;">${weekId}주차 강의자료</h2>
+	    <h2 style="text-align: center;">${week}주차 강의자료</h2>
 	
 	    <table border="1" style="width: 100%; border-collapse: collapse; text-align: center;">
 	        <tr style="background-color: #f0f0f0;">

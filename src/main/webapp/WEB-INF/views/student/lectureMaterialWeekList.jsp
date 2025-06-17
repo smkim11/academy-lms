@@ -27,11 +27,13 @@
 <main>
     <h2>강의자료 주차별 보기</h2>
     <ul>
-        <c:forEach var="week" items="${availableWeeks}">
-            <li>
-                <a href="/lectureMaterialList?weekId=${week}">${week}주차 강의자료 보기</a>
-            </li>
-        </c:forEach>
+<c:forEach var="week" items="${weekList}">
+    <li>
+        <a href="/lectureMaterialList?weekId=${week.weekId}">
+            ${week.week}주차
+        </a>
+    </li>
+</c:forEach>
     </ul>
 </main>
 </body>
