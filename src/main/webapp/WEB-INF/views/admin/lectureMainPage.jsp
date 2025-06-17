@@ -24,7 +24,7 @@
 	  </ul>
 	</div>
 
-    <div style="width: 50%;">
+    <div style="width: 50%; margin-left: 220px; margin-top: 80px;">
       <h2>강의관리</h2>
       <!-- 진행중인 강의 -->
       <h4 class="toggle-header" onclick="toggleSection('ongoing')">▸진행중인 강의</h4>
