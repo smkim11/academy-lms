@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.academylms.mapper.StudyGroupMapper">
-	<!-- 스터디 게시판 글 목록 -->
-	<select id="getGroupsByLectureId" resultType="com.example.academylms.dto.StudyGroup">
+
+    <!-- 스터디 게시판 글 목록 -->
+    <select id="getGroupsByLectureId" resultType="com.example.academylms.dto.StudyGroup">
         SELECT 
             group_id AS groupId,
             lecture_id AS lectureId,
@@ -26,51 +27,51 @@
     </select>
     
     <!-- 게시글 상세 -->
-	<select id="selectPostById" parameterType="int" resultType="com.example.academylms.dto.StudyPost">
-		SELECT post_id AS postId,
-		group_id AS groupId, 
-		title, 
-		content, 
-		feedback, 
-		create_date AS createDate
-		FROM study_post
-		WHERE post_id = #{postId}
-	</select>
-	
-	<select id="getGroupById" resultType="com.example.academylms.dto.StudyGroup">
-	    SELECT group_id AS groupId, 
-	    lecture_id AS lectureId, 
-	    student_id AS studentId, 
-	    create_date AS createDate
-	    FROM study_group
-	    WHERE group_id = #{groupId}
-	</select>
-	
-	<insert id="insertStudyPost" parameterType="com.example.academylms.dto.StudyPost">
-	    INSERT INTO study_post (group_id, title, content, create_date)
-	    VALUES (#{groupId}, #{title}, #{content}, NOW())
-	</insert>
-	
-	<update id="updateStudyPost" parameterType="com.example.academylms.dto.StudyPost">
-	    UPDATE study_post
-	    SET title = #{title},
-	        content = #{content}
-	    WHERE post_id = #{postId}
-	</update>
-	
-	<delete id="deleteStudyPost" parameterType="int">
-		DELETE FROM study_post WHERE post_id = #{postId}
-	</delete>
-	
-	<update id="updateFeedback">
-	    UPDATE study_post
-	    SET feedback = #{feedback}
-	    WHERE post_id = #{postId}
-	</update>
-	
-	<!-- [1] 강의별 수강생 조회 -->
+    <select id="selectPostById" parameterType="int" resultType="com.example.academylms.dto.StudyPost">
+        SELECT post_id AS postId,
+               group_id AS groupId, 
+               title, 
+               content, 
+               feedback, 
+               create_date AS createDate
+        FROM study_post
+        WHERE post_id = #{postId}
+    </select>
+    
+    <select id="getGroupById" resultType="com.example.academylms.dto.StudyGroup">
+        SELECT group_id AS groupId, 
+               lecture_id AS lectureId, 
+               student_id AS studentId, 
+               create_date AS createDate
+        FROM study_group
+        WHERE group_id = #{groupId}
+    </select>
+    
+    <insert id="insertStudyPost" parameterType="com.example.academylms.dto.StudyPost">
+        INSERT INTO study_post (group_id, title, content, create_date)
+        VALUES (#{groupId}, #{title}, #{content}, NOW())
+    </insert>
+    
+    <update id="updateStudyPost" parameterType="com.example.academylms.dto.StudyPost">
+        UPDATE study_post
+        SET title = #{title},
+            content = #{content}
+        WHERE post_id = #{postId}
+    </update>
+    
+    <delete id="deleteStudyPost" parameterType="int">
+        DELETE FROM study_post WHERE post_id = #{postId}
+    </delete>
+    
+    <update id="updateFeedback">
+        UPDATE study_post
+        SET feedback = #{feedback}
+        WHERE post_id = #{postId}
+    </update>
+    
+    <!-- [1] 강의별 수강생 조회 -->
     <select id="selectStudentsByLectureId" resultType="com.example.academylms.dto.Student">
-        SELECT s.student_id AS studentId, s.name, s.email, s.phone, s.create_date
+        SELECT s.student_id AS studentId, s.name, s.email, s.phone, s.create_date AS createDate
         FROM student s
         JOIN lecture_enrollment e ON s.student_id = e.student_id
         WHERE e.lecture_id = #{lectureId}
@@ -83,53 +84,64 @@
     </insert>
     
     <select id="findGroupIdByStudentId" resultType="int">
-	    SELECT group_id FROM study_group WHERE student_id = #{studentId}
-	</select>
-	
-	<select id="selectStudentGroupIdsByLectureId" resultType="map" parameterType="int">
-	    SELECT s.student_id,
-	           sg.group_id
-	    FROM student s
-	    JOIN lecture_enrollment le ON s.student_id = le.student_id
-	    LEFT JOIN study_group sg ON sg.student_id = s.student_id AND sg.lecture_id = le.lecture_id
-	    WHERE le.lecture_id = #{lectureId}
-	</select>
-	
-	<select id="selectGroupIdsByLectureId" resultType="int" parameterType="int">
-	    SELECT DISTINCT group_id
-	    FROM study_group
-	    WHERE lecture_id = #{lectureId}
-	</select>
-	
-	<insert id="insertStudyMember">
-	    INSERT INTO study_member (group_id, enrollment_id, create_date)
-	    VALUES (#{groupId}, #{enrollmentId}, NOW())
-	</insert>
-	
-	<select id="selectEnrollmentId" resultType="int">
-	    SELECT enrollment_id
-	    FROM lecture_enrollment
-	    WHERE student_id = #{studentId}
-	      AND lecture_id = #{lectureId}
-	    LIMIT 1
-	</select>
-	
-	<!-- study_member의 group 변경 -->
-	<update id="updateMemberGroup" parameterType="map">
-	    UPDATE study_member sm
-	    JOIN lecture_enrollment le ON sm.enrollment_id = le.enrollment_id
-	    SET sm.group_id = #{newGroupId}
-	    WHERE le.student_id = #{studentId}
-	      AND le.lecture_id = #{lectureId}
-	</update>
+        SELECT group_id FROM study_group WHERE student_id = #{studentId}
+    </select>
+    
+    <select id="selectStudentGroupIdsByLectureId" resultType="map" parameterType="int">
+        SELECT s.student_id AS studentId,
+		       COALESCE(sg.group_id, sm.group_id) AS groupId
+		FROM student s
+		JOIN lecture_enrollment le ON s.student_id = le.student_id
+		LEFT JOIN study_group sg ON sg.student_id = s.student_id AND sg.lecture_id = le.lecture_id
+		LEFT JOIN study_member sm ON sm.enrollment_id = le.enrollment_id
+		WHERE le.lecture_id = #{lectureId}
 
-	<!-- study_member에 새 참가자 추가 -->
-	<insert id="insertMemberGroup" parameterType="map">
-	    INSERT INTO study_member (group_id, enrollment_id, create_date)
-	    SELECT #{newGroupId}, le.enrollment_id, NOW()
-	    FROM lecture_enrollment le
-	    WHERE le.student_id = #{studentId} AND le.lecture_id = #{lectureId}
-	</insert>
-	
-	
+    </select>
+    
+    <select id="selectGroupIdsByLectureId" resultType="int" parameterType="int">
+        SELECT DISTINCT group_id
+        FROM study_group
+        WHERE lecture_id = #{lectureId}
+    </select>
+    
+    <insert id="insertStudyMember">
+        INSERT INTO study_member (group_id, enrollment_id, create_date)
+        VALUES (#{groupId}, #{enrollmentId}, NOW())
+    </insert>
+    
+    <select id="selectEnrollmentId" resultType="int">
+        SELECT enrollment_id
+        FROM lecture_enrollment
+        WHERE student_id = #{studentId}
+          AND lecture_id = #{lectureId}
+        LIMIT 1
+    </select>
+    
+    <!-- study_member의 group 변경 -->
+    <update id="updateMemberGroup" parameterType="map">
+        UPDATE study_member sm
+        JOIN lecture_enrollment le ON sm.enrollment_id = le.enrollment_id
+        SET sm.group_id = #{newGroupId}
+        WHERE le.student_id = #{studentId}
+          AND le.lecture_id = #{lectureId}
+    </update>
+
+    <!-- study_member에 새 참가자 추가 -->
+    <insert id="insertMemberGroup" parameterType="map">
+        INSERT INTO study_member (group_id, enrollment_id, create_date)
+        SELECT #{newGroupId}, le.enrollment_id, NOW()
+        FROM lecture_enrollment le
+        WHERE le.student_id = #{studentId} AND le.lecture_id = #{lectureId}
+    </insert>
+    
+    <select id="getStudentGroupMappingByLectureId" resultType="map" parameterType="int">
+	    SELECT s.student_id AS studentId,
+		       COALESCE(sg.group_id, sm.group_id) AS groupId
+		FROM student s
+		JOIN lecture_enrollment le ON s.student_id = le.student_id
+		LEFT JOIN study_group sg ON sg.student_id = s.student_id AND sg.lecture_id = le.lecture_id
+		LEFT JOIN study_member sm ON sm.enrollment_id = le.enrollment_id
+		WHERE le.lecture_id = #{lectureId}
+	</select>
+    
 </mapper>

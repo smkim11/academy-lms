@@ -16,6 +16,8 @@
 </form>
 
 <a href="/admin/addStudent?lectureId=${lectureId}">➕ 수강생 등록</a>
+<br>
+<a href="/admin/studyGroupForm?lectureId=${lectureId}">스터디 그룹 생성</a>
 
 <!-- 수강생 테이블 -->
 <table border="1" cellpadding="5" cellspacing="0">
@@ -25,6 +27,8 @@
             <th>이메일</th>
             <th>전화번호</th>
             <th>가입일</th>
+            <th>스터디 그룹 번호</th>
+            <th>스터디 그룹 배정</th>
             <th>관리</th>
         </tr>
     </thead>
@@ -35,6 +39,30 @@
                 <td>${student.email}</td>
                 <td>${student.phone}</td>
                 <td>${student.createDate}</td>
+                <td>
+				    <c:choose>
+				        <c:when test="${groupMap[student.studentId] != null}">
+				            ${groupMap[student.studentId]}조
+				        </c:when>
+				        <c:otherwise>
+				            미배정
+				        </c:otherwise>
+				    </c:choose>
+				</td>
+
+		        <td>
+		            <form method="post" action="/admin/studyGroup/changeGroup">
+		                <input type="hidden" name="lectureId" value="${lectureId}" />
+		                <input type="hidden" name="studentId" value="${student.studentId}" />
+		                <select name="newGroupId" required>
+		                    <option value="">-- 조 선택 --</option>
+		                    <c:forEach var="gid" items="${groupIds}">
+		                        <option value="${gid}" <c:if test="${groupMap[student.studentId] == gid}">selected</c:if>>${gid}조</option>
+		                    </c:forEach>
+		                </select>
+		                <button type="submit">조 변경</button>
+		            </form>
+		        </td>
                 <td>
 				    <a href="/admin/updateStudent/${student.studentId}?lectureId=${lectureId}">수정</a>
 				    <a href="javascript:void(0);"

@@ -185,7 +185,34 @@ public class StudyGroupController {
 	    return "redirect:/instructor/studentList/" + lectureId;
 	}
 
+	@GetMapping("/admin/studyGroupForm")
+	public String showGroupFormAdmin(@RequestParam int lectureId, Model model) {
+		List<Student> students = studyGroupService.getStudentsByLectureId(lectureId); // 조장 후보
+		model.addAttribute("lectureId", lectureId);
+		model.addAttribute("students", students);
+		return "admin/studyGroupForm";
+	   }
+	
+	@PostMapping("/admin/studyGroup/create")
+	public String createGroupAdmin(@RequestParam int lectureId,
+	                          @RequestParam(required = false) Integer studentId,
+	                          Model model, RedirectAttributes redirectAttributes) {
 
+	    if (studentId != null && studyGroupService.isStudentAlreadyLeader(studentId)) {
+	        redirectAttributes.addFlashAttribute("errorMsg", "이미 조장으로 등록된 학생입니다.");
+	        return "redirect:/admin/studyGroupForm?lectureId=" + lectureId;
+	    }
 
+	    studyGroupService.createStudyGroup(lectureId, studentId);
+	    return "redirect:/admin/studentList/" + lectureId;
+	}
+	
+	@PostMapping("/admin/studyGroup/changeGroup")
+	public String changeStudentGroupAdmin(@RequestParam int lectureId,
+	                                 @RequestParam int studentId,
+	                                 @RequestParam int newGroupId) {
+	    studyGroupService.changeMemberGroup(lectureId, studentId, newGroupId);
+	    return "redirect:/admin/studentList/" + lectureId;
+	}
 
 }

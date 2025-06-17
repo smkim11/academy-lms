@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.academylms.dto.Student;
 import com.example.academylms.dto.StudyGroup;
@@ -45,25 +46,50 @@ public class StudyGroupService {
 	        return studyGroupMapper.selectStudentsByLectureId(lectureId);
 	    }
 	 
-	 public void createStudyGroup(int lectureId, Integer studentId) {
+	 @Transactional
+	    public void createStudyGroup(int lectureId, Integer studentId) {
+	        // 1) study_group에 조장 포함해 그룹 생성
 	        studyGroupMapper.insertStudyGroup(lectureId, studentId);
+
+	        if (studentId != null) {
+	            // 2) 조장이 속한 group_id 조회
+	            Integer groupId = studyGroupMapper.findGroupIdByStudentId(studentId);
+	            if (groupId == null) {
+	                throw new RuntimeException("스터디 그룹 생성 후 groupId를 찾을 수 없습니다.");
+	            }
+
+	            // 3) 조장 학생의 enrollment_id 조회
+	            int enrollmentId = studyGroupMapper.selectEnrollmentId(studentId, lectureId);
+	            if (enrollmentId == 0) {
+	                throw new RuntimeException("조장의 enrollment_id를 찾을 수 없습니다.");
+	            }
+
+	            // 4) study_member에 조장 멤버 등록
+	            studyGroupMapper.insertStudyMember(groupId, enrollmentId);
+	        }
+	    }
+
+	    // 이미 조장인지 체크하는 메서드 (Optional)
+	    public boolean isStudentAlreadyLeader(int studentId) {
+	        Integer groupId = studyGroupMapper.findGroupIdByStudentId(studentId);
+	        return groupId != null;
 	    }
 	 
-	 public boolean isStudentAlreadyLeader(int studentId) {
-		    Integer result = studyGroupMapper.findGroupIdByStudentId(studentId);
-		    return result != null;
-		}
-	 
-	 public Map<String, Integer> getStudentGroupIdsByLectureId(int lectureId) {
+	 public Map<Integer, Integer> getStudentGroupIdsByLectureId(int lectureId) {
 		    List<Map<String, Object>> list = studyGroupMapper.selectStudentGroupIdsByLectureId(lectureId);
-		    Map<String, Integer> map = new HashMap<>();
+		    Map<Integer, Integer> map = new HashMap<>();
 		    for (Map<String, Object> row : list) {
-		        String studentId = String.valueOf(row.get("student_id"));  // String으로 변환
-		        Integer groupId = (Integer) row.get("group_id");
+		        System.out.println("row = " + row);
+		    }
+		    for (Map<String, Object> row : list) {
+		        Integer studentId = (Integer) row.get("studentId");
+		        Integer groupId = (Integer) row.get("groupId");
 		        map.put(studentId, groupId);
 		    }
+		    System.out.println("최종 groupMap = " + map);
 		    return map;
 		}
+
 
 	 
 	 public List<Integer> getExistingGroupIdsByLecture(int lectureId) {
@@ -94,8 +120,10 @@ public class StudyGroupService {
 		        studyGroupMapper.insertMemberGroup(lectureId, studentId, newGroupId);
 		    }
 		}
-
-
+	 
+	 public List<Map<String, Object>> getStudentGroupMappingByLectureId(int lectureId) {
+	        return studyGroupMapper.getStudentGroupMappingByLectureId(lectureId);
+	    }
 
 }
 

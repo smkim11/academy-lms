@@ -1,5 +1,6 @@
 package com.example.academylms.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class StudentController {
 	    int totalPage = (totalCount + rowPerPage - 1) / rowPerPage;
 
 	    // Map<Integer, Integer> -> Map<String, Integer> 타입으로 변경
-	    Map<String, Integer> groupMap = studyGroupService.getStudentGroupIdsByLectureId(lectureId);
+	    Map<Integer, Integer> groupMap = studyGroupService.getStudentGroupIdsByLectureId(lectureId);
 
 	    List<Integer> groupIds = studyGroupService.getGroupIdsByLectureId(lectureId);
 
@@ -59,34 +60,41 @@ public class StudentController {
 	    return "/instructor/studentList";
 	}
 
-
-
-
-
-	
 	@GetMapping("/admin/studentList/{lectureId}")
-    public String adminStudentListByLecture(
-            @PathVariable int lectureId,
-            @RequestParam(name = "page", defaultValue = "1") int currentPage,
-            @RequestParam(name = "searchWord", required = false) String searchWord,
-            Model model) {
+	public String adminStudentListByLecture(
+	        @PathVariable int lectureId,
+	        @RequestParam(name = "page", defaultValue = "1") int currentPage,
+	        @RequestParam(name = "searchWord", required = false) String searchWord,
+	        Model model) {
 
-        int rowPerPage = 10;
-        int totalCount = studentService.getStudentsCountByLecture(lectureId, searchWord);
-        int beginRow = (currentPage - 1) * rowPerPage;
+	    int rowPerPage = 10;
+	    int totalCount = studentService.getStudentsCountByLecture(lectureId, searchWord);
+	    int beginRow = (currentPage - 1) * rowPerPage;
 
-        List<Student> students = studentService.getStudentsByLecture(lectureId, beginRow, rowPerPage, searchWord);
-        int totalPage = (totalCount + rowPerPage - 1) / rowPerPage;
-        
-        
-        model.addAttribute("students", students);
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalPage", totalPage);
-        model.addAttribute("lectureId", lectureId);
-        model.addAttribute("searchWord", searchWord);
+	    // 수강생 목록
+	    List<Student> students = studentService.getStudentsByLecture(lectureId, beginRow, rowPerPage, searchWord);
+	    int totalPage = (totalCount + rowPerPage - 1) / rowPerPage;
 
-        return "/admin/studentList"; // JSP 뷰 경로
-    }
+	    // 학생별 그룹 매핑 정보
+	    Map<Integer, Integer> groupMap = studyGroupService.getStudentGroupIdsByLectureId(lectureId);
+
+	    // 그룹 ID 목록 (드롭다운에 사용)
+	    List<Integer> groupIds = studyGroupService.getGroupIdsByLectureId(lectureId);
+
+	    // JSP에 데이터 전달
+	    model.addAttribute("students", students);
+	    model.addAttribute("currentPage", currentPage);
+	    model.addAttribute("totalPage", totalPage);
+	    model.addAttribute("lectureId", lectureId);
+	    model.addAttribute("searchWord", searchWord);
+	    model.addAttribute("groupMap", groupMap);
+	    model.addAttribute("groupIds", groupIds);
+
+	    return "/admin/studentList";
+	}
+
+
+
 	
 	@GetMapping("/admin/addStudent")
 	public String addStudent(@RequestParam int lectureId, Model model) {
