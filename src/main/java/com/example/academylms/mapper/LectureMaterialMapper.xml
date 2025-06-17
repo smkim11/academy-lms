@@ -17,7 +17,7 @@
 		           week_id AS weekId,
 		           title,
 		           file_url AS fileUrl,
-		           create_date AS createDate
+		           create_date AS createDate목록으로
 		    FROM lecture_material
 		    WHERE material_id = #{materialId}
 	    </select>
