@@ -75,7 +75,11 @@
 <script>
    // 퀴즈 응시하기 클릭시 안내메세지 
 	$('#joinQuiz').click(function(){
-		alert('퀴즈 응시는 1회만 가능합니다.');
+		const join = confirm("퀴즈응시는 1회만 가능합니다.");
+		// 취소누르면 실행 X (알림창에서 확인->true반환 취소->false반환)
+		if(!join){
+			return false;
+		}
 	});
 </script>
 </body>
