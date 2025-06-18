@@ -22,7 +22,10 @@
         <h3>조 ${entry.key}의 게시글</h3>
         
         <!-- 새글 등록 -->
-        <a href="/student/addStudyPost/${entry.key}">새글등록</a>
+        <c:if test="${isLeaderMap[entry.key]}">
+		    <a href="/student/addStudyPost/${entry.key}">새글등록</a>
+		</c:if>
+
         
         <table border="1">
             <thead>
@@ -44,9 +47,10 @@
                         </td>
                         <td>${post.createDate}</td>
                         <td>
-                        	<a href="/student/updateStudyPost/${post.postId}">수정</a>
-                        	<a href="javascript:void(0);"
-   								onclick="deleteStudyPost(${post.postId}, ${lectureId})">삭제</a>
+                        	<c:if test="${isLeaderMap[entry.key]}">
+                                <a href="/student/updateStudyPost/${post.postId}">수정</a>
+                                <a href="javascript:void(0);" onclick="deleteStudyPost(${post.postId}, ${lectureId})">삭제</a>
+                            </c:if>
                         </td>
                     </tr>
                 </c:forEach>

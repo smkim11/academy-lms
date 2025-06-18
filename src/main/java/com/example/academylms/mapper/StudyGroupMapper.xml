@@ -143,5 +143,16 @@
 		LEFT JOIN study_member sm ON sm.enrollment_id = le.enrollment_id
 		WHERE le.lecture_id = #{lectureId}
 	</select>
-    
+	
+    <select id="getStudentIdByUserId" resultType="int" parameterType="String">
+	    SELECT s.student_id AS studentId
+	    FROM student s
+	    JOIN user u ON s.user_id = u.user_id
+	    WHERE u.user_id = #{userId}
+	</select>
+	
+	<select id="getStudentIdByPostId" parameterType="int" resultType="int">
+	    SELECT student_id AS stdentId FROM study_post WHERE post_id = #{postId}
+	</select>
+
 </mapper>

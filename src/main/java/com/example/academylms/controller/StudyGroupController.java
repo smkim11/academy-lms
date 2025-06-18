@@ -1,6 +1,7 @@
 package com.example.academylms.controller;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,25 +24,48 @@ import com.example.academylms.dto.StudyPost;
 import com.example.academylms.mapper.StudyGroupMapper;
 import com.example.academylms.service.StudyGroupService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 public class StudyGroupController {
 	@Autowired StudyGroupMapper studyGroupMapper;
 	@Autowired StudyGroupService studyGroupService;
 	
 	@GetMapping("/student/studyPost/{lectureId}")
-    public String getStudyBoard(@PathVariable int lectureId, Model model) {
-        List<StudyGroup> groups = studyGroupMapper.getGroupsByLectureId(lectureId);
-        Map<Integer, List<StudyPost>> groupPostMap = new LinkedHashMap<>();
+	public String getStudyBoard(@PathVariable int lectureId, HttpSession session, Model model) {
+	    Object userIdObj = session.getAttribute("loginUserId");
+	    if (userIdObj == null) {
+	        return "redirect:/login";
+	    }
+	    int loginStudentId = (userIdObj instanceof Integer)
+	        ? (Integer) userIdObj
+	        : Integer.parseInt(userIdObj.toString());
 
-        for (StudyGroup group : groups) {
-            List<StudyPost> posts = studyGroupMapper.getPostsByGroupId(group.getGroupId());
-            groupPostMap.put(group.getGroupId(), posts);
-        }
+	    List<StudyGroup> groups = studyGroupMapper.getGroupsByLectureId(lectureId);
+	    Map<Integer, List<StudyPost>> groupPostMap = new LinkedHashMap<>();
+	    Map<Integer, Boolean> isLeaderMap = new HashMap<>();
 
-        model.addAttribute("lectureId", lectureId);
-        model.addAttribute("groupPostMap", groupPostMap);
-        return "student/studyPost";
-    }
+	    for (StudyGroup group : groups) {
+	        List<StudyPost> posts = studyGroupMapper.getPostsByGroupId(group.getGroupId());
+	        groupPostMap.put(group.getGroupId(), posts);
+
+	        // 조장 여부 판단
+	        boolean isLeader = (group.getStudentId() == loginStudentId);
+	        isLeaderMap.put(group.getGroupId(), isLeader);
+	    }
+
+	    model.addAttribute("lectureId", lectureId);
+	    model.addAttribute("groupPostMap", groupPostMap);
+	    model.addAttribute("isLeaderMap", isLeaderMap);
+	    model.addAttribute("loginStudentId", loginStudentId);
+
+	    return "student/studyPost";
+	}
+
+
+
+
+
 	
 	@GetMapping("/student/studyPostOne/{postId}")
 	public String studyPostOne(@PathVariable int postId, Model model) {
