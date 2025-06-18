@@ -134,6 +134,18 @@
 		ORDER BY s.name
 	</select>
 	
+	<!--퀴즈에 응시한 학생의 문항별 정오-->
+	<select id="selectStudentCorrect" resultType="map">
+		SELECT s.student_id studentId, s.name, qj.score, qs.quiz_no quizNo,
+				CASE WHEN qs.is_correct = 1 THEN 'O' ELSE 'X' END isCorrect
+		FROM lecture_enrollment le 
+		INNER JOIN student s ON le.student_id = s.student_id
+		INNER JOIN quiz_join qj ON qj.enrollment_id = le.enrollment_id
+		INNER JOIN quiz_submission qs ON qj.join_id = qs.join_id
+		WHERE qj.week_id = #{weekId}
+		ORDER BY s.name, qs.quiz_no;
+	</select>
+	
 	<!--join_id 등록-->
 	<insert id="insertJoinId">
 		INSERT INTO quiz_join(week_id, enrollment_id) VALUES(#{weekId},#{enrollmentId});

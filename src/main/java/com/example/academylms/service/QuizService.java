@@ -131,6 +131,11 @@ public class QuizService {
 		return quizMapper.selectSubmissionStudent(weekId);
 	}
 	
+	// 퀴즈에 응시한 학생의 문항별 정오
+	public List<HashMap<String,Object>> selectStudentCorrect(int weekId){
+		return quizMapper.selectStudentCorrect(weekId);
+	}
+	
 	// join_id등록
 	public void insertJoinId(int weekId, int enrollmentId) {
 		quizMapper.insertJoinId(weekId, enrollmentId);

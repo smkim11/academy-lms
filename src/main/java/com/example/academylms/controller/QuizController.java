@@ -1,6 +1,7 @@
 package com.example.academylms.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -346,17 +347,25 @@ public class QuizController {
 		// 강의에 수강중인 전체학생 ID
 		List<HashMap<String,Object>> list1 = quizService.selectQuizStatus(lectureId);
 		
-		// 시험에 응시한 학생정보
-		List<HashMap<String,Object>> list2 = quizService.selectSubmissionStudent(weekId);
+		// 시험에 응시한 학생의 정보
+		List<HashMap<String,Object>> list2 = quizService.selectStudentCorrect(weekId);
 		
 		// 수강중인 전체학생 리스트에서 응시한 학생은 응시완료, 점수가 리스트에 추가
+		// 응시한 학생 정오를 리스트에 추가
+		List<String> correctList = new ArrayList<>();
+		
 		for(HashMap<String,Object> map1 : list1) {
+			correctList = new ArrayList<>();
+			
 			for(HashMap<String,Object> map2 : list2) {
-				if(map1.get("studentId").toString()
-						.equals(map2.get("studentId").toString())) {
-					map1.put("status", "응시완료");
+				if(map1.get("studentId").toString().equals(map2.get("studentId").toString())) {
 					map1.put("score", map2.get("score"));
+					correctList.add((String) map2.get("isCorrect"));
 				}
+			}
+			if(!correctList.isEmpty()) {
+				map1.put("status", "응시완료");
+				map1.put("isCorrect",correctList);
 			}
 		}
 		
@@ -373,6 +382,7 @@ public class QuizController {
 		model.addAttribute("list",list1);
 		model.addAttribute("lectureId",lectureId);
 		model.addAttribute("week",quizService.selectWeekByWeekId(weekId));
+		model.addAttribute("quizNo", quizService.quizExplanation(weekId));
 		if(role.equals("admin")) {
 			return "/admin/quizResult";
 		}
