@@ -176,7 +176,6 @@ public class QnaController {
     }
 
     //QnA 수정/삭제
-    
 //QnA 삭제
     @PostMapping("/deleteQna")
     public String deleteQna(@RequestParam("qnaId") int qnaId, 
@@ -278,7 +277,6 @@ public class QnaController {
 
     
     //QnA 답변
-    
 //QnA 답변달기
      @PostMapping("/addAnswer")
      public String addAnswer(@RequestParam("lectureId") int lectureId, QnaAnswer answer, HttpServletRequest request) {

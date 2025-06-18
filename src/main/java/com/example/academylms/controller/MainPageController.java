@@ -25,48 +25,26 @@ public class MainPageController {
     
     @Autowired
     private LoginService loginService;
-    
-    @GetMapping("/lectureMainPage")
-    public String lectureMainPage(HttpSession session, Model model) {
-    	//세션정보
-        Integer userId = (Integer) session.getAttribute("loginUserId"); 
-        if (userId == null) {
-        	return "redirect:/login"; 
-        }
+
+    @GetMapping("/mainPage")
+    public String getLectureListForMain(HttpSession session, Model model) {
+        // 세션정보
+        Integer userId = (Integer) session.getAttribute("loginUserId");
+        if (userId == null) return "redirect:/login";
+        
         User user = loginService.findById(userId);
         String role = user.getRole();
+
+        model.addAttribute("role", role); 
         model.addAttribute("userId", userId);
-        // 강의 정보 조회
+
+        // 진행중, 예정, 종료 강의
         Map<String, List<Map<String, Object>>> lectureMap = getLectureMap(userId, role);
         model.addAttribute("ongoingLectures", lectureMap.get("ongoing"));
         model.addAttribute("upcomingLectures", lectureMap.get("upcoming"));
         model.addAttribute("endedLectures", lectureMap.get("ended"));
-        model.addAttribute("role", role);
 
-        return role + "/lectureMainPage";
-    }
- 
-
-    @GetMapping("/mainPage")
-    public String getLectureListForMain(HttpSession session, Model model) {
-    	// 진행중, 예정, 종료된 강의들을 구분해서 가져옴 (역할 상관X)
-    	/* 메인페이지에 강의목록표시하고 싶으면 주석해제
-    	Map<String, List<Map<String, Object>>> lectureMap = getLectureMap(session);
-
-        model.addAttribute("ongoingLectures", lectureMap.get("ongoing"));
-        model.addAttribute("upcomingLectures", lectureMap.get("upcoming"));
-        model.addAttribute("endedLectures", lectureMap.get("ended"));
-        */
-    	
-    	//세션정보
-        Integer userId = (Integer) session.getAttribute("loginUserId");
-        if (userId == null) {
-        	return "redirect:/login";
-        }
-        User user = loginService.findById(userId);
-        String role = user.getRole();
-
-        // 현재 수강 중인 강의 목록 (학생 또는 강사 기준)
+        // 시간표용 ongoing 강의 조회
         List<Map<String, Object>> ongoingLectureList = new ArrayList<>();
         if ("student".equals(role)) {
             ongoingLectureList = mainPageService.getOngoingLecturesForStudent(userId);
@@ -74,21 +52,18 @@ public class MainPageController {
             ongoingLectureList = mainPageService.getOngoingLecturesForInstructor(userId);
         }
 
-        // 요일/시간 목록
         List<String> dayList = Arrays.asList("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN");
         List<String> timeList = Arrays.asList("MORNING", "AFTERNOON", "EVENING");
 
         model.addAttribute("dayList", dayList);
         model.addAttribute("timeList", timeList);
 
-        // 시간표 + 색상맵 생성
         Map<Integer, String> lectureColorMap = new HashMap<>();
         Map<String, Map<String, Object>> timetable = createTimetable(ongoingLectureList, lectureColorMap);
 
         model.addAttribute("timetable", timetable);
         model.addAttribute("lectureColorMap", lectureColorMap);
 
-        // 역할별 페이지 리턴
         if ("student".equals(role)) {
             return "student/mainPage";
         } else if ("instructor".equals(role)) {
@@ -99,17 +74,8 @@ public class MainPageController {
             return "redirect:/login";
         }
     }
-
-//메인페이지    
-    //세션정보
-    private Map<String, List<Map<String, Object>>> getLectureMap(HttpSession session) {
-        
-	    int userId = (int) session.getAttribute("loginUserId");
-	    User user = loginService.findById(userId);
-	    String role = user.getRole();
-	    return getLectureMap(userId, role);
-    }
     
+//메인페이지    
     //강의 구분(진행중,종료,진행예정) / 역할별 구분
     private Map<String, List<Map<String, Object>>> getLectureMap(int userId, String role) {
     	
@@ -155,7 +121,6 @@ public class MainPageController {
 
     
     //시간표
-    
 //강의별 색 구분위한 배경색상리스트
     private final String[] COLOR_POOL = {
     	    "#FFCCCC", "#CCE5FF", "#CCFFCC", "#FFF5CC", "#E0CCFF",
