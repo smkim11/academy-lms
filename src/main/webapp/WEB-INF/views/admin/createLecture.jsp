@@ -5,7 +5,6 @@
 <head>
   <meta charset="UTF-8">
   <title>관리자 강의개설</title>
-  <link rel="stylesheet" href="/css/styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script type="text/javascript">
   const subjectMap = {
@@ -128,26 +127,17 @@
 
 </head>
 <body>
-  <div class="top-bar">
-    <div class="logo">MyLMS</div>
-    <div class="user-name">홍길동님</div>
-  </div>
 
 
 
-<div class="layout">
-  <div class="side-bar">
-    <ul>
-      <li><a href="#">메인페이지</a></li>
-      <li><a href="/admin/myPage">내 개인정보</a></li>
-      <li><a href="/admin/updateInfo">개인정보 수정</a></li>
-      <li><a href="/admin/updatePw">비밀번호 변경</a></li>
-      <li><a href="/logOut">로그아웃</a></li>
-    </ul>
-  </div>
 
+<div>
+<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+
+ <main>
   <div class="main-content">
-    <main>
+   
       <h2>강의 개설</h2>
       <form action="/admin/createLecture" method="post" id ="form" >
 
@@ -169,20 +159,22 @@
 
         <!-- ✅ 2. 요일 선택 -->
         <label>요일 선택:</label><br>
-        <label><input type="checkbox" name="dayTemp" class="day" value="월요일">월요일</label>
-        <label><input type="checkbox" name="dayTemp" class="day" value="화요일">화요일</label>
-        <label><input type="checkbox" name="dayTemp" class="day" value="수요일">수요일</label>
-        <label><input type="checkbox" name="dayTemp" class="day" value="목요일">목요일</label>
-        <label><input type="checkbox" name="dayTemp" class="day" value="금요일">금요일</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="MON">월요일</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="TUE">화요일</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="WED">수요일</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="THU">목요일</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="FRI">금요일</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="SAT">토요일</label>
+        <label><input type="checkbox" name="dayTemp" class="day" value="SUN">일요일</label>
         <br><br>
 
         <!-- ✅ 3. 시간 선택 -->
         <label for="time">시간대 선택:</label>
         <select name="time" id="time">
           <option value="" disabled selected>시간대를 선택하세요</option>
-          <option value="오전반">오전반</option>
-          <option value="오후반">오후반</option>
-          <option value="야간반">야간반</option>
+          <option value="MORNING">오전반</option>
+          <option value="AFTERNOON">오후반</option>
+          <option value="EVENING">야간반</option>
         </select>
         <br><br>
 
@@ -210,11 +202,14 @@
         <!-- ✅ 제출 -->
         <button type="button" id="createlecture">강의 개설</button>
       </form>
+      </div>
     </main>
-  </div>
+
+
+
+<div>
+   <jsp:include page ="../nav/footer.jsp"></jsp:include>
 </div>
-
-
    
 </body>
 </html>

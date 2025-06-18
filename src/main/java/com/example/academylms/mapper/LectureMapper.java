@@ -32,6 +32,7 @@ public interface LectureMapper {
 	List<QuizWeekList> lectureOneQuizList(int lectureId); // 5주차 퀴즈리스트 까지 출력
 	List<QnaList> lectureOneQnaList(int lectureId); // 5개의 최근 Qna  불러오기
 	List<StudyPostList> lectureOneStduyGroupList(int lectureId); // 최근 5개의 스터디 그룹 리스트
+	int isScheduleConflict(Lecture lecture); // 강사 강의 스케줄 중복여부 체크
 	
 
 }

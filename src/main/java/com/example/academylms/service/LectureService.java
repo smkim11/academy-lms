@@ -26,5 +26,6 @@ public interface LectureService {
 	List<Notice> lectureOneNoticeList(int lectureId);
 	List<QuizWeekList> lectureOneQuizList(int lectureId);
 	List<QnaList> lectureOneQnaList(int lectureId);
-	List<StudyPostList> lectureOneStduyGroupList(int lectureId); 
+	List<StudyPostList> lectureOneStduyGroupList(int lectureId);
+	boolean isScheduleConflict(Lecture lecture); 
 }

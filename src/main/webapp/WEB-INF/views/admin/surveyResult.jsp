@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>강의 만족도 조사 결과</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="/css/styles.css">
+    
     <style>
         body {
             font-family: "맑은 고딕", sans-serif;
@@ -60,21 +60,11 @@
     </style>
 </head>
 <body>
-	<div class="top-bar">
-	  <div class="logo">MyLMS</div>
-	  <div class="user-info">
-	    <div class="user-name">홍길동님</div>
-	    <a class="edit-profile" href="/mypage">개인정보 수정</a>
-	  </div>
+	
+	<div>
+	<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
 	</div>
-	<div class="side-bar">
-	  <ul>
-	    <li><a href="#">대시보드</a></li>
-	    <li><a href="#">강의목록</a></li>
-	    <li><a href="#">수강관리</a></li>
-	    <li><a href="#">설정</a></li>
-	  </ul>
-	</div>
+	
 <main>
     <!-- ✅ 상단 안내 문구 -->
     <div class="title">
@@ -108,6 +98,10 @@
         </c:forEach>
     </div>
 </main>
+
+<div>
+   <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 
 </body>
 </html>

@@ -5,25 +5,14 @@
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <meta charset="UTF-8">
- <link rel="stylesheet" href="/css/styles.css">
+
 <title>Insert title here</title>
 </head>
 <body>
-   <div class="top-bar">
-	    <div class="logo">MyLMS</div>
-	    <div class="user-name">홍길동님</div>
-  </div>
 
-  	<div class="layout">
-    <div class="side-bar">
-      <ul>
-        <li><a href="#">메인페이지</a></li>
-        <li><a href="/student/myPage">내 개인정보</a></li>
-        <li><a href="/student/updateInfo">개인정보 수정</a></li>
-        <li><a href="/student/updatePw">비밀번호 변경</a></li>
-        <li><a href="/logOut">로그아웃</a></li>
-      </ul>
-    </div>
+<div>
+<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
     
     
 <main>
@@ -57,5 +46,9 @@
     	
 </main>
     
+<div>
+   <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
+
 </body>
 </html>

@@ -134,4 +134,17 @@ SELECT
 	LIMIT 5;
 
 </select>
+
+<select id="isScheduleConflict" parameterType="com.example.academylms.dto.Lecture">
+SELECT COUNT(*) FROM lecture 
+WHERE instructor_id = #{instructorId}
+	AND TIME = #{time}
+	AND (
+	<foreach collection="dayList" item="d" separator=" OR ">
+	  day LIKE CONCAT('%', #{d} ,'%')
+	</foreach>
+	)
+	AND started_at &lt;= #{endedAt}
+	AND ended_at &gt;= #{startedAt}
+</select>
 </mapper>

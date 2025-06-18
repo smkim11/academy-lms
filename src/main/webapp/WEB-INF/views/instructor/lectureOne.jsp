@@ -7,7 +7,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="/css/styles.css">
 <style>
   .table-box {
     width: 100%;
@@ -27,22 +26,9 @@
 </head>
 <body>
 
-<!-- 상단바 + 사이드바(네비게이션) -->
-	<div class="top-bar">
-	  <div class="logo">MyLMS</div>
-	  <div class="user-info">
-	    <div class="user-name">홍길동님</div>
-	    <a class="edit-profile" href="/mypage">개인정보 수정</a>
-	  </div>
-	</div>
-	<div class="side-bar">
-	  <ul>
-	    <li><a href="#">대시보드</a></li>
-	    <li><a href="#">강의목록</a></li>
-	    <li><a href="#">수강관리</a></li>
-	    <li><a href="#">설정</a></li>
-	  </ul>
-	</div>
+<div>
+<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
 	
 <main style="padding: 100px 20px 20px 20px;">
   <!-- 좌우 분할을 위한 flex 컨테이너 -->
@@ -251,6 +237,10 @@
     </section>
   </div> <!-- flex 끝 -->
 </main>
+
+<div>
+   <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 
 </body>
 </html>

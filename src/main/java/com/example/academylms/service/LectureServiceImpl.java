@@ -131,13 +131,22 @@ public class LectureServiceImpl implements LectureService {
 	}
 
 	@Override
-	public List<QnaList> lectureOneQnaList(int lectureId) {
+	public List<QnaList> lectureOneQnaList(int lectureId) { // 최근 5개까지의 Qna 리스트 정보 노출
 		return lectureMapper.lectureOneQnaList(lectureId);
 	}
 
 	@Override
-	public List<StudyPostList> lectureOneStduyGroupList(int lectureId) {
+	public List<StudyPostList> lectureOneStduyGroupList(int lectureId) { // 최근 5개까지의 스터디 그룹 리스트 노출
 		return lectureMapper.lectureOneStduyGroupList(lectureId);
+	}
+
+	@Override
+	public boolean isScheduleConflict(Lecture lecture) {  // 강사 스케줄 중복여부 확인
+		boolean result = false;
+		if(lectureMapper.isScheduleConflict(lecture) == 0) {  // 스케줄 중복이 없으면 강의 개설됨.
+			result = true;
+		}
+		return result;
 	}
 
 

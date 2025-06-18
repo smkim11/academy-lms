@@ -5,7 +5,6 @@
 <head>
   <meta charset="UTF-8">
   <title>마이페이지 - 개인정보</title>
-  <link rel="stylesheet" href="/css/styles.css">
   <style>
     body {
       margin: 0;
@@ -82,22 +81,11 @@
     }
   </style>
 </head>
-<body>
-  <div class="top-bar">
-    <div class="logo">MyLMS</div>
-    <div class="user-name">홍길동님</div>
-  </div>
 
-  <div class="layout">
-    <div class="side-bar">
-      <ul>
-        <li><a href="#">메인페이지</a></li>
-        <li><a href="/instructor/myPage">내 개인정보</a></li>
-        <li><a href="/instructor/updateInfo">개인정보 수정</a></li>
-        <li><a href="/instructor/updatePw">비밀번호 변경</a></li>
-        <li><a href="/logOut">로그아웃</a></li>
-      </ul>
-    </div>
+	<div>
+	<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+	</div>
+
 
     <div class="main-content">
       <h2>내 개인정보</h2>
@@ -109,6 +97,7 @@
         </div>
         <div>
           <label>이메일</label>
+
           <span>${myPage.email}</span>
         </div>
         <div>
@@ -121,6 +110,9 @@
         </div>
       </div>
     </div>
+  
+  <div>
+   <jsp:include page ="../nav/footer.jsp"></jsp:include>
   </div>
 </body>
 </html>

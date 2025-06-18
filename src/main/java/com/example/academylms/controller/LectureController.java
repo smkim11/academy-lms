@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,22 +39,30 @@ public class LectureController {
 	@GetMapping("/admin/createLecture")  // 관리자 강의 개설페이지로 이동
 	public String createLecture(HttpSession session, Model model) {
 		int adminId  = (int) session.getAttribute("loginUserId");
-		 List<InstructorInfo> info = lectureService.findInstructorInfo();
+		List<InstructorInfo> info = lectureService.findInstructorInfo();
 		
 		
 		model.addAttribute("adminId", adminId);
-		model.addAttribute("instructorList", info);
+		model.addAttribute("instructorList",info);
 		
 		return "/admin/createLecture";
 	}
 	
 	@PostMapping("/admin/createLecture") // 관리자 강의 개설완료
-	public String createLecture(Lecture lecture){
+	public String createLecture(Lecture lecture , Model model){
+			lecture.setDayList(Arrays.asList(lecture.getDay().split(",")));	
+			if(lectureService.isScheduleConflict(lecture) == false) {
+				 model.addAttribute("message", "해당 시간과 요일에 이미 강의가 존재합니다. 다른 시간이나 요일을 선택해주세요.");
+				 model.addAttribute("redirectUrl", "/admin/createLecture");
+				 return "/common/alert";
+			}
+		
 			if(lectureService.createLecture(lecture) == false) {
 				log.info("강의생성에 실패했습니다.");
 				return "redirect:/admin/createLecture";
-				
 			}
+
+			
 		
 		return "redirect:/admin/mypage";
 	}
@@ -65,6 +74,7 @@ public class LectureController {
 	  List<Notice> lectureNoticeList = lectureService.lectureOneNoticeList(lectureId); // 공지사항 가져오기
 	  List<QuizWeekList> quizList = lectureService.lectureOneQuizList(lectureId); // quiz 리스트 가져오기
 	  List<QnaList> qnaList = lectureService.lectureOneQnaList(lectureId); // qna 리스트 가져오기
+	  List<StudyPostList> postList = lectureService.lectureOneStduyGroupList(lectureId); // 스터디 그룹 리스트 가져오기
 	  
 	  Map<Integer, List<LectureWeekMaterial>> weekMaterialMap = new HashMap<>();
 	  for (LectureWeekMaterial m : lectureWeekMaterial) { // 강의주차 가지고 옴.
@@ -85,6 +95,7 @@ public class LectureController {
 	  model.addAttribute("weekMaterialMap", weekMaterialMap);
 	  model.addAttribute("quizList", quizList);
 	  model.addAttribute("qnaList", qnaList);
+	  model.addAttribute("postList", postList);
 	  
 	  return "/admin/lectureOne";
 	}
@@ -174,7 +185,15 @@ public class LectureController {
 	}
 	
 	@PostMapping("/admin/updateLecture") // 관리자 강의 페이지 이동
-	public String updateLecture(Lecture lecture) {
+	public String updateLecture(Lecture lecture , Model model) {
+		
+		lecture.setDayList(Arrays.asList(lecture.getDay().split(",")));	
+		if(lectureService.isScheduleConflict(lecture) == false) { //  해당 시간 요일에 강의 존재 여부
+			 model.addAttribute("message", "해당 시간과 요일에 이미 강의가 존재합니다. 다른 시간이나 요일을 선택해주세요.");
+			 model.addAttribute("redirectUrl", "/admin/createLecture");
+			 return "/common/alert";
+		}
+		
 		if(lectureService.updateLecture(lecture) == true) {
 			log.info("업데이트 성공");
 			return "redirect:/mainPage";

@@ -2,6 +2,7 @@ package com.example.academylms.dto;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.Data;
 
@@ -22,4 +23,5 @@ public class Lecture {
 	private String major; // dto에만 받을 내용
 	private String startedAtFormatted; // 날짜형태로 포맷
 	private String endedAtFormatted; // 날짜형태로 포맷
+	private List<String> dayList; // 요일을 리스트 형태로 저장 중복값 확인
 }
