@@ -35,12 +35,11 @@ public class QnaController {
                           @RequestParam(defaultValue = "1") int page,
                           HttpServletRequest request) {
 
+    	// 페이징
         int pageSize = 10; // 한 페이지당 게시글 수
         int offset = (page - 1) * pageSize;
-
         List<Map<String, Object>> qnaList = qnaService.getQnaListByPage(lectureId, offset, pageSize);
         int totalCount = qnaService.getQnaCount(lectureId);
-
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
 
         request.setAttribute("qnaList", qnaList);
@@ -48,7 +47,7 @@ public class QnaController {
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
 
-        // 세션 → 역할별 JSP
+        // 세션정보(역할 나누기)
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("loginUserId");
         User user = loginService.findById(userId);
@@ -145,13 +144,13 @@ public class QnaController {
         Integer enrollmentId = qnaService.getEnrollmentId(userId, lectureId);
         //디버깅용
         System.out.println("==> enrollmentId = " + enrollmentId);
+        
         // 유효성 검사
         if (title == null || title.trim().isEmpty() || question == null || question.trim().isEmpty()) {
             request.setAttribute("errorMsg", "제목과 내용을 모두 입력해주세요");
             request.setAttribute("lectureId", lectureId);
             return "student/addQna";
         }
-        
         if (enrollmentId != null) {
             Qna qna = new Qna();
             qna.setEnrollmentId(enrollmentId);

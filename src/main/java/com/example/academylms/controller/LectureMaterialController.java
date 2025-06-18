@@ -74,6 +74,7 @@ public class LectureMaterialController {
     public String lectureMaterialDetail(@RequestParam int materialId,
                                         HttpServletRequest request,
                                         Model model) {
+    	//세션정보
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("loginUserId");
         User user = loginService.findById(userId);
@@ -125,12 +126,15 @@ public class LectureMaterialController {
                                      @RequestParam("titles") List<String> titles,
                                      @RequestParam("files") MultipartFile[] files,
                                      HttpSession session) throws IOException {
-
+    	
         if (titles == null || titles.isEmpty()) return "redirect:/lectureMaterialWeekList";
         if (files == null || files.length == 0) return "redirect:/lectureMaterialWeekList";
 
+        //세션정보
         Object userIdObj = session.getAttribute("loginUserId");
-        if (userIdObj == null) return "redirect:/login";
+        if (userIdObj == null) {
+        	return "redirect:/login";
+        }
 
         for (int i = 0; i < files.length; i++) {
             MultipartFile file = files[i];
@@ -185,7 +189,7 @@ public class LectureMaterialController {
                                       @RequestParam MultipartFile file,
                                       HttpSession session) throws IOException {
         if (title == null || title.trim().isEmpty()) return "redirect:/lectureMaterialOne?materialId=" + materialId;
-
+        //세션정보
         Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
             return "redirect:/login";
@@ -289,15 +293,13 @@ public class LectureMaterialController {
         Integer lastWeek = lectureMaterialMapper.getLastWeekNumber(lectureId);
         int newWeek = (lastWeek == null) ? 1 : lastWeek + 1;
 
-        // 2️.새로운 LectureWeek 생성
+        // 2️.새로운 LectureWeek 생성 후 삽입(자동으로 weekId생성됨)
         LectureWeek newLectureWeek = new LectureWeek();
         newLectureWeek.setLectureId(lectureId);
         newLectureWeek.setWeek(newWeek);
-
-        // 3️.삽입 (자동으로 weekId 생성됨)
         lectureMaterialMapper.insertLectureWeek(newLectureWeek);
 
-        // 4️.바로 새로 생성된 주차로 이동
+        // 3.생성된 주차로 이동
         return "redirect:/lectureMaterialList?weekId=" + newLectureWeek.getWeekId();
     }
 }

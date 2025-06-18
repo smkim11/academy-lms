@@ -28,9 +28,11 @@ public class MainPageController {
     
     @GetMapping("/lectureMainPage")
     public String lectureMainPage(HttpSession session, Model model) {
-        Integer userId = (Integer) session.getAttribute("loginUserId");  // ✅ 정확한 세션 키 사용
-        if (userId == null) return "redirect:/login"; // 세션 없으면 로그인으로
-
+    	//세션정보
+        Integer userId = (Integer) session.getAttribute("loginUserId"); 
+        if (userId == null) {
+        	return "redirect:/login"; 
+        }
         User user = loginService.findById(userId);
         String role = user.getRole();
         model.addAttribute("userId", userId);
@@ -43,9 +45,75 @@ public class MainPageController {
 
         return role + "/lectureMainPage";
     }
-    private Map<String, List<Map<String, Object>>> getLectureMap(int userId, String role) {
-        List<Map<String, Object>> lectureList = new ArrayList<>();
+ 
 
+    @GetMapping("/mainPage")
+    public String getLectureListForMain(HttpSession session, Model model) {
+    	// 진행중, 예정, 종료된 강의들을 구분해서 가져옴 (역할 상관X)
+    	/* 메인페이지에 강의목록표시하고 싶으면 주석해제
+    	Map<String, List<Map<String, Object>>> lectureMap = getLectureMap(session);
+
+        model.addAttribute("ongoingLectures", lectureMap.get("ongoing"));
+        model.addAttribute("upcomingLectures", lectureMap.get("upcoming"));
+        model.addAttribute("endedLectures", lectureMap.get("ended"));
+        */
+    	
+    	//세션정보
+        Integer userId = (Integer) session.getAttribute("loginUserId");
+        if (userId == null) {
+        	return "redirect:/login";
+        }
+        User user = loginService.findById(userId);
+        String role = user.getRole();
+
+        // 현재 수강 중인 강의 목록 (학생 또는 강사 기준)
+        List<Map<String, Object>> ongoingLectureList = new ArrayList<>();
+        if ("student".equals(role)) {
+            ongoingLectureList = mainPageService.getOngoingLecturesForStudent(userId);
+        } else if ("instructor".equals(role)) {
+            ongoingLectureList = mainPageService.getOngoingLecturesForInstructor(userId);
+        }
+
+        // 요일/시간 목록
+        List<String> dayList = Arrays.asList("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN");
+        List<String> timeList = Arrays.asList("MORNING", "AFTERNOON", "EVENING");
+
+        model.addAttribute("dayList", dayList);
+        model.addAttribute("timeList", timeList);
+
+        // 시간표 + 색상맵 생성
+        Map<Integer, String> lectureColorMap = new HashMap<>();
+        Map<String, Map<String, Object>> timetable = createTimetable(ongoingLectureList, lectureColorMap);
+
+        model.addAttribute("timetable", timetable);
+        model.addAttribute("lectureColorMap", lectureColorMap);
+
+        // 역할별 페이지 리턴
+        if ("student".equals(role)) {
+            return "student/mainPage";
+        } else if ("instructor".equals(role)) {
+            return "instructor/mainPage";
+        } else if ("admin".equals(role)) {
+            return "admin/mainPage";
+        } else {
+            return "redirect:/login";
+        }
+    }
+
+//메인페이지    
+    //세션정보
+    private Map<String, List<Map<String, Object>>> getLectureMap(HttpSession session) {
+        
+	    int userId = (int) session.getAttribute("loginUserId");
+	    User user = loginService.findById(userId);
+	    String role = user.getRole();
+	    return getLectureMap(userId, role);
+    }
+    
+    //강의 구분(진행중,종료,진행예정) / 역할별 구분
+    private Map<String, List<Map<String, Object>>> getLectureMap(int userId, String role) {
+    	
+        List<Map<String, Object>> lectureList = new ArrayList<>();
         if ("admin".equals(role)) {
             lectureList = mainPageService.getAllLectures();
         } else if ("instructor".equals(role)) {
@@ -85,101 +153,6 @@ public class MainPageController {
         return resultMap;
     }
 
-
-    @GetMapping("/mainPage")
-    public String getLectureListForMain(HttpSession session, Model model) {
-    	// 진행중, 예정, 종료된 강의들을 구분해서 가져옴 (역할 상관X)
-    	/* 메인페이지에 강의목록표시하고 싶으면 주석해제
-    	Map<String, List<Map<String, Object>>> lectureMap = getLectureMap(session);
-
-        model.addAttribute("ongoingLectures", lectureMap.get("ongoing"));
-        model.addAttribute("upcomingLectures", lectureMap.get("upcoming"));
-        model.addAttribute("endedLectures", lectureMap.get("ended"));
-        */
-
-        Integer userId = (Integer) session.getAttribute("loginUserId");
-        if (userId == null) return "redirect:/login";
-        User user = loginService.findById(userId);
-        String role = user.getRole();
-
-        // 현재 수강 중인 강의 목록 (학생 또는 강사 기준)
-        List<Map<String, Object>> ongoingLectureList = new ArrayList<>();
-        if ("student".equals(role)) {
-            ongoingLectureList = mainPageService.getOngoingLecturesForStudent(userId);
-        } else if ("instructor".equals(role)) {
-            ongoingLectureList = mainPageService.getOngoingLecturesForInstructor(userId);
-        }
-
-        // 요일/시간 목록
-        List<String> dayList = Arrays.asList("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN");
-        List<String> timeList = Arrays.asList("MORNING", "AFTERNOON", "EVENING");
-
-        model.addAttribute("dayList", dayList);
-        model.addAttribute("timeList", timeList);
-
-        // 시간표 + 색상맵 생성
-        Map<Integer, String> lectureColorMap = new HashMap<>();
-        Map<String, Map<String, Object>> timetable = createTimetable(ongoingLectureList, lectureColorMap);
-
-        model.addAttribute("timetable", timetable);
-        model.addAttribute("lectureColorMap", lectureColorMap);
-
-        // 역할별 페이지 리턴
-        if ("student".equals(role)) {
-            return "student/mainPage";
-        } else if ("instructor".equals(role)) {
-            return "instructor/mainPage";
-        } else if ("admin".equals(role)) {
-            return "admin/mainPage";
-        } else {
-            return "redirect:/login";
-        }
-    }
-
-//메인페이지    
-    private Map<String, List<Map<String, Object>>> getLectureMap(HttpSession session) {
-        int userId = (int)session.getAttribute("loginUserId"); // 세션 값 호출
-        User user = loginService.findById(userId); 
-        String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
-        
-        
-        List<Map<String, Object>> lectureList = new ArrayList<>();
-
-        if ("admin".equals(role)) {
-            lectureList = mainPageService.getAllLectures();
-        } else if ("instructor".equals(role)) {
-            lectureList = mainPageService.getLecturesByInstructor(userId);
-        } else if ("student".equals(role)) {
-            lectureList = mainPageService.getLecturesByStudent(userId);
-        }
-
-        // 상태별 분류
-        List<Map<String, Object>> ongoingLectures = new ArrayList<>();
-        List<Map<String, Object>> upcomingLectures = new ArrayList<>();
-        List<Map<String, Object>> endedLectures = new ArrayList<>();
-
-        LocalDateTime now = LocalDateTime.now();
-
-        for (Map<String, Object> lecture : lectureList) {
-        	LocalDateTime startedAt = (LocalDateTime) lecture.get("started_at");  
-            LocalDateTime endedAt = (LocalDateTime) lecture.get("ended_at"); 
-
-            if (now.isBefore(startedAt)) {
-                upcomingLectures.add(lecture);
-            } else if (now.isAfter(endedAt)) {
-                endedLectures.add(lecture);
-            } else {
-                ongoingLectures.add(lecture);
-            }
-        }
-
-        Map<String, List<Map<String, Object>>> resultMap = new HashMap<>();
-        resultMap.put("ongoing", ongoingLectures);
-        resultMap.put("upcoming", upcomingLectures);
-        resultMap.put("ended", endedLectures);
-
-        return resultMap;
-    }
     
     //시간표
     

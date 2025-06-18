@@ -40,6 +40,7 @@ public class LectureMaterialRest {
         return lectureMaterialService.getLectureMaterialById(materialId);
     }
 
+    // 강의자료 등록
     @PostMapping("/add")
     public String addMaterial(@RequestParam int weekId,
                               @RequestParam("titles") List<String> titles,
@@ -108,7 +109,6 @@ public class LectureMaterialRest {
 
     // 자료가 있는 주차 목록 조회
     @GetMapping("/availableWeeks")
-    @ResponseBody
     public List<LectureWeek> getAvailableWeeks(@RequestParam int lectureId) {
         return lectureMaterialService.getWeeksByLectureId(lectureId);
     }
