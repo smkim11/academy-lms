@@ -71,7 +71,7 @@
 			<button type="button" id="btn">수정</button>
 			<!-- 수정페이지에서 문항을 추가하는경우 addQuiz로 이동할 때 source=modify를 추가 -->
 			<a href="/addQuiz?lectureId=${lectureId}&week=${list.week}&startedAt=${list.startedAt}&endedAt=${list.endedAt}&quizNo=${p.lastPage}&source=update&currentPage=${p.lastPage}">추가</a>
-			<a href="/deleteQuizOne?weekId=${weekId }&currentPage=${p.currentPage}&quizId=${list.quizId}">삭제</a>
+			<a id="del" href="/deleteQuizOne?weekId=${weekId }&currentPage=${p.currentPage}&quizId=${list.quizId}">삭제</a>
 		</c:forEach>
 		
 	</form>
@@ -117,6 +117,15 @@ $('#btn').click(function() {
     }
 
     $('#updateQuizForm').submit();
+});
+
+// 삭제 재확인
+$('#del').click(function(){
+	const result = confirm("삭제하시겠습니까?");
+	// 취소버튼 누르면 실행 X
+	if(!result){
+		return false;
+	}
 });
 
 </script>

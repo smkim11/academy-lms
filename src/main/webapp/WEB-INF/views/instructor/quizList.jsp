@@ -45,7 +45,7 @@
 						
 						<c:if test="${now < quizList.startedAt}">
 							<td><a href="/updateQuiz?weekId=${quizList.weekId }">수정하기</a></td>
-							<td><a href="/deleteQuiz?weekId=${quizList.weekId }&lectureId=${lectureId}">삭제하기</td>
+							<td><a id="del" href="/deleteQuiz?weekId=${quizList.weekId }&lectureId=${lectureId}">삭제하기</td>
 						</c:if>
 						
 						<!-- 강사는 응시기간이 지나면 결과보기 가능 -->
@@ -64,5 +64,15 @@
 <div>
 	<jsp:include page ="../nav/footer.jsp"></jsp:include>
 </div>
+<script>
+//삭제 재확인
+$('#del').click(function(){
+	const result = confirm("삭제하시겠습니까?");
+	// 취소버튼 누르면 실행 X
+	if(!result){
+		return false;
+	}
+});
+</script>
 </body>
 </html>
