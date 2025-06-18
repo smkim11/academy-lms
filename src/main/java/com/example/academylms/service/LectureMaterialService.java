@@ -41,12 +41,4 @@ public class LectureMaterialService {
     public LectureWeek getLectureWeekById(int weekId) {
         return lectureMaterialMapper.getLectureWeekById(weekId);
     }
-    
-    public Integer getLastWeekNumber(int lectureId) {
-    	return lectureMaterialMapper.getLastWeekNumber(lectureId);
-    };
-    
-    public void insertLectureWeek(LectureWeek week) {
-    	lectureMaterialMapper.insertLectureWeek(week);
-    };
 }

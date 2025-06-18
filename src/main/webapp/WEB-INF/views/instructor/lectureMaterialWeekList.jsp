@@ -35,13 +35,6 @@
     </li>
 </c:forEach>
     </ul>
-    
-    <c:if test="${loginRole eq 'instructor' || loginRole eq 'admin'}">
-    <form action="/addLectureWeek" method="get" style="text-align: right; margin-bottom: 10px;">
-        <input type="hidden" name="lectureId" value="${lectureId}" />
-        <button type="submit">➕ 주차 게시판 생성</button>
-    </form>
-</c:if>
 			<a href="/instructor/lectureOne?lectureId=${lectureId}">
 			    강의정보로 돌아가기
 			</a>

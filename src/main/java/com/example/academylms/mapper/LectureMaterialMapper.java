@@ -29,7 +29,4 @@ public interface LectureMaterialMapper {
     
     // 주차 카운트
     LectureWeek getLectureWeekById(int weekId);
-    
-    Integer getLastWeekNumber(int lectureId);
-    void insertLectureWeek(LectureWeek week);
 }

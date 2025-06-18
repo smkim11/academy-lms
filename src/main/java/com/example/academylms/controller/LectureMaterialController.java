@@ -271,35 +271,4 @@ public class LectureMaterialController {
         }
         	return "redirect:/login";
     }
-
-//새 주차 생성
-    @GetMapping("/addLectureWeek")
-    public String addLectureWeek(@RequestParam int lectureId, Model model, HttpSession session) {
-        Object userIdObj = session.getAttribute("loginUserId");
-        if (userIdObj == null) {
-            return "redirect:/login";
-        }
-
-        // 권한 확인
-        int userId = (int) userIdObj;
-        User user = loginService.findById(userId);
-        String role = user.getRole();
-        if (!"instructor".equals(role) && !"admin".equals(role)) {
-            return "redirect:/lectureMaterialWeekList?lectureId=" + lectureId;
-        }
-        model.addAttribute("loginRole", role);
-        
-        // 1.현재 lecture에 대한 가장 마지막 주차 번호 조회
-        Integer lastWeek = lectureMaterialMapper.getLastWeekNumber(lectureId);
-        int newWeek = (lastWeek == null) ? 1 : lastWeek + 1;
-
-        // 2️.새로운 LectureWeek 생성 후 삽입(자동으로 weekId생성됨)
-        LectureWeek newLectureWeek = new LectureWeek();
-        newLectureWeek.setLectureId(lectureId);
-        newLectureWeek.setWeek(newWeek);
-        lectureMaterialMapper.insertLectureWeek(newLectureWeek);
-
-        // 3.생성된 주차로 이동
-        return "redirect:/lectureMaterialList?weekId=" + newLectureWeek.getWeekId();
-    }
 }

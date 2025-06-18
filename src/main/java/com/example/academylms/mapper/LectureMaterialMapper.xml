@@ -60,15 +60,4 @@
 		    FROM lecture_week
 		    WHERE week_id = #{weekId}
 		</select>
-		
-		<select id="getLastWeekNumber" resultType="int">
-		    SELECT MAX(week)
-		    FROM lecture_week
-		    WHERE lecture_id = #{lectureId}
-		</select>
-		
-		<insert id="insertLectureWeek" parameterType="com.example.academylms.dto.LectureWeek" useGeneratedKeys="true" keyProperty="weekId">
-		    INSERT INTO lecture_week (lecture_id, week, create_date)
-		    VALUES (#{lectureId}, #{week}, NOW())
-		</insert>
 </mapper>
