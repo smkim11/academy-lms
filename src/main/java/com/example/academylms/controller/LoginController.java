@@ -37,6 +37,7 @@ public class LoginController {
 		}
 		log.info("userId = {}", user2.getUserId());
 		session.setAttribute("loginUserId", user2.getUserId());
+		session.setAttribute("userRole", user2.getRole()); // 역할 세션을 추가로 만듬
 		return "redirect:/mainPage";
 		
 		
