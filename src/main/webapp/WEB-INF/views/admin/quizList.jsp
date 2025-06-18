@@ -11,7 +11,10 @@
 </head>
 <body>
 <div>
-	<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+	<jsp:include page ="../nav/sideNav.jsp">
+		<jsp:param name="lectureId" value="${lectureId}" />
+	</jsp:include>
+	
 </div>
 <main>
 	<span class="page-title">${lectureInfo.title }</span>

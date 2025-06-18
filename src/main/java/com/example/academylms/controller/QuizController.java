@@ -248,6 +248,7 @@ public class QuizController {
 		model.addAttribute("weekId",weekId);
 		model.addAttribute("joinId",jId);
 		model.addAttribute("list",list);
+		model.addAttribute("lectureId",lId);
 		return "/student/quizOne";
 	}
 	
