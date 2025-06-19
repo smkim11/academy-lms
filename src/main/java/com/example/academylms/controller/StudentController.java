@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.Student;
@@ -97,48 +98,65 @@ public class StudentController {
 
 	
 	@GetMapping("/admin/addStudent")
-	public String addStudent(@RequestParam int lectureId, Model model) {
+	public String adminAllStudentList(
+			@RequestParam int lectureId,
+	        @RequestParam(name = "page", defaultValue = "1") int currentPage,
+	        @RequestParam(name = "searchWord", required = false) String searchWord,
+	        Model model) {
+
+	    int rowPerPage = 10;
+	    int totalCount = studentService.getStudentCount(searchWord);
+	    int totalPage = (totalCount + rowPerPage - 1) / rowPerPage;
+
+	    // Page 객체 생성
+	    Page page = (searchWord == null || searchWord.isEmpty())
+	            ? new Page(currentPage, rowPerPage, totalCount)
+	            : new Page(currentPage, rowPerPage, totalCount, searchWord);
+
+	    List<Student> students = studentService.getStudentList(page);
+
+	    // 페이징 범위 계산
+	    int pageSize = 10;
+	    int startPage = ((currentPage - 1) / pageSize) * pageSize + 1;
+	    int endPage = Math.min(startPage + pageSize - 1, page.getLastPage());
+	    boolean hasPrevious = startPage > 1;
+	    boolean hasNext = endPage < page.getLastPage();
+
+	    model.addAttribute("students", students);
+	    model.addAttribute("page", page);
+	    model.addAttribute("startPage", startPage);
+	    model.addAttribute("endPage", endPage);
+	    model.addAttribute("hasPrevious", hasPrevious);
+	    model.addAttribute("hasNext", hasNext);
+	    model.addAttribute("previousPage", startPage - 1);
+	    model.addAttribute("nextPage", endPage + 1);
+	    model.addAttribute("searchWord", searchWord);
 	    model.addAttribute("lectureId", lectureId);
+
 	    return "/admin/addStudent";
 	}
+
 
 	
 	@PostMapping("/admin/addStudent")
 	public String addStudent(
+	        @RequestParam int studentId,
 	        @RequestParam int lectureId,
-	        @RequestParam String userLoginId,
-	        Model model) {
+	        RedirectAttributes redirectAttributes) {
 
-	    // 1. 아이디로 user_id 조회
-	    Integer userId = studentMapper.findUserIdByLoginId(userLoginId);
-
-	    if (userId == null) {
-	        model.addAttribute("error", "존재하지 않는 사용자입니다.");
-	        model.addAttribute("lectureId", lectureId);  // lectureId를 JSP에 전달
-	        return "/admin/addStudent";  // lectureId 포함하지 않고 고정 뷰 이름 반환
-	    }
-
-	    // 2. 이미 student 테이블에 등록되어 있는지 확인
-	    Student existingStudent = studentMapper.findStudentById(userId);
-	    if (existingStudent == null) {
-	        Student student = new Student();
-	        student.setStudentId(userId);
-	        studentMapper.addStudent(student);
-	    }
-
-	    // 3. lecture_enrollment에 등록 여부 확인
-	    boolean alreadyEnrolled = studentMapper.isAlreadyEnrolled(userId, lectureId);
+	    // 수강 여부 확인
+	    boolean alreadyEnrolled = studentMapper.isAlreadyEnrolled(studentId, lectureId);
 	    if (alreadyEnrolled) {
-	        model.addAttribute("error", "이미 해당 강의를 수강 중입니다.");
-	        model.addAttribute("lectureId", lectureId);  // lectureId 다시 전달
-	        return "/admin/addStudent";  // 동일 뷰 반환
+	        redirectAttributes.addFlashAttribute("error", "이미 해당 강의를 수강 중입니다.");
+	        return "redirect:/admin/addStudent?lectureId=" + lectureId;
 	    }
 
-	    // 4. 수강 등록
-	    studentMapper.insertLectureEnrollment(userId, lectureId);
-
-	    return "redirect:/admin/studentList/" + lectureId;
+	    // 수강 등록
+	    studentMapper.insertLectureEnrollment(studentId, lectureId);
+	    redirectAttributes.addFlashAttribute("success", "수강 등록이 완료되었습니다.");
+	    return "redirect:/admin/addStudent?lectureId=" + lectureId;
 	}
+
 
 	
 	@DeleteMapping("/admin/students/{studentId}/lecture/{lectureId}")
