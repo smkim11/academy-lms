@@ -4,7 +4,7 @@
 <head>
     <title>${lecture.title} - 공지사항</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
-
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
 
