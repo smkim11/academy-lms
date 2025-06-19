@@ -22,12 +22,22 @@
 			<th>O/X</th>
 		</tr>
 		<c:forEach var="resultList" items="${resultList}">
+		<c:if test="${resultList.isCorrect eq 'O' }">
 			<tr>
 				<th>${resultList.quizNo }</th>
 				<td>${resultList.answer }</td>
 				<td>${resultList.correctAnswer }</td>
 				<th>${resultList.isCorrect }</th>
 			</tr>
+		</c:if>
+		<c:if test="${resultList.isCorrect eq 'X' }">
+			<tr style="color:red;">
+				<th>${resultList.quizNo }</th>
+				<td>${resultList.answer }</td>
+				<td>${resultList.correctAnswer }</td>
+				<th>${resultList.isCorrect }</th>
+			</tr>
+		</c:if>
 		</c:forEach>
 		<tr>
 			<th colspan="2">점수</th>

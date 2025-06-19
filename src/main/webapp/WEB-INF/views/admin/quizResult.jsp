@@ -33,7 +33,12 @@
 					<td>${list.status }</td>
 					<!-- 문항별 정오 -->
 					<c:forEach var="i" begin="0" end="${fn:length(list.isCorrect) - 1}">
-						<td>${list.isCorrect[i]}</td>
+						<c:if test="${list.isCorrect[i] eq 'O'}">
+							<td>${list.isCorrect[i]}</td>
+						</c:if>
+						<c:if test="${list.isCorrect[i] eq 'X'}">
+							<td style="color:red;'">${list.isCorrect[i]}</td>
+						</c:if>
 					</c:forEach>
 					<td>${list.score }</td>
 				</c:if>
