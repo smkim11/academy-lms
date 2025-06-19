@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<link rel="stylesheet" href="../css/mainPage.css">
 <title>Insert title here</title>
 </head>
 <body>
@@ -27,6 +27,7 @@
 	      </c:forEach>
 	    </tr>
 	  </thead>
+	  
 	  <tbody>
 	    <c:forEach var="time" items="${timeList}">
 	      <tr>
@@ -52,6 +53,8 @@
 <hr>
 	<p>*morning : 08~12 / afternoon : 13~17 / evening : 18~22</p>
 <hr>
+
+
     <div style="width: 50%; margin-left: 220px; margin-top: 80px;">
       <h2>강의관리</h2>
       <!-- 진행중인 강의 -->
@@ -106,7 +109,9 @@
       </div>
     </div>
 </main>
-
+<div>
+	<jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 <script>
 function toggleSection(id) {
     const section = document.getElementById(id);
@@ -116,7 +121,7 @@ function toggleSection(id) {
       section.style.display = "none";
     }
   }
-  // 페이지 로드시 기본은 모두 접기 (선택 사항)
+  // 페이지 로드시 기본은 모두 접기
   window.onload = function() {
     document.getElementById('ongoing').style.display = 'none';
     document.getElementById('upcoming').style.display = 'none';

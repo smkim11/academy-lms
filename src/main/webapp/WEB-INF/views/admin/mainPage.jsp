@@ -4,9 +4,9 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="../css/mainPage.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 	<div class="top-bar">
@@ -25,13 +25,18 @@
 	        <ul>
 	            <li><a href="/admin/statistics">통계 페이지로 이동</a></li>
 	        </ul>
+	        <ul>
+		        <li><a href="/admin/createLecture">강의등록</a></li>
+	        </ul>
 
 	        <h2>마이페이지</h2>
 	        <ul>
 		        <li><a class="edit-profile" href="/admin/mypage">개인정보 수정</a></li>
 	        </ul>
 	    </div>
-<div style="width: 50%; margin-left: 220px; margin-top: 80px;">
+	    
+	    
+	<div style="width: 50%; margin-left: 220px; margin-top: 80px;">
       <h2>강의관리</h2>
       <!-- 진행중인 강의 -->
       <h4 class="toggle-header" onclick="toggleSection('ongoing')">▸진행중인 강의</h4>
@@ -95,7 +100,7 @@ function toggleSection(id) {
       section.style.display = "none";
     }
   }
-  // 페이지 로드시 기본은 모두 접기 (선택 사항)
+  // 페이지 로드시 기본은 모두 접기
   window.onload = function() {
     document.getElementById('ongoing').style.display = 'none';
     document.getElementById('upcoming').style.display = 'none';
@@ -103,5 +108,8 @@ function toggleSection(id) {
   };
 </script>
 </main>
+<div>
+	<jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

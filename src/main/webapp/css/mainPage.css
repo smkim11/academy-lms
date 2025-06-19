@@ -1,0 +1,160 @@
+@charset "UTF-8";
+
+/* 색상 변수 */
+:root {
+  --primary: #2c7be5;
+  --bg-light: #f9fafb;
+  --text-dark: #1f2937;
+  --text-muted: #6b7280;
+  --border: #d1d5db;
+  --highlight: #eff6ff;
+  --card-bg: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+/* 기본 설정 */
+body, ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: 0.2s;
+}
+a:hover {
+  border-color: var(--primary);
+}
+html, body {
+  height: 100%;
+  background-color: var(--bg-light);
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--text-dark);
+}
+
+/* 상단 바 */
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--top-bar-height);
+  background-color: #ffffff;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 30px 0 calc(var(--side-bar-width) + 30px);
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+.logo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-info {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.user-name {
+  font-weight: 600;
+}
+
+/* ✅ 메인 컨텐츠 */
+main {
+  max-width: 1200px;
+  margin: 100px auto 40px auto;
+  padding: 0 20px;
+}
+
+/* ✅ 강의 섹션 토글 제목 */
+.toggle-header {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-top: 32px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.toggle-header:hover {
+  color: var(--primary);
+}
+
+/* ✅ 강의 카드 리스트 */
+.lecture-section ul {
+  padding-left: 0;
+}
+.lecture-section li {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 20px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 5px var(--shadow);
+  transition: transform 0.2s ease;
+}
+.lecture-section li:hover {
+  transform: translateY(-3px);
+}
+.lecture-section li a {
+  color: var(--text-dark);
+  font-weight: 500;
+}
+.lecture-section p {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ✅ 시간표 테이블 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--card-bg);
+  box-shadow: 0 2px 5px var(--shadow);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+table th, table td {
+  border: 1px solid var(--border);
+  padding: 12px;
+  text-align: center;
+}
+table th {
+  background-color: var(--highlight);
+  font-weight: 600;
+}
+table td {
+  background-color: #fff;
+  transition: background-color 0.3s;
+}
+
+/* ✅ 시간 텍스트 강조 */
+table td:first-child {
+  font-weight: bold;
+  background-color: var(--bg-light);
+}
+
+/* ✅ 하단 주석 텍스트 */
+main p {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-top: 10px;
+  font-style: italic;
+}
