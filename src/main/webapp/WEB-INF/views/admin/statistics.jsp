@@ -7,35 +7,105 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
+<style>
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f6f9;
+  margin: 0;
+  padding: 0;
+}
+
+.dashboard-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 40px 50px 20px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+  padding: 0 50px 50px;
+}
+
+.stat-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px 20px 30px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+}
+
+.stat-card h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #34495e;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-card h2::before {
+  content: "📈";
+  font-size: 18px;
+}
+
+canvas {
+  width: 100% !important;
+  height: 260px !important;
+}
+ 
+body.no-sidebar main {
+  margin-left: 0;
+}
+</style>
 </head>
-<body>
+<body class="no-sidebar">
 <div>
-	<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+	<jsp:include page ="../nav/topNav.jsp"></jsp:include>
 </div>
 <main>
-	<h1>통계</h1>
-	<div>
-		<canvas id="chart1" style="width:100%;max-width:400px"></canvas>
-	</div>
-	<div>
-		<canvas id="chart2" style="width:100%;max-width:400px"></canvas>
-	</div>
-	<div>
-		<canvas id="chart3" style="width:100%;max-width:400px"></canvas>
-	</div>
-	<div>
-		<canvas id="chart4" style="width:100%;max-width:400px"></canvas>
-	</div>
-	<div>
-		<canvas id="chart5" style="width:100%;max-width:400px"></canvas>
-	</div>
-	<div>
-		<canvas id="chart6" style="width:100%;max-width:400px"></canvas>
-	</div>
-	<div>
-		<canvas id="chart7" style="width:100%;max-width:400px"></canvas>
-	</div>
+  <h1 class="dashboard-title">📊 통계</h1>
+  <div class="dashboard-grid">
+    <section class="stat-card">
+      <h2>강사별 누적 수강생</h2>
+      <canvas id="chart1"></canvas>
+    </section>
+    <section class="stat-card">
+      <h2>강사별 현재 수강생</h2>
+      <canvas id="chart2"></canvas>
+    </section>
+    <section class="stat-card">
+      <h2>강의 진행상태</h2>
+      <canvas id="chart3"></canvas>
+    </section>
+    <section class="stat-card">
+      <h2>강사 평점 평균</h2>
+      <canvas id="chart4"></canvas>
+    </section>
+    <section class="stat-card">
+      <h2>연도별 누적 학생 수</h2>
+      <canvas id="chart5"></canvas>
+    </section>
+    <section class="stat-card">
+      <h2>나이 분포</h2>
+      <canvas id="chart6"></canvas>
+    </section>
+    <section class="stat-card">
+      <h2>최근 1년 강의별 인원</h2>
+      <canvas id="chart7"></canvas>
+    </section>
+  </div>
 </main>
+
+
 <div>
 	<jsp:include page ="../nav/footer.jsp"></jsp:include>
 </div>
@@ -49,12 +119,15 @@ $.ajax({
 		
 		const xValues = []; // 강사
 		const yValues = []; // 누적 수강인원 수
-		const barColors = ["red", "green","blue","orange"];
-		
-		$(data).each(function(i,e){
-			xValues.push(e.name);
-			yValues.push(e.cnt);
+		const barColors = [];
+		const colorPool = ["#2c7be5", "#00d97e","#f6c343","#e63757","#6e00ff","#39afd1","#ff6b6b"];
+
+		$(data).each(function(i, e) {
+		  xValues.push(e.name);
+		  yValues.push(e.cnt);
+		  barColors.push(colorPool[i % colorPool.length]);  // 색 반복
 		});
+
 		
 		new Chart("chart1", {
 		  type: "bar",
@@ -68,17 +141,18 @@ $.ajax({
 		  options: {
 		    legend: {display: false},
 		    scales: {
-		      yAxes: [{
-		        ticks: {
-		          beginAtZero: true
-		        }
-		      }]
+		    	yAxes: [{
+	    	        ticks: {
+	    	          	beginAtZero: true,
+	   	         	 	fontSize: 10
+	    	        }
+	   	      	}],
+				xAxes: [{
+				  ticks: {
+				    fontSize: 10
+				  }
+				}]
 		    },
-		
-		    title: {
-		      display: true,
-		      text: "강사별 누적 수강인원 수"
-		    }
 		  }
 		});
 	}
@@ -93,11 +167,13 @@ $.ajax({
 		
 		const xValues = []; // 강사
 		const yValues = []; // 현재 수강인원 수
-		const barColors = ["red", "green","blue","orange"];
+		const barColors = [];
+		const colorPool = ["#2c7be5", "#00d97e","#f6c343","#e63757","#6e00ff","#39afd1","#ff6b6b"];
 		
 		$(data).each(function(i,e){
 			xValues.push(e.name);
 			yValues.push(e.cnt);
+			barColors.push(colorPool[i % colorPool.length]);  // 색 반복
 		});
 		
 		new Chart("chart2", {
@@ -112,17 +188,18 @@ $.ajax({
 		  options: {
 		    legend: {display: false},
 		    scales: {
-		      yAxes: [{
-		        ticks: {
-		          beginAtZero: true
-		        }
-		      }]
+		    	yAxes: [{
+	    	        ticks: {
+	    	          	beginAtZero: true,
+	   	         	 	fontSize: 10
+	    	        }
+	   	      	}],
+				xAxes: [{
+				  ticks: {
+				    fontSize: 10
+				  }
+				}]
 		    },
-		
-		    title: {
-		      display: true,
-		      text: "강사별 현재 수강인원 수"
-		    }
 		  }
 		});
 	}
@@ -137,31 +214,40 @@ $.ajax({
 		
 		const xValues = []; // 강사
 		const yValues = []; // 강의 수
-		const barColors = [
-		  "#00aba9",
-		  "#b91d47"
-		];
+		const barColors = [];
+		const colorPool = ["#2c7be5", "#00d97e","#f6c343","#e63757","#6e00ff","#39afd1","#ff6b6b"];
 		
 		$(data).each(function(i,e){
 			xValues.push(e.name);
 			yValues.push(e.cnt);
+			barColors.push(colorPool[i % colorPool.length]);  // 색 반복
 		});
 		
 		new Chart("chart3", {
-		  type: "pie",
-		  data: {
-		    labels: xValues,
-		    datasets: [{
-		      backgroundColor: barColors,
-		      data: yValues
-		    }]
-		  },
-		  options: {
-		    title: {
-		      display: true,
-		      text: "강사별 진행중, 예정 총 강의 수"
-		    }
-		  }
+			type: "bar",
+			data: {
+			  labels: xValues,
+			  datasets: [{
+			    backgroundColor: barColors,
+			    data: yValues
+			  }]
+			},
+			options: {
+			  legend: {display: false},
+			  scales: {
+				  yAxes: [{
+		    	        ticks: {
+		    	          	beginAtZero: true,
+		   	         	 	fontSize: 10
+		    	        }
+					}],
+					xAxes: [{
+					  ticks: {
+					    fontSize: 10
+					  }
+					}]
+			  },
+			}
 		});
 	}
 
@@ -176,11 +262,13 @@ $.ajax({
 		
 		const xValues = []; // 강사
 		const yValues = []; // 별점 평균
-		const barColors = ["red", "green","blue","orange"];
+		const barColors = [];
+		const colorPool = ["#2c7be5", "#00d97e","#f6c343","#e63757","#6e00ff","#39afd1","#ff6b6b"];
 		
 		$(data).each(function(i,e){
 			xValues.push(e.name);
 			yValues.push(e.rating);
+			barColors.push(colorPool[i % colorPool.length]);  // 색 반복
 		});
 		
 		new Chart("chart4", {
@@ -195,17 +283,18 @@ $.ajax({
 		  options: {
 		    legend: {display: false},
 		    scales: {
-		      yAxes: [{
-		        ticks: {
-		          beginAtZero: true
-		        }
-		      }]
+	    	yAxes: [{
+    	        ticks: {
+    	          	beginAtZero: true,
+   	         	 	fontSize: 10
+    	        }
+   	      	}],
+			xAxes: [{
+			  ticks: {
+			    fontSize: 10
+			  }
+			}]
 		    },
-		
-		    title: {
-		      display: true,
-		      text: "강사별 별점 평균"
-		    }
 		  }
 		});
 	}
@@ -216,7 +305,7 @@ $.ajax({
 	url:'/statistics/CountStudentByYear',
 	type:'post',
 	success: function(data){
-		// chart4 line chart 출력
+
 		console.log(data);
 		const xValues = []; // 년도
 		const yValues = []; // 누적 학생 수
@@ -240,18 +329,25 @@ $.ajax({
 		  options: {
 		    legend: {display: false},
 		    scales: {
-		      yAxes: [{ticks: {min: 0, max:50}}],
+		    	 yAxes: [{
+		    	        ticks: {
+	    	        		min: 0, max:50,
+		    	          	beginAtZero: true,
+	    	         	 	fontSize: 10
+		    	        }
+		    	      }],
+				xAxes: [{
+				  ticks: {
+				    fontSize: 10
+				  }
+				}]
 		    },
-		    title: {
-		      display: true,
-		      text: "연도별 누적 학생 수"
-		    }
 		  }
 		});
 	}
 });
 
-//chart6 (doughnut chart)
+//chart6 (pie chart)
 $.ajax({
 	url:'/statistics/StudentAgeDistribution',
 	type:'post',
@@ -260,18 +356,17 @@ $.ajax({
 		
 		const xValues = []; // 나이
 		const yValues = []; // 수강생 분포
-		const barColors = [
-		  "#00aba9",
-		  "#b91d47"
-		];
+		const barColors = [];
+		const colorPool = ["#2c7be5", "#00d97e","#f6c343","#e63757","#6e00ff","#39afd1","#ff6b6b"];
 		
 		$(data).each(function(i,e){
-			xValues.push(e.age);
+			xValues.push(e.age + "대");
 			yValues.push(e.cnt);
+			barColors.push(colorPool[i % colorPool.length]);  // 색 반복
 		});
 		
 		new Chart("chart6", {
-		  type: "doughnut",
+		  type: "pie",
 		  data: {
 		    labels: xValues,
 		    datasets: [{
@@ -280,10 +375,12 @@ $.ajax({
 		    }]
 		  },
 		  options: {
-		    title: {
-		      display: true,
-		      text: "수강생들 나이 분포"
-		    }
+			  legend: {
+			      display: true,
+			      labels: {
+			        fontSize: 10 
+			      }
+			  }
 		  }
 		});
 	}
@@ -319,12 +416,18 @@ $.ajax({
 		  options: {
 		    legend: {display: false},
 		    scales: {
-		      yAxes: [{ticks: {min: 0, max:15}}],
+		      yAxes: [{
+					ticks: {
+						min: 0, max:15,
+						beginAtZero: true,fontSize: 10
+					}
+		      }],
+	          xAxes: [{
+	              ticks: {
+	                fontSize: 10 
+	              }
+			}]
 		    },
-		    title: {
-		      display: true,
-		      text: "최근 1년간 강의별 인원 수"
-		    }
 		  }
 		});
 	}

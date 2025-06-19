@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class StatisticsController {
 	
 	// 통계 페이지
-	@GetMapping("/statistics")
+	@GetMapping("/admin/statistics")
 	public String statistics() {
 		return "/admin/statistics";
 	}
