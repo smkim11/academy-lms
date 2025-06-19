@@ -6,14 +6,19 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <meta charset="UTF-8">
 <title>강사용 공지사항 수정</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
+<!-- ✅ 내비게이션 -->
+<jsp:include page ="../nav/sideNav.jsp" />
+<main class="content">
 	<h1>공지사항 수정 (강사)</h1>
 
 	<form action="/instructor/updateNotice" method="post">
 	<input type="hidden" name="noticeId" value="${notice.noticeId}">
 	<input type="hidden" name="lectureId" value="${notice.lectureId}">
-		<table border="1">
+		<table class="post-table">
 			<tr>
 				<th>제목</th>
 				<td><input type="text" name="title" required style="width: 400px;" value="${notice.title}"></td>
@@ -38,7 +43,10 @@
 		</table>
 		<br>
 		<button type="submit">공지 수정</button>
-		<a href="/instructor/noticeList/${lecture.lectureId}">← 목록으로</a>
+		<a href="/instructor/noticeList/${lecture.lectureId}" class="back-link">← 목록으로</a>
 	</form>
+</main>
+<!-- ✅ 푸터 -->
+<jsp:include page ="../nav/footer.jsp" />
 </body>
 </html>

@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>스터디 게시판(강사)</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
