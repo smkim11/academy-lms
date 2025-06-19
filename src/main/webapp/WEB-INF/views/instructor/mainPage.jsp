@@ -72,7 +72,7 @@
       <ul>
         <c:forEach var="lecture" items="${ongoingLectures}">
           <li>
-            <a href="/${role}/lectureOne?lectureId=${lecture.lecture_id}">
+            <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
               ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
             </a>
           </li>
@@ -91,7 +91,7 @@
       <ul>
         <c:forEach var="lecture" items="${upcomingLectures}">
           <li>
-            <a href="/${role}/lectureOne?lectureId=${lecture.lecture_id}">
+            <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
               ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
             </a>
           </li>
@@ -110,7 +110,7 @@
       <ul>
         <c:forEach var="lecture" items="${endedLectures}">
           <li>
-            <a href="/${role}/surveyResult?lectureId=${lecture.lecture_id}">
+            <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id">
               ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
             </a>
           </li>
