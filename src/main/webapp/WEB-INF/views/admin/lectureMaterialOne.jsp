@@ -19,7 +19,7 @@
 	    <a class="edit-profile" href="/mypage">개인정보 수정</a>
 	  </div>
 	</div>
-<main style="max-width: 800px; margin: 20px auto; padding: 20px;">
+<main>
   <h2 style="text-align: center;">📄 강의자료 상세</h2>
 
   <c:if test="${not empty material}">

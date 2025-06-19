@@ -23,7 +23,6 @@
 	</div>
 	</div>
 <main>
-	<hr>
 		<table>
 		  <thead>
 		    <tr>
@@ -110,7 +109,7 @@
       <ul>
         <c:forEach var="lecture" items="${endedLectures}">
           <li>
-            <a href="/${role}/surveyResult?lectureId=${lecture.lecture_id}">
+            <a href="/${role}/survey?lectureId=${lecture.lecture_id}">
               ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
             </a>
           </li>

@@ -23,7 +23,6 @@
 	</div>
 	</div>
 <main>
-<hr>
 	<table>
 	  <thead>
 	    <tr>

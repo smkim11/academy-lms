@@ -18,7 +18,7 @@
 	  </div>
 	</div>
 	
-	<main style="max-width: 800px; margin: 20px auto; padding: 20px;">
+<main>
 	    <h2 style="text-align: center;">Q&A 상세보기</h2>
 	
 	    <p><strong>제목:</strong> ${qna.title}</p>

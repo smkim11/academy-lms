@@ -26,7 +26,7 @@
 	  </ul>
 	</div>
 	
-<main style="max-width: 800px; margin: 20px auto; padding: 20px;">
+<main>
     <h2 style="text-align: center;">강의자료 수정</h2>
 
     <form action="/updateLectureMaterial" method="post" enctype="multipart/form-data"
