@@ -1,0 +1,131 @@
+@charset "UTF-8";
+/* lectureDetail.css */
+
+.main-container {
+  padding: 100px 20px 20px 20px;
+}
+
+.flex-container {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.mr-10 {
+  margin-right: 10px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.mt-25 {
+  margin-top: 25px;
+}
+
+.mt-80 {
+  margin-top: 80px;
+}
+
+.mt-230 {
+  margin-top: 230px;
+}
+
+.fs-14 {
+  font-size: 14px;
+  margin-top: 30px; 
+}
+
+.red-text {
+  color: red;
+}
+
+.no-underline {
+  text-decoration: none;
+}
+
+.blue-text {
+  color: #3498db;
+}
+
+.table-half {
+  flex: 1;
+}
+
+.table-half table,
+.notice-table,
+.quiz-table,
+.study-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.button-blue {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #3498db;
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.notice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.notice-table th,
+.quiz-table th,
+.study-table th {
+  width: 25%;
+}
+
+/* 재사용 가능한 공통 헤더 박스 */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* 변경된 부분 */
+  margin-bottom: 10px;
+}
+
+.section-header2 {
+	padding-top: 10px;
+}
+
+
+.quiz-header h3 {
+  margin-top: 0;
+  position: relative;
+  top: -5px;
+}
+  .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+     
+    }
+
+.fs-15.no-underline.blue-text {
+	  margin-top:  180px;
+  display: inline-block;
+}
+
+.section-header h3 {
+  margin-top: 6px; /* 더보기 텍스트와 수직 정렬 맞춤 */
+}
+
+.quiz-header h3 {
+  margin-top: 6px; /* 추가적으로 퀴즈 제목도 맞춤 */
+}
+
+.section-header.mt-20 {
+  margin-top: 82px; /* 원하는 값으로 조정 */
+}

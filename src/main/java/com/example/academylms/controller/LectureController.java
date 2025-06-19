@@ -64,7 +64,7 @@ public class LectureController {
 
 			
 		
-		return "redirect:/admin/mypage";
+		return "redirect:/mainPage";
 	}
 	
 	@GetMapping("/admin/lectureOne") // 관리자 강의 상세정보 
@@ -96,6 +96,7 @@ public class LectureController {
 	  model.addAttribute("quizList", quizList);
 	  model.addAttribute("qnaList", qnaList);
 	  model.addAttribute("postList", postList);
+	  model.addAttribute("lectureId", lectureId);
 	  
 	  return "/admin/lectureOne";
 	}
@@ -126,7 +127,7 @@ public class LectureController {
 		  model.addAttribute("quizList", quizList);
 		  model.addAttribute("qnaList", qnaList);
 		  model.addAttribute("postList", postList);
-	  
+		  model.addAttribute("lectureId", lectureId);
 		
 		return "/instructor/lectureOne";
 	}
@@ -157,7 +158,8 @@ public class LectureController {
 		  model.addAttribute("quizList", quizList);
 		  model.addAttribute("qnaList", qnaList);
 		  model.addAttribute("postList", postList);
-		
+		  model.addAttribute("lectureId", lectureId);
+		  
 		return "/student/lectureOne";
 	}
 	

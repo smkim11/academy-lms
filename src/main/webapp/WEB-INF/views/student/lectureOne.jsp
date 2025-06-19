@@ -1,57 +1,37 @@
-<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<!DOCTYPE html>
 <html>
 <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-
-<style>
-  .table-box {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-  }
-  .table-half {
-    flex: 1;
-  }
-  .table-half table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-  }
-</style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  <link rel="stylesheet" href="/css/lectureDetail.css">
 </head>
 <body>
-	
+
 <div>
-<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+  <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
 </div>
 
+<main class="main-container">
+  <div class="flex-container">
 
-<main style="padding: 100px 20px 20px 20px;">
-  <!-- 좌우 분할을 위한 flex 컨테이너 -->
-  <div style="display: flex; gap: 40px; align-items: flex-start;">
-
-    <!-- 🎓 왼쪽: 강의 요약 정보 -->
-    <section class="lecture-summary" style="flex: 1;">
-      <div style="display: flex; align-items: center;">
-        <h2 style="margin-right: 10px;">${lecture.title}</h2>
+    <section class="lecture-summary flex-1">
+      <div class="title-bar">
+        <h2 class="mr-10">${lecture.title}</h2>
       </div>
       <p><strong>강사:</strong> ${lecture.name}</p>
       <p><strong>시간:</strong> ${lecture.day} / ${lecture.time}</p>
       <p><strong>기간:</strong> ${lecture.startedAt} ~ ${lecture.endedAt}</p>
 
-   
-	<br><br>
-	
-	<a href="/lectureMaterialWeekList?lectureId=${lecture.lectureId}" style="font-size: 14px; text-decoration: none; color: #3498db;">강의자료 더보기</a>
-      <!-- 강의자료 테이블 -->
-      <div class="table-half" style="margin-top: 20px;"> 
-        <h3>📚 강의자료 (1~5주차)</h3> 
+      <br><br>
+
+      <a href="/lectureMaterialWeekList?lectureId=${lecture.lectureId}" class="fs-14 no-underline blue-text">강의자료 더보기</a>
+
+      <div class="table-half mt-20">
+        <h3>📚 강의자료 (1~5주차)</h3>
         <table border="1">
           <thead>
             <tr>
@@ -79,67 +59,65 @@
             </c:forEach>
           </tbody>
         </table>
-        
-    	<a href="/qna?lectureId=${lecture.lectureId}" style="font-size: 14px; text-decoration: none; color: #3498db;">QNA 더보기</a>
-	<!-- QNA 테이블 -->
-	<div class="table-half" style="margin-top: 20px;"> 
-	  <h3>📚 QNA 게시판</h3> 
-	  <table border="1">
-	    <thead>
-	      <tr>
-	      	<th>질문번호</th>
-	        <th>제목</th>
-	        <th>작성일자</th>
-	        <th>작성자</th>
-	        <th>공개여부</th>
-	      </tr>
-	    </thead>
-	    <tbody>
-	      <c:choose>
-	        <c:when test="${not empty qnaList}">
-	          <c:forEach var="qna" items="${qnaList}">
-	            <tr>
-	              <td><a href="/qnaOne?lectureId=${lecture.lectureId}&id=${qna.qnaId}">${qna.qnaId}</a></td>
-	              <td>${qna.title}</td>
-	              <td>${qna.createDate}</td>
-	              <td>${qna.writerName}</td>
-	              <td>
-	                <c:choose>
-	                  <c:when test="${qna.isPublic == 1}">공개</c:when>
-	                  <c:otherwise>비공개</c:otherwise>
-	                </c:choose>
-	              </td>
-	            </tr>
-	          </c:forEach>
-	        </c:when>
-	        <c:otherwise>
-	          <tr><td colspan="4">질문 없음</td></tr>
-	        </c:otherwise>
-	      </c:choose>
-	    </tbody>
-	  </table>
-	</div>
+
+        <a href="/qna?lectureId=${lecture.lectureId}" class="fs-14 no-underline blue-text">QNA 더보기</a>
+
+        <div class="table-half mt-20">
+          <h3>📚 QNA 게시판</h3>
+          <table border="1">
+            <thead>
+              <tr>
+                <th>질문번호</th>
+                <th>제목</th>
+                <th>작성일자</th>
+                <th>작성자</th>
+                <th>공개여부</th>
+              </tr>
+            </thead>
+            <tbody>
+              <c:choose>
+                <c:when test="${not empty qnaList}">
+                  <c:forEach var="qna" items="${qnaList}">
+                    <tr>
+                      <td><a href="/qnaOne?lectureId=${lecture.lectureId}&id=${qna.qnaId}">${qna.qnaId}</a></td>
+                      <td>${qna.title}</td>
+                      <td>${qna.createDate}</td>
+                      <td>${qna.writerName}</td>
+                      <td>
+                        <c:choose>
+                          <c:when test="${qna.isPublic == 1}">공개</c:when>
+                          <c:otherwise>비공개</c:otherwise>
+                        </c:choose>
+                      </td>
+                    </tr>
+                  </c:forEach>
+                </c:when>
+                <c:otherwise>
+                  <tr><td colspan="5">질문 없음</td></tr>
+                </c:otherwise>
+              </c:choose>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </section>
 
-    <!-- 📋 오른쪽: 공지사항 + 퀴즈 -->
-    <section class="lecture-notice" style="flex: 1; margin-top: 30px;">
-      <!-- 공지 상단 영역 (제목 + 더보기 링크) -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <h3 style="margin: 0;">📢 최근 공지사항</h3>
-        <a href="/student/noticeList/${lecture.lectureId}" style="font-size: 14px; text-decoration: none; color: #3498db;">공지 더보기</a>
+    <section class="lecture-notice flex-1 mt-30">
+      <div class="notice-header">
+        <h3>📢 최근 공지사항</h3>
+        <a href="/student/noticeList/${lecture.lectureId}" class="fs-14 no-underline blue-text">공지 더보기</a>
       </div>
 
-      <!-- 공지사항 테이블 -->
-      <div style="margin-top: 10px;">
+      <div class="mt-10">
         <c:choose>
           <c:when test="${not empty lectureNoticeList}">
-            <table class="notice-table" border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
+            <table class="notice-table" border="1">
               <thead>
                 <tr>
-                  <th style="width: 10%;">번호</th>
-                  <th style="width: 30%;">공지타입</th>
-                  <th style="width: 30%;">제목</th>
-                  <th style="width: 30%;">작성일</th>
+                  <th>번호</th>
+                  <th>공지타입</th>
+                  <th>제목</th>
+                  <th>작성일</th>
                 </tr>
               </thead>
               <tbody>
@@ -160,20 +138,18 @@
         </c:choose>
       </div>
 
-
-      <!-- 퀴즈 테이블 -->
-      <div style="margin-top: 140px;">
-      <a href="/quizList?lectureId=${lecture.lectureId}" style="font-size: 14px; text-decoration: none; color: #3498db;">퀴즈 더보기</a>
-        <h3 style="margin-bottom: 10px;">📝 퀴즈 목록 (1~5주차)</h3>
+      <div class="mt-140">
+        <a href="/quizList?lectureId=${lecture.lectureId}" class="fs-14 no-underline blue-text">퀴즈 더보기</a>
+        <h3 class="mt-10">🖍️ 퀴즈 목록 (1~5주차)</h3>
         <c:choose>
           <c:when test="${not empty quizList}">
-            <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
+            <table class="quiz-table" border="1">
               <thead>
                 <tr>
-                  <th style="width: 10%;">주차</th>
-                  <th style="width: 30%;">시작 시간</th>
-                  <th style="width: 30%;">종료 시간</th>
-                  <th style="width: 30%;">상태</th>
+                  <th>주차</th>
+                  <th>시작 시간</th>
+                  <th>종료 시간</th>
+                  <th>상태</th>
                 </tr>
               </thead>
               <tbody>
@@ -198,20 +174,19 @@
           </c:otherwise>
         </c:choose>
       </div>
-      
-      <!-- 스터디 그룹 게시판 -->
-      <div style="margin-top: 80px;">
-      <a href="/student/studyPost/${lecture.lectureId}" style="font-size: 14px; text-decoration: none; color: #3498db;">스터디일지  더보기</a>
-        <h3 style="margin-bottom: 10px;">📝 스터리 일지목록 </h3>
+
+      <div class="mt-80">
+        <a href="/student/studyPost/${lecture.lectureId}" class="fs-14 no-underline blue-text">스터디일지 더보기</a>
+        <h3 class="mt-10">🖋️ 스터디 일지목록</h3>
         <c:choose>
           <c:when test="${not empty postList}">
-            <table border="1" style="width: 100%; border-collapse: collapse; text-align: left;">
+            <table class="study-table" border="1">
               <thead>
                 <tr>
-                  <th style="width: 10%;">게시글 번호</th>
-                  <th style="width: 30%;">제목</th>
-                  <th style="width: 30%;">작성자</th>
-                  <th style="width: 30%;">작성일</th>
+                  <th>게시권 번호</th>
+                  <th>제목</th>
+                  <th>작성자</th>
+                  <th>작성일</th>
                 </tr>
               </thead>
               <tbody>
@@ -231,12 +206,13 @@
           </c:otherwise>
         </c:choose>
       </div>
+
     </section>
-  </div> <!-- flex 끝 -->
+  </div>
 </main>
 
 <div>
-   <jsp:include page ="../nav/footer.jsp"></jsp:include>
+  <jsp:include page ="../nav/footer.jsp"></jsp:include>
 </div>
 
 </body>

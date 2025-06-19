@@ -6,7 +6,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
   $(function(){
-    $('#login').click(function(e){
+      /* $('.logo-container a').click(function(e){
+    	  e.preventDefault(); // 클릭시 링크 이동방지
+      }) */
+	  
+	  
+	  $('#login').click(function(e){
       const id = $('#id').val().trim();
       const password = $('#password').val().trim();
 
@@ -14,10 +19,12 @@
         alert('아이디와 비밀번호를 모두 입력해주세요.');
         return false;
       }
-
+		
       $('#loginForm').submit();
     });
   });
+  
+  
 </script>
 <meta charset="UTF-8">
 <title>로그인 | 구디아카데미</title>
@@ -48,6 +55,27 @@ body {
 }
 .logo-container img:hover {
   transform: scale(1.03);
+}
+
+.button-wrapper {
+  margin-top: 16px; /* 버튼과 위쪽 요소 간격 띄우기 */
+}
+
+.error-box {
+  background-color: #ffe0e0;
+  color: #cc0000;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 10px 0 20px;
+  border: 1px solid #ffcccc;
+}
+.error-text {
+  color: #cc0000;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 6px 0 16px;
 }
 
 /* 🔹 로그인 박스 */
@@ -119,8 +147,9 @@ button:hover {
 /* 🔹 하단 링크 */
 .forgot {
   text-align: center;
-  margin-top: 20px;
+  margin-top: 14px;
 }
+
 .forgot a {
   font-size: 0.85rem;
   color: #007bff;
@@ -135,7 +164,7 @@ button:hover {
 
   <!-- 🔸 로고 -->
   <div class="logo-container">
-    <a href="/mainPage">
+    <a href="/login">
       <img src="../images/goodeeLogo.png" alt="학원 로고">
     </a>
   </div>
@@ -149,12 +178,21 @@ button:hover {
     <label for="password">비밀번호</label>
     <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요">
 
-    <button type="button" id="login">로그인하기</button>
+	<c:if test="${not empty errorMessage}">
+	 <div class= "error-text">
+	 	<c:out value="${errorMessage}"></c:out>
+	 </div>
+	
+	</c:if>
 
+     <!-- 🔸 버튼 아래로 약간 내려서 배치 -->
+  <div class="button-wrapper">
+    <button type="button" id="login">로그인하기</button>
     <div class="forgot">
       <a href="/findPassword">비밀번호를 잊으셨나요?</a>
     </div>
-  </form>
+  </div>
+</form>
 
 </body>
 </html>

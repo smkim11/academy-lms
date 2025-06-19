@@ -1,10 +1,14 @@
 package com.example.academylms.controller;
 
+import java.lang.ProcessBuilder.Redirect;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.academylms.dto.FindUserPassword;
 import com.example.academylms.dto.User;
@@ -26,13 +30,14 @@ public class LoginController {
 	
 	@PostMapping("/loginForm") // 로그인 처리 진행
 	public String loginForm(HttpSession session,
-		UserLogin userLogin){  // dto로 값을 받아 처리
+		UserLogin userLogin , RedirectAttributes redirectAttributes){  // dto로 값을 받아 처리
 	
 		
 		User user2 = loginService.findByLoginInfo(userLogin); // 아이디와 비밀번호를 통해 user 정보 조회
 		
 		if(user2 == null) { // 정보가 없다면 Login 화면 이동
 			log.info("로그인 실패");
+			redirectAttributes.addFlashAttribute("errorMessage", "로그인에 실패하였습니다.");
 			return "redirect:/login";
 		}
 		log.info("userId = {}", user2.getUserId());
