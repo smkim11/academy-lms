@@ -3,8 +3,13 @@
 <html>
 <head>
     <title>스터디 게시판(강사)</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
 </head>
 <body>
+<div>
+<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="content">
 <h2>강의 ID: ${lectureId} - 스터디 게시판</h2>
 
 <!-- 조별 태그 버튼 -->
@@ -20,7 +25,7 @@
     <div id="group-${entry.key}" class="post-table" style="display:none;">
         <h3>조 ${entry.key}의 게시글</h3>
         
-        <table border="1">
+        <table>
             <thead>
                 <tr>
                     <th>조</th>
@@ -45,7 +50,8 @@
     </div>
 </c:forEach>
 <br>
-<a href="/instructor/lectureOne?lectureId=${lectureId}">← 강의페이지로 돌아가기</a>
+<a href="/instructor/lectureOne?lectureId=${lectureId}" class="back-link">← 강의페이지로 돌아가기</a>
+</main>
 <script>
     function showGroup(groupId) {
         // 모든 테이블 숨김
@@ -78,5 +84,8 @@
         if (firstBtn) firstBtn.click();
     }
 </script>
+<div>
+   <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

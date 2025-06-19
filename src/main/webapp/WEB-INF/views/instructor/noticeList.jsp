@@ -4,6 +4,7 @@
 <html>
 <head>
 	<title>${lecture.title} - 공지사항</title>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 	    function deleteNotice(noticeId, lectureId) {
@@ -27,13 +28,18 @@
 </head>
 
 <body>
+<!-- ✅ 내비게이션 -->
+<div>
+<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="content">
     <h1>📚 ${lecture.title} - 공지사항 목록</h1>
 
     <!-- 새 공지 등록 버튼 -->
     <a href="/instructor/addNotice?lectureId=${lecture.lectureId}">➕ 새 공지 등록</a>
 
     <!-- 공지 목록 테이블 -->
-    <table border="1">
+    <table class="notice-table">
         <thead>
             <tr>
                 <th>번호</th>
@@ -64,6 +70,10 @@
         </tbody>
     </table>
 <br>
-<a href="/instructor/lectureOne?lectureId=${lectureId}">← 강의페이지로 돌아가기</a>
+<a href="/instructor/lectureOne?lectureId=${lectureId}" class="back-link">← 강의페이지로 돌아가기</a>
+</main>
+<div>
+   <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>
