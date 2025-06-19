@@ -9,20 +9,12 @@
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-
-<!-- 상단바 + 사이드바(네비게이션) -->
 	<div class="top-bar">
 	  <div class="logo">MyLMS</div>
 	  <div class="user-info">
 	    <div class="user-name">홍길동님</div>
 	    <a class="edit-profile" href="/mypage">개인정보 수정</a>
 	  </div>
-	</div>
-	<div class="side-bar">
-	  <ul>
-	    <li><a href="/mainPage">메인페이지</a></li>
-	    <li><a href="/lectureMainPage">강의목록</a></li>
-	  </ul>
 	</div>
 <main>
 	    <div style="width: 50%;"> 
