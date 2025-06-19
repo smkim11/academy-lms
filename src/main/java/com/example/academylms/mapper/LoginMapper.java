@@ -1,6 +1,7 @@
 package com.example.academylms.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.academylms.dto.FindUserPassword;
 import com.example.academylms.dto.User;
@@ -19,6 +20,8 @@ public interface LoginMapper {
 	int updatePassword(UserLogin userLogin);  // id로 값을 판단후 비밀번호 업데이트
 
 	int updatePasswords(UserLogin user); // 비밀번호 수정떄 사용 비밀번호 업데이트 User_id로 값을 판단해 넣는다.
+ 
+	int validateEmail(@Param ("id") String id, @Param ("email") String email); // 아이디 이메일 일치여부
 	
 	
 }

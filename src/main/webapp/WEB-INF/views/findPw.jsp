@@ -103,9 +103,15 @@ button:hover {
   text-decoration: underline;
 }
 </style>
-
 <script>
 $(function() {
+  let isSubmitted = false; // ⛳ 중복 방지 플래그
+
+  $('#button').on('click', function () {
+    if (isSubmitted) return; // 이미 한 번 처리됐으면 무시
+    $('#findPwForm').submit();
+  });
+
   $('#findPwForm').submit(function(e) {
     const email = $('#email').val().trim();
     const userId = $('#userId').val().trim();
@@ -123,15 +129,33 @@ $(function() {
       return;
     }
 
-    $('#successMessage').fadeIn();
-	 // 1.5초 뒤에 로그인 페이지로 자동 이동
-    setTimeout(() => {
-      window.location.href = '/login';
-    }, 1500);
-    
+    e.preventDefault(); // 기본 제출 막고
+
+    $.ajax({
+      url: '/validateEmail',
+      type: 'POST',
+      data: { id: userId, email: email },
+      success: function (response) {
+        if (response === 'valid') {
+          if (!isSubmitted) {
+            isSubmitted = true; // ✅ 여기서 true로 막기
+            $('#successMessage').fadeIn();
+            setTimeout(function () {
+              $('#findPwForm')[0].submit(); // 실제 서버 제출
+            }, 800);
+          }
+        } else {
+          alert('아이디와 이메일이 일치하지 않습니다.');
+        }
+      },
+      error: function () {
+        alert('서버와의 통신이 일정하지 않습니다.');
+      }
+    });
   });
 });
 </script>
+
 </head>
 <body>
 
@@ -144,7 +168,7 @@ $(function() {
     <label for="email">이메일</label>
     <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required>
 
-    <button type="submit">임시 비밀번호 발급</button>
+    <button type="button" id="button">임시 비밀번호 발급</button>
 
     <div id="successMessage">✅ 임시 비밀번호가 이메일로 발송되었습니다.</div>
 
