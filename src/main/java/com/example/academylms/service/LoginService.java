@@ -62,15 +62,19 @@ public class LoginService {
 
 	public boolean findPassword(FindUserPassword info) { // 이메일 발급 true이면 임시비밀번호 발급 false 일시에 일치정보 없음 비밀번호 발급 x
 		
-		String email =  loginMapper.findPassword(info); // 이메일과 id 정보가 둘다 일치하는 이메일 찾기
-		if(email == null || email.trim().isEmpty()) { //  id와 이메일 입력을 통해 일치 정보 있는지 조회
-			return false;
-		}
+		/*
+		 * String email = loginMapper.findPassword(info); // 이메일과 id 정보가 둘다 일치하는 이메일 찾기
+		 * if(email == null || email.trim().isEmpty()) { // id와 이메일 입력을 통해 일치 정보 있는지 조회
+		 * return false; }
+		 */   // 임시 주석처리 필요없는 부분
+		
 		
 		String randomPassword = UUID.randomUUID().toString().substring(0, 8).replace("-", "");  // 8글자의 랜덤 패스워드 생성
 		UserLogin userLogin = new UserLogin();
 		userLogin.setId(info.getId()); // id 값 받아오기  
 		userLogin.setPassword(randomPassword);
+		
+	
 		
 		loginMapper.updatePassword(userLogin);  // 임시 비밀번호로 로그인 정보 변경 
 			
@@ -79,7 +83,7 @@ public class LoginService {
 		
 		SimpleMailMessage  message = new SimpleMailMessage(); // SimpleMailMessage 생성
 		
-		message.setTo(email);
+		message.setTo(info.getEmail());
 		message.setSubject("oo어학원 임시비밀번호 안내입니다.");
 		message.setText("임시비밀번호는"+randomPassword+"입니다. \n"
 						+ "	로그인 이후에 비밀번호를 변경하세요.");
@@ -109,6 +113,12 @@ public class LoginService {
 		user.setPassword(hashedPw);
 		
 		return loginMapper.updatePasswords(user);
+	}
+
+	public int validateEmail(String id, String email) { // 아이디 이메일 일치여부 확인
+		
+		return loginMapper.validateEmail(id, email);
+		
 	}
 
 	

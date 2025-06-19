@@ -8,22 +8,17 @@
 <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-<!-- 상단바 + 사이드바 -->
-<div class="top-bar">
-  <div class="logo">MyLMS</div>
-  <div class="user-info">
-    <div class="user-name">홍길동님</div>
-    <a class="edit-profile" href="/mypage">개인정보 수정</a>
-  </div>
-</div>
-<div class="side-bar">
-  <ul>
-    <li><a href="#">대시보드</a></li>
-    <li><a href="#">강의목록</a></li>
-    <li><a href="#">수강관리</a></li>
-    <li><a href="#">설정</a></li>
-  </ul>
-</div>
+<!-- 상단바 + 사이드바(네비게이션) -->
+<jsp:include page="../nav/sideNav.jsp">
+  <jsp:param name="lectureId" value="${lectureId}" />
+</jsp:include>
+	<div class="top-bar">
+	  <div class="logo">MyLMS</div>
+	  <div class="user-info">
+	    <div class="user-name">홍길동님</div>
+	    <a class="edit-profile" href="/mypage">개인정보 수정</a>
+	  </div>
+	</div>
 
 <main style="max-width: 800px; margin: 20px auto; padding: 20px;">
   <h2 style="text-align: center;">📄 강의자료 상세</h2>

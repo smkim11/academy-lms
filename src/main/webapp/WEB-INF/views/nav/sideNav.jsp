@@ -10,8 +10,10 @@
 	<div class="top-bar">
 		<div class="user-info">
 		    <div class="user-name">${loginUserId }님</div>
-		    <a class="edit-profile" href="/mypage">개인정보 수정</a>
-		    <a class="edit-profile" href="/logOut">로그아웃</a>
+		    <div class="user-links">
+		      <a class="edit-profile" href="/${userRole}/mypage">마이페이지</a>
+		      <a class="edit-profile" href="/logOut">로그아웃</a>
+		    </div>
 		</div>
 	</div>
 	<div class="side-bar">

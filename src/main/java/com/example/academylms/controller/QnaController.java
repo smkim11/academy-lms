@@ -34,7 +34,6 @@ public class QnaController {
     public String qnaList(@RequestParam int lectureId,
                           @RequestParam(defaultValue = "1") int page,
                           HttpServletRequest request) {
-
     	// 페이징
         int pageSize = 10; // 한 페이지당 게시글 수
         int offset = (page - 1) * pageSize;
@@ -52,7 +51,7 @@ public class QnaController {
         int userId = (int) session.getAttribute("loginUserId");
         User user = loginService.findById(userId);
         String role = user.getRole();
-
+        
         if ("student".equals(role)) {
             return "student/qnaList";
         } else if ("instructor".equals(role)) {

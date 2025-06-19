@@ -39,4 +39,19 @@ UPDATE user SET PASSWORD = #{password} where user_id = #{userId};
 SELECT user_id userId, id id, PASSWORD password, birth birth, ROLE role, create_date createDate FROM user where id = #{id};
 </select>
 
+<select id="validateEmail" resultType="int" >
+SELECT 
+	CASE 
+		WHEN EXISTS (
+ 				SELECT 1 FROM  user u INNER JOIN admin a ON u.user_id  = a.admin_id WHERE u.id= #{id}  and a.email= #{email}
+ 		) THEN 1
+ 		WHEN EXISTS (
+ 			SELECT 1  FROM  user u INNER JOIN instructor i ON u.user_id  = i.instructor_id WHERE  u.id = #{id}  and i.email = #{email}
+ 	  ) THEN 1
+		WHEN EXISTS (
+			SELECT 1  FROM  user u INNER JOIN student s ON u.user_id  = s.student_id WHERE  u.id = #{id}  and s.email = #{email}
+	  )  THEN 1 
+	  ELSE 0
+	END AS matched;
+</select>
 </mapper>

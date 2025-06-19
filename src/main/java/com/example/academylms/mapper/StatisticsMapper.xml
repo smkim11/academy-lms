@@ -28,6 +28,7 @@
 		FROM instructor i INNER JOIN lecture l ON i.instructor_id = l.instructor_id
 		WHERE (l.started_at &lt;= NOW() AND l.ended_at &gt;= NOW()) OR NOW() &lt; l.started_at
 		GROUP BY i.name
+		ORDER BY cnt desc
 	</select>
 	
 	<!--강사별 별점 평균-->
@@ -55,6 +56,7 @@
 		FROM user 
 		WHERE ROLE='student'
 		GROUP BY age
+		ORDER BY age DESC
 	</select>
 	
 	<!--최근 1년간 강의별 인원 수-->

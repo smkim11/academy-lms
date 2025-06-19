@@ -30,7 +30,6 @@ body {
   padding: 0;
   box-sizing: border-box;
   min-height: 100vh;
-
   display: flex;
   flex-direction: column;
 }
@@ -51,50 +50,57 @@ body {
   box-sizing: border-box;
   z-index: 1000;
 }
+
+/* 로고 */
 .logo {
   position: fixed;
   top: 0;
   left: 0;
   width: 200px;
-  height: var(--top-bar-height); /* 100px */
-  background-color: #ffffff; /* 필요하면 배경 지정 */
+  height: var(--top-bar-height);
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1100; /* 상단바(.top-bar z-index:1000) 위로 */
+  z-index: 1100;
   box-sizing: border-box;
-  padding-left: 20px; /* 로고 내부 여백 */
-  border-bottom: 1px solid #ddd; /* 상단바와 동일선상에 맞춰서 */
+  padding-left: 20px;
+  border-bottom: 1px solid #ddd;
 }
+
+/* 사용자 정보 */
 .top-bar .user-info {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  line-height: 1.3;
+  align-items: center; /* 중앙 정렬 */
+  line-height: 1.4;
 }
 
 .user-info .user-name {
   font-size: 1rem;
   font-weight: bold;
   color: #333;
-  margin-right: 15px;
+  margin-bottom: 6px; /* 이름과 링크 간 간격 */
 }
 
-.edit-profile {
-  margin-right: 5px;
+.user-links {
+  display: flex;
+  gap: 12px;
 }
-.user-info .edit-profile {
+
+.user-links .edit-profile {
   font-size: 0.85rem;
   color: #888;
   text-decoration: underline;
-  margin-top: 2px;
   cursor: pointer;
+  transition: color 0.2s;
 }
-.user-info .edit-profile:hover {
+
+.user-links .edit-profile:hover {
   color: #555;
 }
 
-/* 왼쪽 사이드바 (고정) */
+/* 왼쪽 사이드바 */
 .side-bar {
   position: fixed;
   top: var(--top-bar-height);
@@ -107,7 +113,7 @@ body {
   box-sizing: border-box;
   overflow-y: auto;
   z-index: 1;
-  border-top: 1px solid #ddd; /* 로고와 사이드바 구분선 */
+  border-top: 1px solid #ddd;
 }
 
 .side-bar ul > li > a {
@@ -117,13 +123,14 @@ body {
   color: white;
   transition: 0.3s;
 }
+
 .side-bar ul > li:hover > a {
   background-color: #444;
 }
 
 /* 본문 */
 main {
-  flex: 1; /* 남은 공간을 차지 */
+  flex: 1;
   margin-left: var(--side-bar-width);
   padding: 30px;
   padding-top: calc(var(--top-bar-height) + 30px);
@@ -146,6 +153,6 @@ main p {
   font-size: 12px;
   margin-top: 0;
   position: relative;
-  z-index: 9999; /* 사이드바 위에 표시 */
+  z-index: 9999;
   border-top: 1px solid #ddd;
 }

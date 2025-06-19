@@ -35,14 +35,15 @@ public class LectureMaterialController {
     @Autowired
     private LoginService loginService;
 
-//강의자료리스트    
+// 강의자료리스트    
     @GetMapping("/lectureMaterialList")
     public String lectureMaterialList(@RequestParam int weekId, Model model, HttpSession session) {
-    	//세션정보
+    	// 세션정보(필터 추가시 object~if(userIdObj까지삭제해도될듯))
     	Object userIdObj = session.getAttribute("loginUserId");
     	if (userIdObj == null) {
     		return "redirect:/login";
     	}
+
     	int userId = (int) userIdObj;
     	User user = loginService.findById(userId);
     	String role = user.getRole();
@@ -69,12 +70,12 @@ public class LectureMaterialController {
         }
     }
 
-//강의자료상세정보
+// 강의자료상세정보
     @GetMapping("/lectureMaterialOne")
     public String lectureMaterialDetail(@RequestParam int materialId,
                                         HttpServletRequest request,
                                         Model model) {
-    	//세션정보
+    	// 세션정보
         HttpSession session = request.getSession();
         int userId = (int) session.getAttribute("loginUserId");
         User user = loginService.findById(userId);
@@ -86,7 +87,7 @@ public class LectureMaterialController {
 
         // 여기서 weekId를 material에서 꺼내서 이후 redirect 등에 써야 함
         int weekId = material.getWeekId();
-        model.addAttribute("weekId", weekId); // 필요시 추가
+        model.addAttribute("weekId", weekId);
 
         if ("instructor".equals(role)) {
             return "instructor/lectureMaterialOne";
@@ -99,10 +100,10 @@ public class LectureMaterialController {
         }
     }
     
-//강의자료추가
+// 강의자료추가
     @GetMapping("/addLectureMaterial")
     public String lectureMaterialAddForm(@RequestParam int weekId, Model model, HttpSession session) {
-    	//세션정보
+    	// 세션정보
     	Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
             return "redirect:/login";
@@ -110,9 +111,9 @@ public class LectureMaterialController {
         int userId = (int) userIdObj;
         User user = loginService.findById(userId);
         String role = user.getRole();
-        
+
+        // 학생은 사용불가
         if (!"instructor".equals(role) && !"admin".equals(role)) {
-            // 권한 없음 → 강사는 아니므로 redirect
             return "redirect:/lectureMaterialList?weekId=" + weekId;
         }
 
@@ -120,17 +121,17 @@ public class LectureMaterialController {
         return "/instructor/addLectureMaterial";
     }
 
-//강의자료추가    
+// 강의자료추가    
     @PostMapping("/addLectureMaterial")
     public String lectureMaterialAdd(@RequestParam int weekId,
                                      @RequestParam("titles") List<String> titles,
                                      @RequestParam("files") MultipartFile[] files,
                                      HttpSession session) throws IOException {
-    	
+    	//유효성 체크
         if (titles == null || titles.isEmpty()) return "redirect:/lectureMaterialWeekList";
         if (files == null || files.length == 0) return "redirect:/lectureMaterialWeekList";
 
-        //세션정보
+        // 세션정보
         Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
         	return "redirect:/login";
@@ -159,10 +160,10 @@ public class LectureMaterialController {
         return "redirect:/lectureMaterialList?weekId=" + weekId;
     }
 
-//강의자료수정
+// 강의자료수정
     @GetMapping("/updateLectureMaterial")
     public String lectureMaterialEditForm(@RequestParam int materialId, Model model, HttpSession session) {
-    	//세션정보
+    	// 세션정보
     	Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
             return "redirect:/login";
@@ -171,8 +172,8 @@ public class LectureMaterialController {
         User user = loginService.findById(userId);
         String role = user.getRole();
         
+        // 학생 사용불가
         if (!"instructor".equals(role) && !"admin".equals(role)) {
-            // 권한 없음 → redirect
             LectureMaterial material = lectureMaterialService.getLectureMaterialById(materialId);
             return "redirect:/lectureMaterialOne?materialId=" + materialId;
         }
@@ -182,14 +183,14 @@ public class LectureMaterialController {
         return "instructor/updateLectureMaterial";
     }
 
-//강의자료수정
+// 강의자료수정
     @PostMapping("/updateLectureMaterial")
     public String lectureMaterialEdit(@RequestParam int materialId,
                                       @RequestParam String title,
                                       @RequestParam MultipartFile file,
                                       HttpSession session) throws IOException {
         if (title == null || title.trim().isEmpty()) return "redirect:/lectureMaterialOne?materialId=" + materialId;
-        //세션정보
+        // 세션정보
         Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
             return "redirect:/login";
@@ -218,10 +219,10 @@ public class LectureMaterialController {
     }
 
     
-//강의자료삭제    
+// 강의자료삭제    
     @GetMapping("/deleteLectureMaterial")
     public String deleteLectureMaterial(@RequestParam int materialId, HttpSession session) {
-    	//세션정보
+    	// 세션정보
     	Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
             return "redirect:/login";
@@ -236,7 +237,7 @@ public class LectureMaterialController {
 
         // 1️.삭제 전에 먼저 weekId 조회
         LectureMaterial material = lectureMaterialService.getLectureMaterialById(materialId);
-        int weekId = material != null ? material.getWeekId() : 0; // 혹시 모르니 안전하게 처리
+        int weekId = material != null ? material.getWeekId() : 0;
 
         // 2️.삭제 수행
         lectureMaterialService.deleteLectureMaterial(materialId);
@@ -244,10 +245,10 @@ public class LectureMaterialController {
         return "redirect:/lectureMaterialList?weekId=" + weekId;
     }
     
-//주차별 게시판
+// 주차별 게시판
     @GetMapping("/lectureMaterialWeekList")
     public String lectureWeekList(@RequestParam int lectureId, Model model, HttpSession session) {
-    	//세션정보
+    	// 세션정보
         Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
             return "redirect:/login";
