@@ -4,15 +4,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.Student;
 import com.example.academylms.mapper.StudentMapper;
+import com.example.academylms.mapper.StudyGroupMapper;
 
 @Service
 public class StudentService {
 	private final StudentMapper studentMapper;
+	
+	@Autowired
+	private StudyGroupMapper studyGroupMapper;
+
 
 	public StudentService(StudentMapper studentMapper) {
 		this.studentMapper = studentMapper;
@@ -47,6 +53,8 @@ public class StudentService {
     }
 	
 	public void deleteEnrollment(int studentId, int lectureId) {
+		
+		studyGroupMapper.deleteStudyMembersByStudentAndLecture(studentId, lectureId);
 	    studentMapper.deleteStudent(studentId, lectureId);
 	}
 }

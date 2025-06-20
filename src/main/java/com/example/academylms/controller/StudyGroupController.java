@@ -40,10 +40,12 @@ public class StudyGroupController {
 	    int loginStudentId = (userIdObj instanceof Integer)
 	        ? (Integer) userIdObj
 	        : Integer.parseInt(userIdObj.toString());
-
+	    
 	    List<StudyGroup> groups = studyGroupMapper.getGroupsByLectureId(lectureId);
+	    
 	    Map<Integer, List<StudyPost>> groupPostMap = new LinkedHashMap<>();
 	    Map<Integer, Boolean> isLeaderMap = new HashMap<>();
+	    Map<Integer, String> groupNameMap = new HashMap<>(); // ✅ 조 이름 맵 생성
 
 	    for (StudyGroup group : groups) {
 	        List<StudyPost> posts = studyGroupMapper.getPostsByGroupId(group.getGroupId());
@@ -52,19 +54,19 @@ public class StudyGroupController {
 	        // 조장 여부 판단
 	        boolean isLeader = (group.getStudentId() == loginStudentId);
 	        isLeaderMap.put(group.getGroupId(), isLeader);
+
+	        // ✅ groupId -> groupName 맵핑 추가
+	        groupNameMap.put(group.getGroupId(), group.getGroupName());
 	    }
 
 	    model.addAttribute("lectureId", lectureId);
 	    model.addAttribute("groupPostMap", groupPostMap);
 	    model.addAttribute("isLeaderMap", isLeaderMap);
+	    model.addAttribute("groupNameMap", groupNameMap); // ✅ JSP에 전달
 	    model.addAttribute("loginStudentId", loginStudentId);
 
 	    return "student/studyPost";
 	}
-
-
-
-
 
 	
 	@GetMapping("/student/studyPostOne/{postId}")
@@ -137,19 +139,27 @@ public class StudyGroupController {
 	}
 	
 	@GetMapping("/instructor/studyPost/{lectureId}")
-    public String getStudyBoardInstructor(@PathVariable int lectureId, Model model) {
-        List<StudyGroup> groups = studyGroupMapper.getGroupsByLectureId(lectureId);
-        Map<Integer, List<StudyPost>> groupPostMap = new LinkedHashMap<>();
+	public String getStudyBoardInstructor(@PathVariable int lectureId, Model model) {
+	    List<StudyGroup> groups = studyGroupMapper.getGroupsByLectureId(lectureId);
+	    Map<Integer, List<StudyPost>> groupPostMap = new LinkedHashMap<>();
+	    Map<Integer, String> groupNameMap = new HashMap<>();
 
-        for (StudyGroup group : groups) {
-            List<StudyPost> posts = studyGroupMapper.getPostsByGroupId(group.getGroupId());
-            groupPostMap.put(group.getGroupId(), posts);
-        }
+	    for (StudyGroup group : groups) {
+	        int groupId = group.getGroupId();
+	        String groupName = group.getGroupName();
 
-        model.addAttribute("lectureId", lectureId);
-        model.addAttribute("groupPostMap", groupPostMap);
-        return "instructor/studyPost";
-    }
+	        List<StudyPost> posts = studyGroupMapper.getPostsByGroupId(groupId);
+	        groupPostMap.put(groupId, posts);
+	        groupNameMap.put(groupId, groupName);
+	    }
+
+	    model.addAttribute("lectureId", lectureId);
+	    model.addAttribute("groupPostMap", groupPostMap);
+	    model.addAttribute("groupNameMap", groupNameMap);
+
+	    return "instructor/studyPost";
+	}
+
 	
 	@GetMapping("/instructor/studyPostOne/{postId}")
 	public String studyPostOneInstructor(@PathVariable int postId, Model model) {
@@ -189,6 +199,7 @@ public class StudyGroupController {
 	
 	@PostMapping("/instructor/studyGroup/create")
 	public String createGroup(@RequestParam int lectureId,
+			 				  @RequestParam String groupName,
 	                          @RequestParam(required = false) Integer studentId,
 	                          Model model, RedirectAttributes redirectAttributes) {
 
@@ -197,7 +208,7 @@ public class StudyGroupController {
 	        return "redirect:/instructor/studyGroupForm?lectureId=" + lectureId;
 	    }
 
-	    studyGroupService.createStudyGroup(lectureId, studentId);
+	    studyGroupService.createStudyGroup(lectureId, groupName, studentId);
 	    return "redirect:/instructor/studentList/" + lectureId;
 	}
 	
@@ -219,6 +230,7 @@ public class StudyGroupController {
 	
 	@PostMapping("/admin/studyGroup/create")
 	public String createGroupAdmin(@RequestParam int lectureId,
+			 				  @RequestParam String groupName,
 	                          @RequestParam(required = false) Integer studentId,
 	                          Model model, RedirectAttributes redirectAttributes) {
 
@@ -227,7 +239,7 @@ public class StudyGroupController {
 	        return "redirect:/admin/studyGroupForm?lectureId=" + lectureId;
 	    }
 
-	    studyGroupService.createStudyGroup(lectureId, studentId);
+	    studyGroupService.createStudyGroup(lectureId, groupName, studentId);
 	    return "redirect:/admin/studentList/" + lectureId;
 	}
 	
@@ -240,19 +252,31 @@ public class StudyGroupController {
 	}
 	
 	@GetMapping("/admin/studyPost/{lectureId}")
-    public String getStudyBoardAdmin(@PathVariable int lectureId, Model model) {
-        List<StudyGroup> groups = studyGroupMapper.getGroupsByLectureId(lectureId);
-        Map<Integer, List<StudyPost>> groupPostMap = new LinkedHashMap<>();
+	public String getStudyBoardAdmin(@PathVariable int lectureId, Model model) {
+	    List<StudyGroup> groups = studyGroupMapper.getGroupsByLectureId(lectureId);
 
-        for (StudyGroup group : groups) {
-            List<StudyPost> posts = studyGroupMapper.getPostsByGroupId(group.getGroupId());
-            groupPostMap.put(group.getGroupId(), posts);
-        }
+	    Map<Integer, List<StudyPost>> groupPostMap = new LinkedHashMap<>();
+	    Map<Integer, String> groupNameMap = new HashMap<>();
 
-        model.addAttribute("lectureId", lectureId);
-        model.addAttribute("groupPostMap", groupPostMap);
-        return "admin/studyPost";
-    }
+	    for (StudyGroup group : groups) {
+	        int groupId = group.getGroupId();
+	        String groupName = group.getGroupName();
+
+	        // 각 조의 게시글 목록 가져오기
+	        List<StudyPost> posts = studyGroupMapper.getPostsByGroupId(groupId);
+	        groupPostMap.put(groupId, posts);
+
+	        // 조 이름 매핑
+	        groupNameMap.put(groupId, groupName);
+	    }
+
+	    model.addAttribute("lectureId", lectureId);
+	    model.addAttribute("groupPostMap", groupPostMap);
+	    model.addAttribute("groupNameMap", groupNameMap);
+
+	    return "admin/studyPost";
+	}
+
 	
 	@GetMapping("/admin/studyPostOne/{postId}")
 	public String studyPostOneAdmin(@PathVariable int postId, Model model) {

@@ -12,7 +12,7 @@
 
 <!-- ✅ 내비게이션 바 -->
 <div>
-<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
 </div>
 
 <!-- ✅ 본문 영역 -->
@@ -22,14 +22,16 @@
     <!-- 조별 태그 버튼 -->
     <div>
         <c:forEach var="entry" items="${groupPostMap}">
-            <button class="tag-btn" onclick="showGroup(${entry.key})">조 ${entry.key}</button>
+            <button class="tag-btn" onclick="showGroup(${entry.key})">
+                ${groupNameMap[entry.key]}
+            </button>
         </c:forEach>
     </div>
 
     <!-- 조별 게시글 테이블 -->
     <c:forEach var="entry" items="${groupPostMap}">
         <div id="group-${entry.key}" class="post-table" style="display:none;">
-            <h3>조 ${entry.key}의 게시글</h3>
+            <h3>조 ${groupNameMap[entry.key]}의 게시글</h3>
 
             <!-- 새글 등록 -->
             <c:if test="${isLeaderMap[entry.key]}">
@@ -48,8 +50,12 @@
                 <tbody>
                     <c:forEach var="post" items="${entry.value}">
                         <tr>
-                            <td>${post.groupId}</td>
-                            <td><a href="${pageContext.request.contextPath}/student/studyPostOne/${post.postId}">${post.title}</a></td>
+                            <td>${groupNameMap[entry.key]}</td>
+                            <td>
+                                <a href="${pageContext.request.contextPath}/student/studyPostOne/${post.postId}">
+                                    ${post.title}
+                                </a>
+                            </td>
                             <td>${post.createDate}</td>
                             <td>
                                 <c:if test="${isLeaderMap[entry.key]}">
@@ -65,7 +71,9 @@
     </c:forEach>
 
     <br>
-    <a class="back-link" href="${pageContext.request.contextPath}/student/lectureOne?lectureId=${lectureId}">← 강의페이지로 돌아가기</a>
+    <a class="back-link" href="${pageContext.request.contextPath}/student/lectureOne?lectureId=${lectureId}">
+        ← 강의페이지로 돌아가기
+    </a>
 </main>
 
 <!-- ✅ JavaScript -->
@@ -84,7 +92,7 @@
         if (groupDiv) groupDiv.style.display = 'block';
 
         const selectedBtn = Array.from(document.querySelectorAll('.tag-btn'))
-            .find(btn => btn.textContent.includes(groupId));
+            .find(btn => btn.getAttribute('onclick').includes(groupId));
         if (selectedBtn) {
             selectedBtn.style.backgroundColor = '#4CAF50';
             selectedBtn.style.color = '#fff';
@@ -113,8 +121,9 @@
         if (firstBtn) firstBtn.click();
     }
 </script>
+
 <div>
-   <jsp:include page ="../nav/footer.jsp"></jsp:include>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
 </div>
 </body>
 </html>

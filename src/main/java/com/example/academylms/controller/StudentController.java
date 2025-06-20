@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.academylms.dto.Page;
 import com.example.academylms.dto.Student;
+import com.example.academylms.dto.StudyGroup;
 import com.example.academylms.mapper.StudentMapper;
 import com.example.academylms.service.StudentService;
 import com.example.academylms.service.StudyGroupService;
@@ -45,10 +46,17 @@ public class StudentController {
 	    List<Student> students = studentService.getStudentsByLecture(lectureId, beginRow, rowPerPage, searchWord);
 	    int totalPage = (totalCount + rowPerPage - 1) / rowPerPage;
 
-	    // Map<Integer, Integer> -> Map<String, Integer> 타입으로 변경
+	    // 학생 ID → 그룹 ID
 	    Map<Integer, Integer> groupMap = studyGroupService.getStudentGroupIdsByLectureId(lectureId);
 
-	    List<Integer> groupIds = studyGroupService.getGroupIdsByLectureId(lectureId);
+	    // 그룹 리스트 (groupId, groupName 포함)
+	    List<StudyGroup> groups = studyGroupService.getGroupsWithNamesByLectureId(lectureId);
+
+	    // 그룹 ID → 그룹 이름
+	    Map<Integer, String> groupNameMap = new HashMap<>();
+	    for (StudyGroup group : groups) {
+	        groupNameMap.put(group.getGroupId(), group.getGroupName());
+	    }
 
 	    model.addAttribute("students", students);
 	    model.addAttribute("currentPage", currentPage);
@@ -56,10 +64,12 @@ public class StudentController {
 	    model.addAttribute("lectureId", lectureId);
 	    model.addAttribute("searchWord", searchWord);
 	    model.addAttribute("groupMap", groupMap);
-	    model.addAttribute("groupIds", groupIds);
+	    model.addAttribute("groupNameMap", groupNameMap);
+	    model.addAttribute("groups", groups);
 
 	    return "/instructor/studentList";
 	}
+
 
 	@GetMapping("/admin/studentList/{lectureId}")
 	public String adminStudentListByLecture(
@@ -72,27 +82,36 @@ public class StudentController {
 	    int totalCount = studentService.getStudentsCountByLecture(lectureId, searchWord);
 	    int beginRow = (currentPage - 1) * rowPerPage;
 
-	    // 수강생 목록
+	    // 1. 수강생 목록
 	    List<Student> students = studentService.getStudentsByLecture(lectureId, beginRow, rowPerPage, searchWord);
 	    int totalPage = (totalCount + rowPerPage - 1) / rowPerPage;
 
-	    // 학생별 그룹 매핑 정보
+	    // 2. 학생별 그룹 매핑 정보 (studentId → groupId)
 	    Map<Integer, Integer> groupMap = studyGroupService.getStudentGroupIdsByLectureId(lectureId);
 
-	    // 그룹 ID 목록 (드롭다운에 사용)
-	    List<Integer> groupIds = studyGroupService.getGroupIdsByLectureId(lectureId);
+	    // 3. 그룹 전체 정보 가져오기 (groupId, groupName 포함)
+	    List<StudyGroup> groups = studyGroupService.getGroupsWithNamesByLectureId(lectureId);
 
-	    // JSP에 데이터 전달
+	    // 4. 그룹 ID → 그룹 이름 매핑
+	    Map<Integer, String> groupNameMap = new HashMap<>();
+	    for (StudyGroup group : groups) {
+	        groupNameMap.put(group.getGroupId(), group.getGroupName());
+	    }
+
+	    // 5. 모델에 담기
 	    model.addAttribute("students", students);
 	    model.addAttribute("currentPage", currentPage);
 	    model.addAttribute("totalPage", totalPage);
 	    model.addAttribute("lectureId", lectureId);
 	    model.addAttribute("searchWord", searchWord);
-	    model.addAttribute("groupMap", groupMap);
-	    model.addAttribute("groupIds", groupIds);
+
+	    model.addAttribute("groupMap", groupMap);             // studentId → groupId
+	    model.addAttribute("groupNameMap", groupNameMap);     // groupId → groupName
+	    model.addAttribute("groups", groups);                 // group 리스트
 
 	    return "/admin/studentList";
 	}
+
 
 
 
