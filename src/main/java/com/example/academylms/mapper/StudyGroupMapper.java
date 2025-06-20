@@ -22,6 +22,7 @@ public interface StudyGroupMapper {
 	void updateFeedback(@Param("postId") int postId, @Param("feedback") String feedback);
 	List<Student> selectStudentsByLectureId(int lectureId);
 	void insertStudyGroup(@Param("lectureId") int lectureId,
+			@Param("groupName") String groupName,
             @Param("studentId") Integer studentId);
 	Integer findGroupIdByStudentId(@Param("studentId") int studentId);
 	List<Map<String, Object>> selectStudentGroupIdsByLectureId(int lectureId);
@@ -38,5 +39,6 @@ public interface StudyGroupMapper {
     List<Map<String, Object>> getStudentGroupMappingByLectureId(int lectureId);
     int getStudentIdByUserId(String userId);
     int getStudentIdByPostId(int postId);
+    int deleteStudyMembersByStudentAndLecture(int studentId, int lectureId);
     
 }

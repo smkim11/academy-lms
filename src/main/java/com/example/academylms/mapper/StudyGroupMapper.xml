@@ -8,6 +8,7 @@
             group_id AS groupId,
             lecture_id AS lectureId,
             student_id AS studentId,
+            group_name AS groupName,
             create_date AS createDate
         FROM study_group
         WHERE lecture_id = #{lectureId}
@@ -79,8 +80,8 @@
 
     <!-- [2] 스터디 그룹 생성 -->
     <insert id="insertStudyGroup">
-        INSERT INTO study_group (lecture_id, student_id, create_date)
-        VALUES (#{lectureId}, #{studentId}, NOW())
+        INSERT INTO study_group (lecture_id, group_name, student_id, create_date)
+        VALUES (#{lectureId}, #{groupName}, #{studentId}, NOW())
     </insert>
     
     <select id="findGroupIdByStudentId" resultType="int">
@@ -154,5 +155,12 @@
 	<select id="getStudentIdByPostId" parameterType="int" resultType="int">
 	    SELECT student_id AS stdentId FROM study_post WHERE post_id = #{postId}
 	</select>
-
+	
+	<delete id="deleteStudyMembersByStudentAndLecture">
+	    DELETE FROM study_member
+	    WHERE enrollment_id IN (
+	        SELECT enrollment_id FROM lecture_enrollment
+	        WHERE student_id = #{studentId} AND lecture_id = #{lectureId}
+	    )
+	</delete>
 </mapper>

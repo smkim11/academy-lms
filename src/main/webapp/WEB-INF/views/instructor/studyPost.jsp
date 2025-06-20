@@ -16,7 +16,7 @@
 <!-- 조별 태그 버튼 -->
 <div>
     <c:forEach var="entry" items="${groupPostMap}">
-        <button class="tag-btn" onclick="showGroup(${entry.key})">조 ${entry.key}</button>
+        <button class="tag-btn" onclick="showGroup(${entry.key})">${groupNameMap[entry.key]}</button>
     </c:forEach>
 </div>
 
@@ -24,7 +24,7 @@
 <!-- 조별 게시글 테이블 -->
 <c:forEach var="entry" items="${groupPostMap}">
     <div id="group-${entry.key}" class="post-table" style="display:none;">
-        <h3>조 ${entry.key}의 게시글</h3>
+        <h3>조 ${groupNameMap[entry.key]}의 게시글</h3>
         
         <table>
             <thead>
@@ -37,7 +37,7 @@
             <tbody>
                 <c:forEach var="post" items="${entry.value}">
                     <tr>
-                        <td>${post.groupId}</td>
+                        <td>${groupNameMap[entry.key]}</td>
                         <td>
                         	<a href="/instructor/studyPostOne/${post.postId}">
                         		${post.title}

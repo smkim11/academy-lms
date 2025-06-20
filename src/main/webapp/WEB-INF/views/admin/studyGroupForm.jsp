@@ -10,7 +10,11 @@
 
 <form action="/admin/studyGroup/create" method="post">
     <input type="hidden" name="lectureId" value="${lectureId}" />
-
+	
+	<label>스터디 그룹 이름: </label>
+    <input type="text" name="groupName" required placeholder="예: 프론트엔드 조" />
+    <br/><br/>
+	
     <label>조장 선택 (선택): </label>
     <select name="studentId" required>
         <option value="">-- 선택 안함 --</option>

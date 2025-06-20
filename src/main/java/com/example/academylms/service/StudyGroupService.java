@@ -47,9 +47,9 @@ public class StudyGroupService {
 	    }
 	 
 	 @Transactional
-	    public void createStudyGroup(int lectureId, Integer studentId) {
+	    public void createStudyGroup(int lectureId, String groupName, Integer studentId) {
 	        // 1) study_group에 조장 포함해 그룹 생성
-	        studyGroupMapper.insertStudyGroup(lectureId, studentId);
+	        studyGroupMapper.insertStudyGroup(lectureId, groupName, studentId);
 
 	        if (studentId != null) {
 	            // 2) 조장이 속한 group_id 조회
@@ -124,6 +124,9 @@ public class StudyGroupService {
 	 public List<Map<String, Object>> getStudentGroupMappingByLectureId(int lectureId) {
 	        return studyGroupMapper.getStudentGroupMappingByLectureId(lectureId);
 	    }
-
+	 
+	 public List<StudyGroup> getGroupsWithNamesByLectureId(int lectureId) {
+		    return studyGroupMapper.getGroupsByLectureId(lectureId);
+		}
 }
 

@@ -4,29 +4,25 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="css/styles.css">
+<title>AcademyLMS</title>
 </head>
 <body>
-<!-- 상단바 + 사이드바(네비게이션) -->
-<jsp:include page="../nav/sideNav.jsp">
-  <jsp:param name="lectureId" value="${lectureId}" />
-</jsp:include>
-	<div class="top-bar">
-	  <div class="logo">MyLMS</div>
-	  <div class="user-info">
-	    <div class="user-name">홍길동님</div>
-	    <a class="edit-profile" href="/mypage">개인정보 수정</a>
-	  </div>
-	</div>
+<div>
+	<jsp:include page ="../nav/sideNav.jsp">
+		<jsp:param name="lectureId" value="${lectureId}" />
+	</jsp:include>
 	
+</div>
+<main>
+	<span class="page-title">${lectureTitle}</span>
+	<span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
 	
-	<main>
-	    <h2 style="text-align: center;">Q&A 게시판</h2>
+	<span class="quiz-list-title">QNA 목록</span>
 	
 <!-- QnA 게시판 테이블 -->
-	    <table border="1" style="width: 100%; border-collapse: collapse; text-align: center;">
+	    <table class="quiz-table">
 	        <tr style="background-color: #f0f0f0;">
 	            <th>번호</th>
 	            <th>제목</th>
@@ -52,6 +48,7 @@
 	                <td>${qna.writerName}</td>
 	            </tr>
 	        </c:forEach>
+	    </span>
 	    </table>
 	    	<a href="/admin/lectureOne?lectureId=${lectureId}">
 			    강의정보로 돌아가기

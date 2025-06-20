@@ -3,36 +3,38 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>강의자료 주차별 목록</title>
-<link rel="stylesheet" href="css/styles.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<meta charset="UTF-8">
+<title>AcademyLMS</title>
 </head>
 <body>
-<!-- 상단바 + 사이드바(네비게이션) -->
-<jsp:include page="../nav/sideNav.jsp">
-  <jsp:param name="lectureId" value="${lectureId}" />
-</jsp:include>
-	<div class="top-bar">
-	  <div class="logo">MyLMS</div>
-	  <div class="user-info">
-	    <div class="user-name">홍길동님</div>
-	    <a class="edit-profile" href="/mypage">개인정보 수정</a>
-	  </div>
-	</div>
+<div>
+	<jsp:include page ="../nav/sideNav.jsp">
+		<jsp:param name="lectureId" value="${lectureId}" />
+	</jsp:include>
 	
+</div>
 <main>
-    <h2>강의자료 주차별 보기</h2>
-    <ul>
-<c:forEach var="week" items="${weekList}">
-    <li>
-        <a href="/lectureMaterialList?weekId=${week.weekId}">
-            ${week.week}주차
-        </a>
-    </li>
-</c:forEach>
+  	<span class="quiz-list-title">강의자료 주차별 리스트</span>
+   <ul style="list-style-type: none; padding-left: 0; margin-top: 20px;">
+        <c:forEach var="week" items="${weekList}">
+            <li style="margin-bottom: 10px;">
+                <a href="/lectureMaterialList?weekId=${week.weekId}" 
+                   style="font-size: 16px; font-weight: 500; color: var(--primary);">
+                    📘 ${week.week}주차 강의자료
+                </a>
+            </li>
+        </c:forEach>
     </ul>
-			<a href="/admin/lectureOne?lectureId=${lectureId}">
-			    강의정보로 돌아가기
-			</a>
+
+    <!-- 뒤로가기 링크 -->
+    <div style="margin-top: 20px;">
+        <a href="/admin/lectureOne?lectureId=${lectureId}" 
+           style="font-weight: bold; color: #333;">
+            ← 강의정보로 돌아가기
+        </a>
+    </div>
 </main>
 </body>
 </html>

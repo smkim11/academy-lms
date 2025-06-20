@@ -28,4 +28,6 @@ public interface QnaMapper {
     void deleteAnswersByQnaId(int qnaId);
     void updateQna(Qna qna);
     List<Map<String, Object>> selectMyQnaList(int lectureId, int studentId);
+    
+    Map<String, Object> getLectureInfoByLectureId(int lectureId);
 }

@@ -10,7 +10,7 @@
 
 <table border="1">
     <tr>
-        <th>조 번호</th>
+        <th>조</th>
         <td>${post.groupId}</td>
     </tr>
     <tr>

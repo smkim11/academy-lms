@@ -4,6 +4,7 @@ package com.example.academylms.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.example.academylms.dto.LectureMaterial;
 import com.example.academylms.dto.LectureWeek;
 import com.example.academylms.dto.User;
 import com.example.academylms.mapper.LectureMaterialMapper;
+import com.example.academylms.mapper.QnaMapper;
 import com.example.academylms.service.LectureMaterialService;
 import com.example.academylms.service.LoginService;
 
@@ -33,11 +35,14 @@ public class LectureMaterialController {
     private LectureMaterialMapper lectureMaterialMapper;
     
     @Autowired
+    private QnaMapper qnaMapper;
+    
+    @Autowired
     private LoginService loginService;
 
 // 강의자료리스트    
     @GetMapping("/lectureMaterialList")
-    public String lectureMaterialList(@RequestParam int weekId, Model model, HttpSession session) {
+    public String lectureMaterialList(@RequestParam int weekId, Model model, HttpSession session, HttpServletRequest request) {
     	// 세션정보(필터 추가시 object~if(userIdObj까지삭제해도될듯))
     	Object userIdObj = session.getAttribute("loginUserId");
     	if (userIdObj == null) {
@@ -47,17 +52,23 @@ public class LectureMaterialController {
     	int userId = (int) userIdObj;
     	User user = loginService.findById(userId);
     	String role = user.getRole();
-    	
+        
         List<LectureMaterial> materialList = lectureMaterialService.getLectureMaterialsByWeek(weekId);
         model.addAttribute("materialList", materialList);
         model.addAttribute("weekId", weekId);
 
-        // 주차 정보에서 강의 ID, 주차 번호 추출
+        // 주차 정보에서 강의 ID, 주차 번호 추출 & 리스트 상단 강의정보표시
         LectureWeek weekInfo = lectureMaterialMapper.getLectureWeekById(weekId); 
         if (weekInfo != null) {
             model.addAttribute("week", weekInfo.getWeek());  // JSP에서 사용할 ${week}
             model.addAttribute("lectureId", weekInfo.getLectureId()); 
+            int lectureId = weekInfo.getLectureId();
+            Map<String, Object> lectureInfoMap = qnaMapper.getLectureInfoByLectureId(lectureId);
+            request.setAttribute("lectureTitle", lectureInfoMap.get("title"));
+            request.setAttribute("lectureDay", lectureInfoMap.get("day"));
+            request.setAttribute("lectureTime", lectureInfoMap.get("time"));
         }
+        
         System.out.println("📌 weekInfo.getLectureId() = " + weekInfo.getLectureId());
         if ("instructor".equals(role)) {
             return "instructor/lectureMaterialList";
@@ -80,7 +91,7 @@ public class LectureMaterialController {
         int userId = (int) session.getAttribute("loginUserId");
         User user = loginService.findById(userId);
         String role = user.getRole();
-
+        
         LectureMaterial material = lectureMaterialService.getLectureMaterialById(materialId);
         model.addAttribute("material", material);
         request.setAttribute("loginRole", role);
@@ -88,6 +99,19 @@ public class LectureMaterialController {
         // 여기서 weekId를 material에서 꺼내서 이후 redirect 등에 써야 함
         int weekId = material.getWeekId();
         model.addAttribute("weekId", weekId);
+        
+        // 주차 정보에서 강의 ID, 주차 번호 추출 & 리스트 상단 강의정보표시
+        LectureWeek weekInfo = lectureMaterialMapper.getLectureWeekById(weekId); 
+        if (weekInfo != null) {
+            model.addAttribute("week", weekInfo.getWeek());  // JSP에서 사용할 ${week}
+            model.addAttribute("lectureId", weekInfo.getLectureId()); 
+            int lectureId = weekInfo.getLectureId();
+            Map<String, Object> lectureInfoMap = qnaMapper.getLectureInfoByLectureId(lectureId);
+            request.setAttribute("lectureTitle", lectureInfoMap.get("title"));
+            request.setAttribute("lectureDay", lectureInfoMap.get("day"));
+            request.setAttribute("lectureTime", lectureInfoMap.get("time"));
+        }
+        
 
         if ("instructor".equals(role)) {
             return "instructor/lectureMaterialOne";
@@ -102,7 +126,7 @@ public class LectureMaterialController {
     
 // 강의자료추가
     @GetMapping("/addLectureMaterial")
-    public String lectureMaterialAddForm(@RequestParam int weekId, Model model, HttpSession session) {
+    public String lectureMaterialAddForm(@RequestParam int weekId, Model model, HttpServletRequest request, HttpSession session) {
     	// 세션정보
     	Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
@@ -111,6 +135,19 @@ public class LectureMaterialController {
         int userId = (int) userIdObj;
         User user = loginService.findById(userId);
         String role = user.getRole();
+        
+        // 주차 정보에서 강의 ID, 주차 번호 추출 & 리스트 상단 강의정보표시
+        LectureWeek weekInfo = lectureMaterialMapper.getLectureWeekById(weekId); 
+        if (weekInfo != null) {
+            model.addAttribute("week", weekInfo.getWeek());  // JSP에서 사용할 ${week}
+            model.addAttribute("lectureId", weekInfo.getLectureId()); 
+            int lectureId = weekInfo.getLectureId();
+            Map<String, Object> lectureInfoMap = qnaMapper.getLectureInfoByLectureId(lectureId);
+            request.setAttribute("lectureTitle", lectureInfoMap.get("title"));
+            request.setAttribute("lectureDay", lectureInfoMap.get("day"));
+            request.setAttribute("lectureTime", lectureInfoMap.get("time"));
+        }
+        
 
         // 학생은 사용불가
         if (!"instructor".equals(role) && !"admin".equals(role)) {
@@ -162,7 +199,8 @@ public class LectureMaterialController {
 
 // 강의자료수정
     @GetMapping("/updateLectureMaterial")
-    public String lectureMaterialEditForm(@RequestParam int materialId, Model model, HttpSession session) {
+    public String lectureMaterialEditForm(@RequestParam int materialId,
+    									HttpServletRequest request, Model model, HttpSession session) {
     	// 세션정보
     	Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
@@ -221,7 +259,7 @@ public class LectureMaterialController {
     
 // 강의자료삭제    
     @GetMapping("/deleteLectureMaterial")
-    public String deleteLectureMaterial(@RequestParam int materialId, HttpSession session) {
+    public String deleteLectureMaterial(@RequestParam int materialId,HttpServletRequest request, HttpSession session, Model model) {
     	// 세션정보
     	Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
@@ -234,11 +272,22 @@ public class LectureMaterialController {
         if (!"instructor".equals(role) && !"admin".equals(role)) {
             return "redirect:/lectureMaterialOne?materialId=" + materialId;
         }
-
+        
         // 1️.삭제 전에 먼저 weekId 조회
         LectureMaterial material = lectureMaterialService.getLectureMaterialById(materialId);
         int weekId = material != null ? material.getWeekId() : 0;
-
+        
+        // 주차 정보에서 강의 ID, 주차 번호 추출 & 리스트 상단 강의정보표시
+        LectureWeek weekInfo = lectureMaterialMapper.getLectureWeekById(weekId); 
+        if (weekInfo != null) {
+            model.addAttribute("week", weekInfo.getWeek());  // JSP에서 사용할 ${week}
+            model.addAttribute("lectureId", weekInfo.getLectureId()); 
+            int lectureId = weekInfo.getLectureId();
+            Map<String, Object> lectureInfoMap = qnaMapper.getLectureInfoByLectureId(lectureId);
+            request.setAttribute("lectureTitle", lectureInfoMap.get("title"));
+            request.setAttribute("lectureDay", lectureInfoMap.get("day"));
+            request.setAttribute("lectureTime", lectureInfoMap.get("time"));
+        }
         // 2️.삭제 수행
         lectureMaterialService.deleteLectureMaterial(materialId);
 
@@ -247,7 +296,7 @@ public class LectureMaterialController {
     
 // 주차별 게시판
     @GetMapping("/lectureMaterialWeekList")
-    public String lectureWeekList(@RequestParam int lectureId, Model model, HttpSession session) {
+    public String lectureWeekList(@RequestParam int lectureId, Model model,HttpServletRequest request, HttpSession session) {
     	// 세션정보
         Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
@@ -256,7 +305,7 @@ public class LectureMaterialController {
         int userId = (int) userIdObj;
         User user = loginService.findById(userId);
         String role = user.getRole();
-
+        
         // 전체 주차 리스트 불러오기 (주차에 자료가 있는 주차만)
         List<LectureWeek> weekList = lectureMaterialService.getWeeksByLectureId(lectureId);
         model.addAttribute("weekList", weekList);

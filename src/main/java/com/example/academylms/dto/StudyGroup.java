@@ -8,4 +8,5 @@ public class StudyGroup {
 	private int lectureId;
 	private int studentId;
 	private String createDate;
+	private String groupName;
 }

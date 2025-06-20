@@ -9,10 +9,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div class="logo">
-    <img src="${pageContext.request.contextPath}/images/goodeeLogo.png" alt="로고" style="height: 50px;" />
+<div>
+	<jsp:include page ="../nav/topNav.jsp"></jsp:include>
 </div>
-	<div class="top-bar">
 	<div class="user-info">
   	<div class="user-name">${loginUserId}님</div>
   	<div class="user-links">
@@ -20,7 +19,6 @@
   	   <a class="edit-profile" href="/logOut">로그아웃</a>
     </div>
  	</div>
-	</div>
 	</div>
 <main>
 		<table>
