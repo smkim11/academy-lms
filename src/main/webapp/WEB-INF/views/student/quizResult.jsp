@@ -4,6 +4,7 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/quizStyles.css">
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
 </head>
@@ -13,7 +14,6 @@
 </div>
 <main>
 	<h1>${week}주차 퀴즈 결과</h1>
-	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
 	<table border="1">
 		<tr>
 			<th>번호</th>
@@ -59,6 +59,7 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
 </main>
 <div>
 	<jsp:include page ="../nav/footer.jsp"></jsp:include>

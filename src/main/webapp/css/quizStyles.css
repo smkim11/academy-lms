@@ -1,0 +1,284 @@
+:root {
+  --primary: #2c7be5;
+  --bg-light: #f9fafb;
+  --text-dark: #1f2937;
+  --text-muted: #6b7280;
+  --border: #d1d5db;
+  --highlight: #eff6ff;
+}
+
+/* 제목 영역 */
+.page-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-dark);
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.quiz-list-title {
+  display: block;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--primary);
+  margin: 28px 0 12px 0;
+  border-left: 4px solid var(--primary);
+  padding-left: 10px;
+}
+
+/* 버튼 링크 */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: 0.2s;
+}
+
+a:hover {
+  border-color: var(--primary);
+}
+
+/* 퀴즈 목록 테이블 */
+.quiz-table {
+  width: 100%;
+  margin: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  margin-top: 10px;
+}
+
+.quiz-table th {
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 16px;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border);
+}
+
+.quiz-table td {
+  background-color: white;
+  color: var(--text-dark);
+  font-size: 14px;
+  padding: 14px 16px;
+  text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--border);
+}
+
+/* 마지막 줄 아래선 제거 */
+.quiz-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* 시험 없음 메시지 */
+.quiz-table td[colspan="2"] {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* 반응형 대응 (선택) */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 20px;
+  }
+  .quiz-table th,
+  .quiz-table td {
+    padding: 10px;
+    font-size: 13px;
+  }
+}
+
+/* 테이블 간격 정리 */
+.form-table th {
+  width: 120px;
+  text-align: center;
+  background-color: var(--bg-light);
+  padding: 10px 14px;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+.form-table td {
+  padding: 10px 14px;
+}
+
+/* 입력 필드 */
+.form-input {
+  width: 60%;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+/* 날짜 입력은 조금 더 작게 */
+.form-input-sm {
+  width: 40%;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+/* 날짜 사이 ~ 기호 간격 */
+.date-separator {
+  margin: 0 8px;
+  font-weight: bold;
+  color: var(--text-muted);
+}
+
+/* 라디오 버튼 정렬 */
+.form-radio-group label {
+  margin-right: 20px;
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+/* 입력 폼 래퍼 */
+.form-wrapper {
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px 25px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+/* 폼 그룹 */
+.form-group {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-dark);
+  font-size: 14px;
+}
+
+/* 텍스트, 인풋 스타일 */
+.form-control {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+/* 텍스트 영역 */
+.form-textarea {
+  padding: 10px;
+  font-size: 14px;
+  min-height: 100px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: #fff;
+  resize: vertical;
+}
+
+/* 버튼 그룹 */
+.btn-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+  margin-bottom: 20px;
+}
+
+.form-btn {
+  background: linear-gradient(135deg, #6ab7ff, #4a90e2);
+  color: #fff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-btn:hover {
+  background: linear-gradient(135deg, #4a90e2, #357ABD);
+  box-shadow: 0 6px 12px rgba(53, 122, 189, 0.5);
+}
+
+.btn-link {
+  padding: 9px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #4a90e2;
+  border: 2px solid #a0c4ff;
+  border-radius: 20px;
+  background-color: #f0f6ff;
+  text-decoration: none;
+  box-shadow: inset 0 0 5px #d6e5ff;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-link:hover {
+  background-color: #d6e5ff;
+  color: #357ABD;
+  box-shadow: inset 0 0 8px #a0c4ff;
+}
+
+.delete-btn {
+  color: #e86e6e;
+  border-color: #f4baba;
+  background-color: #fff0f0;
+  box-shadow: inset 0 0 5px #f4baba;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #f9dada;
+  color: #cc4c4c;
+  box-shadow: inset 0 0 8px #f4baba;
+}
+
+/* 페이징 */
+.pagination {
+  text-align: center;
+  margin: 30px 0;
+  font-size: 14px;
+  color: #4a90e2;
+}
+
+.page-link {
+  margin: 0 10px;
+  color: #6ab7ff;
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.page-link:hover {
+  color: #357ABD;
+  border-color: #6ab7ff;
+}
+
+.page-current {
+  font-weight: 600;
+  color: #1e3c72;
+}

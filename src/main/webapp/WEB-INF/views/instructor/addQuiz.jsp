@@ -4,7 +4,13 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/quizStyles.css">
 <meta charset="UTF-8">
+<style>
+	.quiz-table {
+		max-width: 800px
+	}
+</style>
 <title>AcademyLMS</title>
 </head>
 <body>
@@ -12,56 +18,59 @@
 	<jsp:include page ="../nav/sideNav.jsp"></jsp:include>
 </div>
 <main>
-	<h1>${week}주차 퀴즈 추가</h1>
+	<h1 class="page-title">${week}주차 퀴즈 추가</h1>
 	<c:if test="${not empty msg}">
 		<div style="color:red">${msg }</div>
 	</c:if>
-	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
 	<form method="post" action="/addQuiz" id="addQuizForm">
 	<input type="hidden" name="lectureId" value="${lectureId}">
 	<input type="hidden" name="source" value="${source}">
 	<input type="hidden" name="currentPage" value="${currentPage}">
-		<table border="1">
+		<table class="quiz-table form-table">
 			<tr>
 				<th>주차</th>
 				<td>
-					<input type="text" name="week" id="week" value="${week}" readonly>
+					<input type="text" name="week" id="week" value="${week}" readonly class="form-input">
 				</td>
 			</tr>
 			<tr>
 				<th>기간</th>
 				<c:if test="${startedAt != null && endedAt != null }">
 					<td>
-						<input type="datetime-local" name="startedAt" id="startedAt" value="${startedAt}" readonly> 
-						~ <input type="datetime-local" name="endedAt" id="endedAt" value="${endedAt}" readonly>
+						<input type="datetime-local" name="startedAt" id="startedAt" value="${startedAt}" readonly class="form-input-sm"> 
+						<span class="date-separator">~</span>
+						<input type="datetime-local" name="endedAt" id="endedAt" value="${endedAt}" readonly class="form-input-sm">
 					</td>
 				</c:if>
 				<c:if test="${startedAt == null || endedAt == null }">
 					<td>
-						<input type="datetime-local" name="startedAt" id="startedAt" value="${startedAt}" > 
-						~ <input type="datetime-local" name="endedAt" id="endedAt" value="${endedAt}" >
+						<input type="datetime-local" name="startedAt" id="startedAt" value="${startedAt}" class="form-input-sm"> 
+						<span class="date-separator">~</span>
+						<input type="datetime-local" name="endedAt" id="endedAt" value="${endedAt}" class="form-input-sm">
 					</td>
 				</c:if>
 			</tr>
 			<tr>
 				<th>번호</th>
 				<td>
-					<input type="text" name="quizNo" id="quizNo" value="${quizNo}" readonly>
+					<input type="text" name="quizNo" id="quizNo" value="${quizNo}" readonly class="form-input">
 				</td>
 			</tr>
 			<tr>
 				<th>유형</th>
-				<td>
-					<input type="radio" name="type" value="객관식">객관식
-					<input type="radio" name="type" value="주관식">주관식
+				<td class="form-radio-group">
+					<label><input type="radio" name="type" value="객관식"> 객관식</label>
+					<label><input type="radio" name="type" value="주관식"> 주관식</label>
 				</td> 
 			</tr>
 		</table>
+
 		<!-- 유형선택시 입력칸 출력 -->
-		<div id="inputQuiz">
+		<div id="inputQuiz" class="quiz-dynamic-input">
 		
 		</div>
 	</form>
+	<a href="/quizList?lectureId=${lectureId }">퀴즈목록</a>
 </main>
 <div>
 	<jsp:include page ="../nav/footer.jsp"></jsp:include>
@@ -74,26 +83,62 @@
 			type:'get',
 			url:'/questionType/'+selectedType,
 			success:function(data){
-				$('.inputList').empty();
+				$('.inputList').remove();
 				if(data == 'gek'){
 					$('#inputQuiz').append(`
-			            <div class="inputList">
-			                문제 <input type="text" name="question" id="question" placeholder="문제를 입력해주세요." /><br>
-		                	보기1 <input type="text" name="option1" id="option1" placeholder="보기1을 입력해주세요." /><br>
-	                		보기2 <input type="text" name="option2" id="option2" placeholder="보기2를 입력해주세요." /><br>
-               				보기3 <input type="text" name="option3" id="option3" placeholder="보기3을 입력해주세요." /><br>
-               				보기4 <input type="text" name="option4" id="option4" placeholder="보기4를 입력해주세요." /><br>
-	                		정답 <input type="text" name="correctAnswer" id="correctAnswer" placeholder="정답을 입력해주세요." /><br>
-	                		해설 <textarea cols="50" rows="5" name="explanation" id="explanation" placeholder="해설을 입력해주세요."></textarea><br>
-	                		<button type="button" id="btn">추가</button>
+						<div class="inputList form-wrapper">
+							<div class="form-group">  
+								<label for="question">문제</label>
+								<input type="text" name="question" id="question" placeholder="문제를 입력해주세요." class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="option1">1번</label>
+								<input type="text" name="option1" id="option1" placeholder="1번 보기를 입력해주세요." class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="option2">2번</label>
+								<input type="text" name="option2" id="option2" placeholder="2번 보기를 입력해주세요." class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="option3">3번</label>
+								<input type="text" name="option3" id="option3" placeholder="3번 보기를 입력해주세요." class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="option4">4번</label>
+								<input type="text" name="option4" id="option4" placeholder="4번 보기를 입력해주세요." class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="correctAnswer">정답</label>
+								<input type="text" name="correctAnswer" id="correctAnswer" placeholder="정답을 입력해주세요." class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="explanation">해설</label>
+								<textarea name="explanation" id="explanation" placeholder="해설을 입력해주세요." class="form-textarea"></textarea>
+							</div>
+							<div class="btn-group">
+								<button type="button" id="btn" class="form-btn">추가</button>
+							</div>
+						</div>
 			        `);
 				}else{
 					$('#inputQuiz').append(`
-			            <div class="inputList">
-			                문제 <input type="text" name="question" id="question" placeholder="문제를 입력해주세요." /><br>
-	                		정답 <input type="text" name="correctAnswer" id="correctAnswer" placeholder="정답을 입력해주세요." /><br>
-	                		해설 <textarea cols="50" rows="5" name="explanation" id="explanation" placeholder="해설을 입력해주세요."></textarea><br>
-	                		<button type="button" id="btn">추가</button>
+						<div class="inputList form-wrapper">
+							<div class="form-group">
+								<label for="question">문제</label>
+								<input type="text" name="question" id="question" placeholder="문제를 입력해주세요." class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="correctAnswer">정답</label>
+								<input type="text" name="correctAnswer" id="correctAnswer" placeholder="정답을 입력해주세요." class="form-control" />
+							</div>
+							<div class="form-group">
+								<label for="explanation">해설</label>
+								<textarea name="explanation" id="explanation" placeholder="해설을 입력해주세요." class="form-textarea"></textarea>
+							</div>
+							<div class="btn-group">
+								<button type="button" id="btn" class="form-btn">추가</button>
+							</div>
+						</div>
 			        `);
 				}
 			}

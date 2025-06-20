@@ -5,7 +5,7 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<link rel="stylesheet" type="text/css" href="../css/quizStyles.css">
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
 </head>
@@ -16,9 +16,6 @@
 <main>
 	<span class="page-title">${lectureInfo.title }</span>
 	<span class="page-subtitle">[${lectureInfo.day }/${lectureInfo.time}]</span> &nbsp;
-	<div>
-		<a href="/instructor/lectureOne?lectureId=${lectureId }">돌아가기</a>
-	</div>
 	<span class="quiz-list-title">퀴즈 목록</span>
 		<table class="quiz-table">
 			<tr>
@@ -60,6 +57,9 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<div>
+			<a href="/admin/lectureOne?lectureId=${lectureId }">돌아가기</a>
+		</div>
 </main>
 <div>
 	<jsp:include page ="../nav/footer.jsp"></jsp:include>
