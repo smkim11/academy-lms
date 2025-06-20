@@ -17,7 +17,7 @@
   	<div class="user-name">${loginUserId}님</div>
   	<div class="user-links">
    	   <a class="edit-profile" href="/mypage">마이페이지</a>
-  	    <a class="edit-profile" href="/logOut">로그아웃</a>
+  	   <a class="edit-profile" href="/logOut">로그아웃</a>
     </div>
  	</div>
 	</div>

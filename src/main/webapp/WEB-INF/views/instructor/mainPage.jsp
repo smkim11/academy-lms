@@ -17,7 +17,7 @@
   	<div class="user-name">${loginUserId}님</div>
   	<div class="user-links">
    	   <a class="edit-profile" href="/mypage">마이페이지</a>
-  	    <a class="edit-profile" href="/logOut">로그아웃</a>
+  	   <a class="edit-profile" href="/logOut">로그아웃</a>
     </div>
  	</div>
 	</div>
@@ -110,7 +110,7 @@
       <ul>
         <c:forEach var="lecture" items="${endedLectures}">
           <li>
-            <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id">
+            <a href="/instructor/lectureOne?lectureId=${lecture.lecture_id}">
               ${lecture.title} (${lecture.started_at} ~ ${lecture.ended_at})
             </a>
           </li>
