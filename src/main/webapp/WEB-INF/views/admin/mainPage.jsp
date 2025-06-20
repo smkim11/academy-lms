@@ -9,10 +9,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div class="logo">
-    <img src="${pageContext.request.contextPath}/images/goodeeLogo.png" alt="로고" style="height: 50px;" />
+<div>
+	<jsp:include page ="../nav/topNav.jsp"></jsp:include>
 </div>
-	<div class="top-bar">
 	<div class="user-info">
   	<div class="user-name">${loginUserId}님</div>
   	<div class="user-links">
@@ -21,33 +20,29 @@
     </div>
  	</div>
 	</div>
-	</div>
 <main>
 <div class="admin-columns">
   <div class="admin-section">
-    <h2>관리자 전용</h2>
+    <h2>수강정보관리</h2>
     <div class="admin-box">
       <ul>
-        <li><a href="/admin/studentList">수강생 관리 페이지로 이동</a></li>
-      </ul>
-      <ul>
-        <li><a href="/admin/statistics">통계 페이지로 이동</a></li>
-      </ul>
-      <ul>
         <li><a href="/admin/createLecture">강의등록</a></li>
+      </ul>
+      <ul>
+        <li><a href="/admin/studentList">수강생 관리 페이지로 이동</a></li>
       </ul>
     </div>
   </div>
 
   <div class="admin-section">
-    <h2>마이페이지</h2>
+    <h2>통계관리</h2>
     <div class="admin-box">
       <ul>
-        <li><a class="edit-profile" href="/admin/mypage">개인정보 수정</a></li>
+        <li><a href="/admin/statistics">통계 페이지로 이동</a></li>
       </ul>
     </div>
   </div>
-</div>
+  </div>
 	    
 <h2>강의관리</h2>
 <div class="lecture-columns">

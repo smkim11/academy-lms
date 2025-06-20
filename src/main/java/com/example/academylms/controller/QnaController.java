@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.academylms.dto.Qna;
 import com.example.academylms.dto.QnaAnswer;
 import com.example.academylms.dto.User;
+import com.example.academylms.mapper.QnaMapper;
 import com.example.academylms.service.LoginService;
 import com.example.academylms.service.QnaService;
 
@@ -25,7 +26,8 @@ import jakarta.servlet.http.HttpSession;
 public class QnaController {
     @Autowired
     private QnaService qnaService;
-    
+    @Autowired
+    private QnaMapper qnaMapper;
     @Autowired
     private LoginService loginService;
 
@@ -40,7 +42,7 @@ public class QnaController {
         List<Map<String, Object>> qnaList = qnaService.getQnaListByPage(lectureId, offset, pageSize);
         int totalCount = qnaService.getQnaCount(lectureId);
         int totalPages = (int) Math.ceil((double) totalCount / pageSize);
-
+        
         request.setAttribute("qnaList", qnaList);
         request.setAttribute("lectureId", lectureId);
         request.setAttribute("currentPage", page);
@@ -51,6 +53,12 @@ public class QnaController {
         int userId = (int) session.getAttribute("loginUserId");
         User user = loginService.findById(userId);
         String role = user.getRole();
+        
+        // 리스트 상단 강의정보표시
+        Map<String, Object> lectureInfoMap = qnaMapper.getLectureInfoByLectureId(lectureId);
+        request.setAttribute("lectureTitle", lectureInfoMap.get("title"));
+        request.setAttribute("lectureDay", lectureInfoMap.get("day"));
+        request.setAttribute("lectureTime", lectureInfoMap.get("time"));
         
         if ("student".equals(role)) {
             return "student/qnaList";
@@ -78,6 +86,12 @@ public class QnaController {
         int userId = (int) userIdObj;
         User user = loginService.findById(userId); 
         String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
+        
+        // 리스트 상단 강의정보표시
+        Map<String, Object> lectureInfoMap = qnaMapper.getLectureInfoByLectureId(lectureId);
+        request.setAttribute("lectureTitle", lectureInfoMap.get("title"));
+        request.setAttribute("lectureDay", lectureInfoMap.get("day"));
+        request.setAttribute("lectureTime", lectureInfoMap.get("time"));
         
         // 글 작성자 id 조회 (enrollment → student_id 연결된 걸 가져오거나 Qna에 있으면 거기서 꺼냄)
         int qnaStudentId = qnaService.getStudentIdByQna(qnaId); 
@@ -115,6 +129,13 @@ public class QnaController {
 //QnA 글쓰기
     @GetMapping("/addQna")
     public String addQnaForm(@RequestParam int lectureId, HttpServletRequest request) {
+        
+        // 리스트 상단 강의정보표시
+        Map<String, Object> lectureInfoMap = qnaMapper.getLectureInfoByLectureId(lectureId);
+        request.setAttribute("lectureTitle", lectureInfoMap.get("title"));
+        request.setAttribute("lectureDay", lectureInfoMap.get("day"));
+        request.setAttribute("lectureTime", lectureInfoMap.get("time"));
+        
     	request.setAttribute("lectureId", lectureId);
     	return "student/addQna";
     }
@@ -213,6 +234,12 @@ public class QnaController {
         }
         int userId = (int) userIdObj;
 
+        // 리스트 상단 강의정보표시
+        Map<String, Object> lectureInfoMap = qnaMapper.getLectureInfoByLectureId(lectureId);
+        request.setAttribute("lectureTitle", lectureInfoMap.get("title"));
+        request.setAttribute("lectureDay", lectureInfoMap.get("day"));
+        request.setAttribute("lectureTime", lectureInfoMap.get("time"));
+        
         Qna qna = qnaService.getQnaOne(qnaId);
         int qnaStudentId = qnaService.getStudentIdByQna(qnaId);
 
@@ -319,6 +346,12 @@ public class QnaController {
           Object userIdObj = session.getAttribute("loginUserId");
           if (userIdObj == null) return "redirect:/login";
 
+          // 리스트 상단 강의정보표시
+          Map<String, Object> lectureInfoMap = qnaMapper.getLectureInfoByLectureId(lectureId);
+          request.setAttribute("lectureTitle", lectureInfoMap.get("title"));
+          request.setAttribute("lectureDay", lectureInfoMap.get("day"));
+          request.setAttribute("lectureTime", lectureInfoMap.get("time"));
+          
           int userId = (int) userIdObj;
           User user = loginService.findById(userId);
           String role = user.getRole();

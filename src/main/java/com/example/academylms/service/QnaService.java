@@ -73,4 +73,8 @@ public class QnaService {
 	public List<Map<String, Object>> getMyQnaList(int lectureId, int studentId) {
 	    return qnaMapper.selectMyQnaList(lectureId, studentId);
 	}
+	
+    public Map<String, Object> getLectureInfoByLectureId(int lectureId){
+    	return qnaMapper.getLectureInfoByLectureId(lectureId);
+    };
 }

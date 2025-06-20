@@ -117,4 +117,10 @@
 	      AND le.student_id = #{studentId}
 	    ORDER BY q.create_date DESC
 	</select>
+	
+	<select id="getLectureInfoByLectureId" parameterType="int" resultType="map">
+	    SELECT title, day, time
+	    FROM lecture
+	    WHERE lecture_id = #{lectureId}
+	</select>
 </mapper>

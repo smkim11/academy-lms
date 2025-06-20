@@ -3,42 +3,45 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
 <meta charset="UTF-8">
-<title>강의자료 상세 보기</title>
-<link rel="stylesheet" href="/css/styles.css">
+<title>AcademyLMS</title>
 </head>
 <body>
-<!-- 상단바 + 사이드바(네비게이션) -->
-<jsp:include page="../nav/sideNav.jsp">
-  <jsp:param name="lectureId" value="${lectureId}" />
-</jsp:include>
-	<div class="top-bar">
-	  <div class="logo">MyLMS</div>
-	  <div class="user-info">
-	    <div class="user-name">홍길동님</div>
-	    <a class="edit-profile" href="/mypage">개인정보 수정</a>
-	  </div>
-	</div>
+<div>
+	<jsp:include page ="../nav/sideNav.jsp">
+		<jsp:param name="lectureId" value="${lectureId}" />
+	</jsp:include>
 	
+</div>
 <main>
-  <h2 style="text-align: center;">📄 강의자료 상세</h2>
+	<span class="page-title">${lectureTitle}</span>
+	<span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
+	
+  <span class="quiz-list-title">강의자료 상세</span>
 
-  <c:if test="${not empty material}">
-    <p><strong>자료명:</strong> ${material.title}</p>
-    <p><strong>등록일:</strong> ${material.createDate}</p>
-    <p><strong>파일:</strong>
-      <c:if test="${not empty material.fileUrl}">
-        <a href="${material.fileUrl}" download>📥 다운로드</a>
-      </c:if>
-      <c:if test="${empty material.fileUrl}">
-        없음
-      </c:if>
-    </p>
-  </c:if>
 
-  <div style="text-align: right; margin-top: 20px;">
-    <a href="/lectureMaterialList?weekId=${material.weekId}" style="font-weight: bold;">📚 목록으로</a>
-  </div>
+    <c:if test="${not empty material}">
+        <div style="margin-top: 20px; line-height: 1.8; font-size: 15px;">
+            <p><strong>자료명:</strong> ${material.title}</p>
+            <p><strong>등록일:</strong> ${material.createDate}</p>
+            <p><strong>파일:</strong>
+                <c:choose>
+                    <c:when test="${not empty material.fileUrl}">
+                        <a href="${material.fileUrl}" download style="color: var(--primary); font-weight: bold;">📥 다운로드</a>
+                    </c:when>
+                    <c:otherwise>없음</c:otherwise>
+                </c:choose>
+            </p>
+        </div>
+    </c:if>
+
+    <!-- 버튼 영역 -->
+    <div style="text-align: right; margin-top: 25px;">
+        <a href="/lectureMaterialList?weekId=${material.weekId}" 
+           style="font-weight: bold; color: var(--primary);">📚 목록으로</a>
+    </div>
 </main>
 </body>
 </html>

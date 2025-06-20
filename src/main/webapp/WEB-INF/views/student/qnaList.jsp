@@ -4,57 +4,24 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<!-- 상단바 + 사이드바(네비게이션) -->
-<jsp:include page="../nav/sideNav.jsp">
-  <jsp:param name="lectureId" value="${lectureId}" />
-</jsp:include>
-	<div class="top-bar">
-	  <div class="logo">MyLMS</div>
-	  <div class="user-info">
-	    <div class="user-name">홍길동님</div>
-	    <a class="edit-profile" href="/mypage">개인정보 수정</a>
-	  </div>
-	</div>
+<div>
+	<jsp:include page ="../nav/sideNav.jsp">
+		<jsp:param name="lectureId" value="${lectureId}" />
+	</jsp:include>
 	
-<!-- 비공개글 접근 에러 메세지 -->
-	<c:if test="${not empty param.errorMsg}">
-	    <script>
-	        <c:if test="${param.errorMsg == 'privateAccessDenied'}">
-	            alert('비공개글에 접근할 수 없습니다.');
-	        </c:if>
-	    </script>
-	</c:if>
-	
-	<main>
-	    <h2 style="text-align: center;">Q&A 게시판</h2>
-	
-<!-- 글쓰기 버튼 (학생용) -->
-	    <div style="text-align: right; margin-bottom: 10px;">
-	        <a href="/addQna?lectureId=${lectureId}" class="btn" style="font-weight: bold; color: #333;">글쓰기</a>
-	    </div>
-<!-- 내가 쓴 글 보기(학생용) -->	    
-		<c:choose>
-		    <c:when test="${param.view == 'my'}">
-		        <!-- 내 글만 보는 중 → 전체 글 보기 버튼 출력 -->
-		        <a href="/qna?lectureId=${lectureId}">
-		            <button type="button">전체 글 보기</button>
-		        </a>
-		    </c:when>
-		    <c:otherwise>
-		        <!-- 전체 글 보는 중 → 내 글 보기 버튼 출력 -->
-		        <a href="/myQna?lectureId=${lectureId}&view=my">
-		            <button type="button">내가 쓴 글만 보기</button>
-		        </a>
-		    </c:otherwise>
-		</c:choose>
-	
+</div>
+<main>
+	<span class="page-title">${lectureTitle}</span>
+	<span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
+
+	<span class="quiz-list-title">QNA 목록</span>
 <!-- QnA 게시판 테이블 -->
-	    <table border="1" style="width: 100%; border-collapse: collapse; text-align: center;">
+	    <table class="quiz-table">
 	        <tr style="background-color: #f0f0f0;">
 	            <th>번호</th>
 	            <th>제목</th>
@@ -80,6 +47,7 @@
 	                <td>${qna.writerName}</td>
 	            </tr>
 	        </c:forEach>
+	    </span>
 	    </table>
 	    
 	<!-- 게시글 리스트 출력 아래쪽에 페이지 버튼 -->
@@ -95,6 +63,36 @@
 	        </c:choose>
 	    </c:forEach>
 	</div>
+		
+	
+<!-- 비공개글 접근 에러 메세지 -->
+	<c:if test="${not empty param.errorMsg}">
+	    <script>
+	        <c:if test="${param.errorMsg == 'privateAccessDenied'}">
+	            alert('비공개글에 접근할 수 없습니다.');
+	        </c:if>
+	    </script>
+	</c:if>
+	
+<!-- 글쓰기 버튼 (학생용) -->
+	    <div style="text-align: right; margin-bottom: 10px;">
+	        <a href="/addQna?lectureId=${lectureId}" class="btn" style="font-weight: bold; color: #333;">글쓰기</a>
+	    </div>
+<!-- 내가 쓴 글 보기(학생용) -->	    
+		<c:choose>
+		    <c:when test="${param.view == 'my'}">
+		        <!-- 내 글만 보는 중 → 전체 글 보기 버튼 출력 -->
+		        <a href="/qna?lectureId=${lectureId}">
+		            <button type="button">전체 글 보기</button>
+		        </a>
+		    </c:when>
+		    <c:otherwise>
+		        <!-- 전체 글 보는 중 → 내 글 보기 버튼 출력 -->
+		        <a href="/myQna?lectureId=${lectureId}&view=my">
+		            <button type="button">내가 쓴 글만 보기</button>
+		        </a>
+		    </c:otherwise>
+		</c:choose>
 	
 			<a href="/student/lectureOne?lectureId=${lectureId}">
 			    강의정보로 돌아가기

@@ -2,23 +2,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<link rel="stylesheet" href="css/styles.css">
-<title>QnA 글쓰기</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<meta charset="UTF-8">
+<title>AcademyLMS</title>
 </head>
 <body>
-<!-- 상단바 + 사이드바(네비게이션) -->
-<jsp:include page="../nav/sideNav.jsp">
-  <jsp:param name="lectureId" value="${lectureId}" />
-</jsp:include>
-	<div class="top-bar">
-	  <div class="logo">MyLMS</div>
-	  <div class="user-info">
-	    <div class="user-name">홍길동님</div>
-	    <a class="edit-profile" href="/mypage">개인정보 수정</a>
-	  </div>
-	</div>
-
+<div>
+	<jsp:include page ="../nav/sideNav.jsp">
+		<jsp:param name="lectureId" value="${lectureId}" />
+	</jsp:include>
+</div>
 	<main>
+	<span class="page-title">${lectureTitle}</span>
+    <span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
+	
 <!-- 에러 메시지 출력 영역(유효성 조작 사용자 대비 보안차원) -->
     <c:if test="${not empty errorMsg}">
         <div style="color: red; margin-bottom: 15px; text-align: center; font-weight: bold;">
@@ -26,7 +24,7 @@
         </div>
     </c:if>
 	
-	    <h2 style="text-align: center;">QnA 글쓰기</h2>
+    <span class="quiz-list-title">QnA 글쓰기</span>
 	    <form action="/addQna" method="post" enctype="multipart/form-data">
 	        <input type="hidden" name="lectureId" value="${lectureId}">
 	
