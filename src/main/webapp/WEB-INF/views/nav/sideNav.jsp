@@ -9,7 +9,7 @@
 	</div>
 	<div class="top-bar">
 		<div class="user-info">
-		    <div class="user-name">${loginUserId }님</div>
+		    <div class="user-name">${name}님</div>
 		    <div class="user-links">
 		      <a class="edit-profile" href="/${userRole}/mypage">마이페이지</a>
 		      <a class="edit-profile" href="/logOut">로그아웃</a>
