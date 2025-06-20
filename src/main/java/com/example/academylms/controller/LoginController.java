@@ -35,12 +35,16 @@ public class LoginController {
 		
 		User user2 = loginService.findByLoginInfo(userLogin); // 아이디와 비밀번호를 통해 user 정보 조회
 		
+		
 		if(user2 == null) { // 정보가 없다면 Login 화면 이동
 			log.info("로그인 실패");
 			redirectAttributes.addFlashAttribute("errorMessage", "로그인에 실패하였습니다.");
 			return "redirect:/login";
 		}
 		log.info("userId = {}", user2.getUserId());
+		String name = loginService.findNameByuserId(user2.getUserId()); 
+		log.info("name:"+name);
+		session.setAttribute("name", name);
 		session.setAttribute("loginUserId", user2.getUserId());
 		session.setAttribute("userRole", user2.getRole()); // 역할 세션을 추가로 만듬
 		return "redirect:/mainPage";

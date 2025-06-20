@@ -46,10 +46,14 @@ public class MyPageController {
 	@GetMapping("/student/mypage") // 학생 마이페이지
 	public String myPageByStudent(Model model, HttpSession session) {
 		 int userId = (int) session.getAttribute("loginUserId");  // 세션 값 호출
-		 MyPage myPage = myPageService.getUserProfile(userId);
-		
-		 model.addAttribute("myPage", myPage);
-		 
+		 try {
+			    MyPage myPage = myPageService.getUserProfile(userId);
+			    model.addAttribute("myPage", myPage);
+			} catch (Exception e) {
+			    e.printStackTrace(); // 로그 확인용
+			    return "error/500"; // 에러 페이지로 이동
+			}
+ 
 		return "/student/myPage";
 	}
 	

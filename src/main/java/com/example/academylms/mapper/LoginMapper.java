@@ -22,6 +22,8 @@ public interface LoginMapper {
 	int updatePasswords(UserLogin user); // 비밀번호 수정떄 사용 비밀번호 업데이트 User_id로 값을 판단해 넣는다.
  
 	int validateEmail(@Param ("id") String id, @Param ("email") String email); // 아이디 이메일 일치여부
+
+	String findNameByuserId(int userId);  // user 이름값 받기
 	
 	
 }

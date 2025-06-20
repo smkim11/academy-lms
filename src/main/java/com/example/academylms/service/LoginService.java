@@ -121,5 +121,8 @@ public class LoginService {
 		
 	}
 
-	
+	public String findNameByuserId(int userId) { // userId로 이름찾기
+		
+		return loginMapper.findNameByuserId(userId);
+	}
 }

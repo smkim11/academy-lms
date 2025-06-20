@@ -54,4 +54,20 @@ SELECT
 	  ELSE 0
 	END AS matched;
 </select>
+
+<select id="findNameByuserId" resultType="String" parameterType="int">
+
+SELECT  a.name AS name FROM  user u INNER JOIN admin a ON u.user_id  = a.admin_id WHERE u.user_id = #{userId}
+
+UNION 
+
+SELECT  i.name AS NAME FROM  user u INNER JOIN instructor i ON u.user_id  = i.instructor_id WHERE  u.user_id = #{userId}
+
+UNION 
+
+SELECT  s.name AS NAME FROM  user u INNER JOIN student s ON u.user_id  = s.student_id WHERE u.user_id = #{userId};
+
+</select>
+
+
 </mapper>

@@ -11,6 +11,7 @@
   align-items: flex-start;
 }
 
+
 .flex-1 {
   flex: 1;
 }
@@ -123,7 +124,7 @@
 }
 
 .quiz-header h3 {
-  margin-top: 6px; /* 추가적으로 퀴즈 제목도 맞춤 */
+  margin-top: 195px; /* 강의자료 위치와 수직정렬 맞추기 위한 미세 조정 */
 }
 
 .section-header.mt-20 {

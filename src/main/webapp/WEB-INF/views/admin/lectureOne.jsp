@@ -8,11 +8,7 @@
   <meta charset="UTF-8">
   <title>Insert title here</title>
   <link rel="stylesheet" href="/css/lectureDetail.css">
-  <style>
-    .quiz-header h3 {
-      margin-top: 200px; /* 강의자료 위치와 수직정렬 맞추기 위한 미세 조정 */
-    }
-  </style>
+
 </head>
 <body>
 
