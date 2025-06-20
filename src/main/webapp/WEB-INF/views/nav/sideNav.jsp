@@ -18,6 +18,7 @@
 	</div>
 	<div class="side-bar">
 		 <ul>
+		 	<li><a href="/${userRole}/lectureOne?lectureId=${lectureId}">강의정보</a></li>
 		 	<c:if test="${userRole eq 'admin' || userRole eq 'instructor'}">
 		 		<li><a href="/${userRole}/studentList/${lectureId}">학생리스트</a></li>
 		 	</c:if>
