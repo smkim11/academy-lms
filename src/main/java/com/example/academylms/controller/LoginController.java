@@ -28,7 +28,7 @@ public class LoginController {
 		return "/login";  //  로그인 홈페이지로 이동
 	}
 	
-	@PostMapping("/loginForm") // 로그인 처리 진행
+	@PostMapping("/login") // 로그인 처리 진행
 	public String loginForm(HttpSession session,
 		UserLogin userLogin , RedirectAttributes redirectAttributes){  // dto로 값을 받아 처리
 	

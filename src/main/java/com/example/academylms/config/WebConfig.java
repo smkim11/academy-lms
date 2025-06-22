@@ -6,19 +6,34 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.academylms.interceptor.LoginCheckInterceptor;
 
-// @Configuration 완료후에 뺴야함. 
+@Configuration  
 public class WebConfig implements WebMvcConfigurer {
 
 	@Override
-	public void addInterceptors(InterceptorRegistry registry) { // Interceptor 범위 설정 
-		registry.addInterceptor(new LoginCheckInterceptor())
-				.addPathPatterns("/**") // 모든 요청 검사
-				.excludePathPatterns("/login", "loginForm", "/logout",
-						  "/css/**", "/js/**" , "/images/**" 
-						); //  로그인 및 정적 리소스는 Interceptor 에서 제외한다.
-				
-		
+	public void addInterceptors(InterceptorRegistry registry) {
+	    registry.addInterceptor(new LoginCheckInterceptor())
+	            .addPathPatterns("/**")
+	            .excludePathPatterns(
+	                "/login",          // GET /login
+	                "/login/**",       // POST /login 및 하위 (예외 처리 확실하게)
+	                "/logout",         // 로그아웃
+	                "/css/**",
+	                "/js/**",
+	                "/images/**",
+	                "/common/**",
+	                "/findPassword",   // GET /findPassword
+	                "/findPassword/**",// POST /findPassword
+	                "/semi/**",
+	                "/questionType/**",
+	                "/api/qna/**",
+	                "/statistics/**",
+	                "/api/notices/**",
+	                "/api/mainPage/**",
+	                "/validateEmail",
+	                "/api/lectureMaterial"
+	            );
 	}
+
   
 	
 	

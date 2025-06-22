@@ -80,14 +80,20 @@
     </div>
 
     <!-- ✅ 설문 리스트 -->
+    <c:if test="${not empty surveyList}">
     <c:forEach var="survey" items="${surveyList}">
         <div class="survey-box">
-            <div class="survey-rating">🌟 평점: ${survey.rating} / 5</div>
+            <div class="survey-rating">🌟 평점: ${survey.rating}/ 5</div>
             <div class="survey-comment">💬 의견: ${survey.comment}</div>
             <div class="survey-date">📅 작성일: ${survey.createDate}</div>
         </div>
     </c:forEach>
-
+	</c:if>
+	
+	<c:if test="${empty surveyList}">
+		<p>등록된 설문 결과가 없습니다.</p>
+	</c:if>
+	
     <!-- ✅ 페이징 처리 -->
     <div class="pagination">
         <c:forEach var="i" begin="1" end="${totalPages}">

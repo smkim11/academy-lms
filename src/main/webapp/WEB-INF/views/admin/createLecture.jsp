@@ -158,7 +158,7 @@
         <br><br>
 
         <!-- ✅ 2. 요일 선택 -->
-        <label>요일 선택:</label><br>
+        <label>요일 선택:</label>
         <label><input type="checkbox" name="dayTemp" class="day" value="MON">월요일</label>
         <label><input type="checkbox" name="dayTemp" class="day" value="TUE">화요일</label>
         <label><input type="checkbox" name="dayTemp" class="day" value="WED">수요일</label>
@@ -177,7 +177,21 @@
           <option value="EVENING">야간반</option>
         </select>
         <br><br>
-
+		
+		<!-- ✅ 3. 강의실 선택   --> 
+		<!-- <label for="place">장소 선택:</label>
+		<select name="place" id="place">
+			<option value="" disabled selected>강의장소를 선택하세요</option>
+			<option value="201호">201호</option>
+			<option value="202호">202호</option>
+			<option value="203호">203호</option>
+			<option value="204호">204호</option>
+			<option value="205호">205호</option>
+		
+		</select>
+		
+		<br><br> -->
+		
         <!-- ✅ 4. 과목 선택 (전공에 따라 분기) -->
         <label for="title">과목 선택:</label>
         <select name="title" id="title" required>

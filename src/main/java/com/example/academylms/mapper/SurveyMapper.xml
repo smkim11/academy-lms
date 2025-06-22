@@ -15,7 +15,7 @@ SELECT COUNT(*) FROM satisfaction_survey WHERE enrollment_id = #{enrollmentId};
 </select>
 
 <select id="surveyAvgResult" parameterType="int" resultType="double">
-SELECT AVG(sa.rating) AS average_rating   FROM lecture_enrollment le INNER JOIN satisfaction_survey sa 
+SELECT  COALESCE(AVG(sa.rating),0) AS average_rating   FROM lecture_enrollment le INNER JOIN satisfaction_survey sa 
 ON le.enrollment_id = sa.enrollment_id WHERE le.lecture_id = #{lectureId};
 </select>
  

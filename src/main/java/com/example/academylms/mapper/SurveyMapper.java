@@ -17,7 +17,7 @@ public interface SurveyMapper {
  
 	int checkSurveyParticipation(int enrollmentId); // 만족도 조사 참여여부 조회 
 
-	double surveyAvgResult(int lectureId); // 만족도 평균 구하기
+	Double surveyAvgResult(int lectureId); // 만족도 평균 구하기
 
 	int countSurveys(int lectureId); // 전체 설문 갯수 카운트
 

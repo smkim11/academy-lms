@@ -170,7 +170,7 @@ button:hover {
   </div>
 
   <!-- 🔸 로그인 박스 -->
-  <form action="/loginForm" id="loginForm" method="post">
+  <form action="/login" id="loginForm" method="post">
     <h1>로그인</h1>
     <label for="id">아이디</label>
     <input type="text" id="id" name="id" placeholder="아이디를 입력하세요">

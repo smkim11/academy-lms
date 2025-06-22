@@ -209,13 +209,28 @@
         <label for="time">시간대 선택:</label>
         <select name="time" id="time">
           <option value="${lecture.time}">${lecture.time}</option>
-          <option value="MORING">오전반</option>
-          <option value="AFTERNOON">오후반</option>
-          <option value="EVENING">야간반</option>
+          <option value="MORING">MORING</option>
+          <option value="AFTERNOON">AFTERNOON</option>
+          <option value="EVENING">EVENING</option>
         </select>
         <br><br>
 
+		<!-- ✅ 4. 강의실 선택   --> 
+		<!-- <label for="place">장소 선택:</label>
+		<select name="place" id="place">
+			<option value="" disabled selected>강의장소를 선택하세요</option>
+			<option value="201호">201호</option>
+			<option value="202호">202호</option>
+			<option value="203호">203호</option>
+			<option value="204호">204호</option>
+			<option value="205호">205호</option>
+		
+		</select>
+		
+		<br><br> -->
         <!-- ✅ 4. 과목 선택 (전공에 따라 분기) -->
+        
+        
         <label for="title">과목 선택:</label>
         <select name="title" id="title" required>
           <option value="${lecture.major}">${lecture.major}</option>
