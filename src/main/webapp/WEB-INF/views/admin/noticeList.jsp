@@ -9,12 +9,12 @@
 	    function deleteNotice(noticeId, lectureId) {
 	        if (confirm('정말 삭제하시겠습니까?')) {
 	            $.ajax({
-	                url: '/instructor/notices/' + noticeId,
+	                url: '/admin/notices/' + noticeId,
 	                type: 'DELETE',
 	                success: function(response) {
 	                    alert('삭제되었습니다.');
 	                    // 현재 페이지를 새로고침하거나, 다시 목록을 불러옵니다
-	                    location.href = '/instructor/noticeList/' + lectureId;
+	                    location.href = '/admin/noticeList/' + lectureId;
 	                },
 	                error: function(xhr) {
 	                    alert('삭제 중 오류가 발생했습니다.');
