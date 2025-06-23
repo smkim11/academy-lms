@@ -3,8 +3,14 @@
 <html>
 <head>
     <title>공지사항 등록(관리자)</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
+<div>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="main-container">
     <h1>📌 공지사항 등록 - ${lecture.title}</h1>
 
     <form action="/admin/addNotice" method="post">
@@ -35,6 +41,11 @@
         <br>
         <button type="submit">등록</button>
         <a href="/admin/noticeList/${lecture.lectureId}">← 목록으로</a>
+        
     </form>
+    </main>
+    <div>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

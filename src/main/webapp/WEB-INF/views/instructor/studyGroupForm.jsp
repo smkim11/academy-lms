@@ -4,8 +4,14 @@
 <html>
 <head>
     <title>스터디 그룹 생성(강사)</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
+<div>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="main-container">
 <h2>스터디 그룹 생성(강사)</h2>
 
 <form action="/instructor/studyGroup/create" method="post">
@@ -32,6 +38,9 @@
 
 <br/>
 <a href="/instructor/studentList/${lectureId}">← 수강생 목록으로 돌아가기</a>
-
+</main>
+<div>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

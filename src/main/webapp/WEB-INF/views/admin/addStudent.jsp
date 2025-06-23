@@ -3,8 +3,14 @@
 <html>
 <head>
     <title>전체 학생 목록</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
+<div>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="main-container">
     <h1>전체 학생 목록</h1>
 		
 <!-- 검색 -->
@@ -68,6 +74,9 @@
         <a href="?lectureId=${lectureId}&page=${nextPage}&searchWord=${searchWord}">다음 ▶</a>
     </c:if>
 </div>
-
+</main>
+<div>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

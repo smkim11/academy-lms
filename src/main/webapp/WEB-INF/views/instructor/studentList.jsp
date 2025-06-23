@@ -4,9 +4,14 @@
 <html>
 <head>
     <title>강의별 수강생 목록(강사)</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
-
+<div>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="main-container">
 <h2>강의별 수강생 목록</h2>
 <!-- 🔍 검색 폼 -->
 <form method="get" action="/instructor/studentList/${lectureId}">
@@ -90,6 +95,9 @@
         </c:choose>
     </c:forEach>
 </div>
-
+</main>
+<div>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

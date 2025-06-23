@@ -4,9 +4,14 @@
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
-
+<div>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="main-container">
 <h2>강의별 수강생 목록</h2>
 
 <!-- 검색 폼 -->
@@ -82,6 +87,7 @@
 </table>
 <br>
 <a href="/admin/lectureOne?lectureId=${lectureId}">← 강의페이지로 돌아가기</a>
+
 <!-- 페이지 네비게이션 -->
 <div style="margin-top:10px;">
     <c:forEach begin="1" end="${totalPage}" var="i">
@@ -95,7 +101,10 @@
         </c:choose>
     </c:forEach>
 </div>
-
+</main>
+<div>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 <script>
 function deleteStudent(studentId, lectureId) {
     if (confirm('정말 이 수강생을 강의에서 삭제하시겠습니까?')) {

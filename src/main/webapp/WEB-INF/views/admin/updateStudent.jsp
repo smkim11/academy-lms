@@ -5,9 +5,15 @@
 <head>
 <meta charset="UTF-8">
 <title>수강생 정보 수정</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
+<div>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="main-container">
     <h1>수강생 정보 수정</h1>
 
     <form id="updateForm" action="/admin/updateStudent" method="post">
@@ -53,5 +59,9 @@
             }
         });
     </script>
+    </main>
+    <div>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

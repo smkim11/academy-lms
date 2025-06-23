@@ -4,10 +4,16 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 <meta charset="UTF-8">
 <title>관리자 공지사항 수정</title>
 </head>
 <body>
+<div>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="main-container">
 	<h1>공지사항 수정 (관리자)</h1>
 
 	<form action="/admin/updateNotice" method="post">
@@ -40,5 +46,9 @@
 		<button type="submit">공지 수정</button>
 		<a href="/admin/noticeList/${lecture.lectureId}">← 목록으로</a>
 	</form>
+	</main>
+	<div>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

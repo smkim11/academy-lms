@@ -3,9 +3,15 @@
 <html>
 <head>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
     <title>스터디 게시판</title>
 </head>
 <body>
+<div>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="main-container">
 <h2>강의 ID: ${lectureId} - 스터디 게시판</h2>
 
 <!-- 조별 태그 버튼 -->
@@ -106,5 +112,9 @@
         if (firstBtn) firstBtn.click();
     }
 </script>
+</main>
+<div>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

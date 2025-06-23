@@ -5,6 +5,8 @@
 <head>
 	<title>${lecture.title} - 공지사항</title>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 	<script>
 	    function deleteNotice(noticeId, lectureId) {
 	        if (confirm('정말 삭제하시겠습니까?')) {
@@ -27,6 +29,10 @@
 </head>
 
 <body>
+<div>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="main-container">
     <h1>📚 ${lecture.title} - 공지사항 목록</h1>
 
     <!-- 새 공지 등록 버튼 -->
@@ -65,5 +71,9 @@
     </table>
 <br>
 <a href="/admin/lectureOne?lectureId=${lectureId}">← 강의페이지로 돌아가기</a>
+</main>
+<div>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

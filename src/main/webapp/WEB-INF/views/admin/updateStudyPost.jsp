@@ -3,8 +3,14 @@
 <html>
 <head>
     <title>게시글 수정</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
+<div>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="main-container">
     <h2>게시글 수정</h2>
 
     <form action="/admin/updateStudyPost" method="post">
@@ -21,5 +27,9 @@
 
     <br>
     <a href="/admin/studyPostOne/${post.postId}">← 취소하고 돌아가기</a>
+    </main>
+    <div>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

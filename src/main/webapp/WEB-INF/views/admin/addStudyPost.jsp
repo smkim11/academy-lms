@@ -3,8 +3,14 @@
 <html>
 <head>
     <title>스터디 게시글 작성</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
+<div>
+    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+</div>
+<main class="main-container">
     <h2>조 ${groupId} - 새 게시글 작성</h2>
 
     <form action="/admin/addStudyPost" method="post">
@@ -21,5 +27,9 @@
 
     <br>
     <a href="/admin/studyPost/${lectureId}">← 목록으로 돌아가기</a>
+    </main>
+    <div>
+    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>
