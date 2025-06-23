@@ -58,7 +58,7 @@
 			</c:forEach>
 		</table>
 		<div>
-			<a href="/admin/lectureOne?lectureId=${lectureId }">돌아가기</a>
+			<a href="/instructor/lectureOne?lectureId=${lectureId }">돌아가기</a>
 		</div>
 </main>
 <div>

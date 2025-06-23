@@ -18,7 +18,7 @@
     <div class="wrapper">
       <h2>내 개인정보 수정</h2>
 
-      <form action="/admin/updateInfo" method="post">
+      <form action="/instructor/updateInfo" method="post">
         <table>
           <tr>
             <td><label for="name">이름</label></td>

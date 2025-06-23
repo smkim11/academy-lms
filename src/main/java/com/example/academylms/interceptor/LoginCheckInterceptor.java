@@ -34,9 +34,9 @@ public class LoginCheckInterceptor implements HandlerInterceptor {  // 컨트롤
 		
 		if("admin".equals(role)) {
 			if (uri.startsWith("/admin") || uri.equals("/mainPage") || uri.equals("/lectureMaterialList") || uri.equals("/lectureMaterialOne")
-					|| uri.equals("/lectureMaterialWeekList") || uri.equals("/updateLectureMaterial") || uri.equals("/addLectureMaterial")
+					|| uri.equals("/lectureMaterialWeekList") || uri.equals("/updateLectureMaterial") || uri.equals("/addLectureMaterial") || uri.equals("/deleteLectureMaterial")
 					|| uri.equals("/qna") ||uri.equals("/qnaOne") || uri.equals("/deleteQna") || uri.equals("/addAnswer") || uri.equals("/deleteAnswer") || uri.equals("/quizList")
-					|| uri.equals("/quizResult")) {
+					|| uri.equals("/quizResult") ) {
 				return true;
 			}
 			response.sendRedirect("/login");

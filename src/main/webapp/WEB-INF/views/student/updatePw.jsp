@@ -18,7 +18,7 @@
     <div class="wrapper">
       <h2>비밀번호 변경</h2>
 
-      <form action="/admin/updatePw" method="post">
+      <form action="/student/updatePw" method="post">
         <div class="form-group">
           <label for="currentPw">현재 비밀번호</label>
           <input type="password" id="currentPw" name="currentPw" required>
