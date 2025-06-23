@@ -37,8 +37,8 @@
       </div>
 
       <div class="button-group">
-        <button type="button" class="info-button btn-password" onclick="location.href='/admin/updatePw'">비밀번호 변경</button>
-        <button type="button" class="info-button btn-edit" onclick="location.href='/admin/updateInfo'">개인정보 수정</button> 
+        <button type="button" class="info-button btn-password" onclick="location.href='/student/updatePw'">비밀번호 변경</button>
+        <button type="button" class="info-button btn-edit" onclick="location.href='/student/updateInfo'">개인정보 수정</button> 
       </div>
     </div>
   </div>
