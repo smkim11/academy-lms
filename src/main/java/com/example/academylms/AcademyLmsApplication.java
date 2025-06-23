@@ -16,6 +16,6 @@ public class AcademyLmsApplication implements WebMvcConfigurer{
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/semi/**").addResourceLocations("file:///C:/semi");
+		registry.addResourceHandler("/semi/**").addResourceLocations("file:///home/ubuntu/upload");
 	}
 }

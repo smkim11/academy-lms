@@ -180,7 +180,7 @@ public class QnaController {
             
             // 파일 저장 처리
             if (file != null && !file.isEmpty()) {
-                String uploadDir = "C:/semi";
+                String uploadDir = "/home/ubuntu/upload";
                 String originalFilename = file.getOriginalFilename();
                 String savedFilename = UUID.randomUUID().toString() + "_" + originalFilename;
                 File targetFile = new File(uploadDir, savedFilename);
@@ -289,7 +289,7 @@ public class QnaController {
 
         // 파일 수정 시 새로 저장
         if (file != null && !file.isEmpty()) {
-            String uploadDir = "C:/semi";
+            String uploadDir = "/home/ubuntu/upload";
             String originalFilename = file.getOriginalFilename();
             String savedFilename = UUID.randomUUID().toString() + "_" + originalFilename;
             File targetFile = new File(uploadDir, savedFilename);

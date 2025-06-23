@@ -179,7 +179,7 @@ public class LectureMaterialController {
             String title = titles.get(i);
 
             if (file != null && !file.isEmpty() && title != null && !title.trim().isEmpty()) {
-                String uploadDir = "C:/semi";
+                String uploadDir = "/home/ubuntu/upload";
                 String originalFilename = file.getOriginalFilename();
                 String savedFilename = UUID.randomUUID().toString() + "_" + originalFilename;
                 File targetFile = new File(uploadDir, savedFilename);
@@ -240,7 +240,7 @@ public class LectureMaterialController {
         material.setTitle(title);
 
         if (file != null && !file.isEmpty()) {
-            String uploadDir = "C:/semi";
+            String uploadDir = "/home/ubuntu/upload";
             String originalFilename = file.getOriginalFilename();
             String savedFilename = UUID.randomUUID().toString() + "_" + originalFilename;
             File targetFile = new File(uploadDir, savedFilename);

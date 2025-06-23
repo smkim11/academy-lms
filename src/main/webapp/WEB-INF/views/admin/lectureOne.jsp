@@ -23,9 +23,12 @@
     <section class="lecture-summary flex-1">
       <div class="flex-container">
         <h2 class="mr-10">${lecture.title}</h2>
+        
         <c:if test="${now lt lecture.startedAt }">
+       	  <div class="edit-wrapper">
           <a href="/admin/updateLecture?lectureId=${lecture.lectureId}" class="edit-button fs-14">✏️ 수정</a>
           <a href="/admin/lectureDelete?lectureId=${lecture.lectureId}" class="edit-button fs-14 red-text" onclick="return confirm('정말 삭제하시겠습니까?');">🗑️ 삭제</a>
+          </div>
         </c:if>
       </div>
       <p><strong>강사:</strong> ${lecture.name}</p>
