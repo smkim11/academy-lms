@@ -100,32 +100,46 @@ body {
   color: #555;
 }
 
-/* 왼쪽 사이드바 */
+/* 사이드바 스타일 */
+
 .side-bar {
   position: fixed;
   top: var(--top-bar-height);
   left: 0;
   width: 200px;
   height: calc(100vh - var(--top-bar-height));
-  background-color: #333;
+  background-color: #333; /* 기존 색상 유지 */
   color: white;
-  padding-top: 20px;
+  padding-top: 25px;
   box-sizing: border-box;
   overflow-y: auto;
   z-index: 1;
   border-top: 1px solid #ddd;
+  font-family: 'Segoe UI', sans-serif;
+  animation: slideIn 0.4s ease-out;
 }
 
+/* 메뉴 항목 스타일 */
 .side-bar ul > li > a {
   display: block;
-  padding: 15px 20px;
-  font-size: 1rem;
+  padding: 14px 24px;
+  font-size: 0.95rem;
   color: white;
-  transition: 0.3s;
+  transition: background-color 0.25s ease, padding-left 0.25s ease;
+  border-left: 4px solid transparent; /* 좌측 강조 효과 */
 }
 
-.side-bar ul > li:hover > a {
+/* 호버 효과 */
+.side-bar ul > li > a:hover {
   background-color: #444;
+  padding-left: 30px;
+  border-left: 4px solid #ffffff; /* 포인트 컬러 강조 */
+  box-shadow: inset 4px 0 0 #fff;
+}
+
+/* 항목 간 구분을 위한 간격 */
+.side-bar ul > li {
+  margin-bottom: 4px;
 }
 
 /* 본문 */
@@ -155,4 +169,5 @@ main p {
   position: relative;
   z-index: 9999;
   border-top: 1px solid #ddd;
+  text-align:center
 }

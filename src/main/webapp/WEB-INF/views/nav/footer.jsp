@@ -6,7 +6,7 @@
 			<div class="container">
 				<p>
 					전화 : 02-818-7950ㅤ팩스 : 02-818-7964 &nbsp;
-					깃허브 :
+					GitHub :
 					<a href="https://github.com/gdj091/academy-lms" target="_blank" rel="noopener noreferrer">
 						<img src="../images/githubLogo.png" alt="깃허브 로고" style="width:30px; cursor:pointer;">
 			        </a>
