@@ -43,11 +43,11 @@
 
 <div class="section-header2">
       <div class="section-header">      
-        <h3>📚 강의자료 (1~5주차)</h3>
+         <h3 class="quiz-list-title">강의자료 (1~5주차)</h3>
         <a href="/lectureMaterialWeekList?lectureId=${lecture.lectureId}" class="fs-14 no-underline blue-text">더보기</a>
       </div>
       <div class="table-half mt-20">
-        <table border="1">
+        <table class="styled-table">
           <thead>
             <tr>
               <th>주차</th>
@@ -77,11 +77,11 @@
       </div>
 	 </div>
       <div class="section-header mt-20">
-        <h3>📚 QNA 게시판</h3>
+        <h3 class="quiz-list-title">QNA 게시판</h3>
         <a href="/qna?lectureId=${lecture.lectureId}" class="fs-14 no-underline blue-text">더보기</a>
       </div>
       <div class="table-half mt-10">
-        <table border="1">
+        <table class="styled-table">
           <thead>
             <tr>
               <th>질문번호</th>
@@ -128,7 +128,7 @@
       <div class="table-half mt-10">
         <c:choose>
           <c:when test="${not empty lectureNoticeList}">
-            <table class="notice-table" border="1">
+            <table class="styled-table">
               <thead>
                 <tr>
                   <th>번호</th>
@@ -156,13 +156,13 @@
       </div>
 
       <div class="section-header mt-30 quiz-header">
-        <h3>🗒️ 퀴즈 목록 (1~5주차)</h3>
+        <h3 class="quiz-list-title">퀴즈 목록 (1~5주차)</h3>
         <a href="/quizList?lectureId=${lecture.lectureId}" class="fs-15 no-underline blue-text">더보기</a>
       </div>
       <div class="table-half mt-10">
         <c:choose>
           <c:when test="${not empty quizList}">
-            <table class="quiz-table" border="1">
+            <table table class="styled-table">
               <thead>
                 <tr>
                   <th>주차</th>
@@ -195,13 +195,13 @@
       </div>
 
       <div class="section-header mt-80">
-        <h3>🗒️ 스터디 일지목록</h3>
+        <h3 class="quiz-list-title">스터디 일지목록</h3>
         <a href="/admin/studyPost/${lecture.lectureId}" class="fs-14 no-underline blue-text">더보기</a>
       </div>
       <div class="table-half mt-10">
         <c:choose>
           <c:when test="${not empty postList}">
-            <table class="study-table" border="1">
+            <table class="styled-table">
               <thead>
                 <tr>
                   <th>게시글 번호</th>

@@ -34,7 +34,7 @@
 }
 
 .mt-30 {
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 .mt-80 {
@@ -162,6 +162,9 @@
   flex-wrap: nowrap;
   white-space: nowrap;
 }
+.mt-quiz-align {
+  margin-top: -44px;
+}
 
 :root {
   --primary: #3b82f6;
@@ -176,3 +179,5 @@
   border-left: 4px solid var(--primary);
   padding-left: 10px;
 }
+
+

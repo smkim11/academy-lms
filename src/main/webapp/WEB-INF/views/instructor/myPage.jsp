@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="/css/myPage.css"> <!-- 스타일 분리 -->
 </head>
 <body>
+<main>
   <div>
     <jsp:include page ="../nav/topNav.jsp"></jsp:include>
   </div>
@@ -43,7 +44,10 @@
     </div>
   </div>
 
-  <div>
+
+  </main>
+  
+    <div>
     <jsp:include page ="../nav/footer.jsp"></jsp:include>
   </div>
 </body>
