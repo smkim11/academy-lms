@@ -53,13 +53,13 @@
         </table>
 
         <!-- 버튼 -->
-        <div style="text-align: right; margin-top: 16px;">
+        <div style="text-align: right; margin-top: 10px;">
             <button type="submit">
                 수정 완료
             </button>
         </div>
 
-        <div style="text-align: right; margin-top: 12px;">
+        <div style="text-align: left; margin-top: 10px;">
             <a href="/qna?lectureId=${lectureId}">목록으로</a>
         </div>
     </form>

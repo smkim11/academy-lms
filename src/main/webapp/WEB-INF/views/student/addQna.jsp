@@ -61,8 +61,8 @@
 	            </tr>
 	        </table>
 <!-- 목록으로 버튼 -->
-		    <div style="text-align: right; margin-top: 20px;">
-		        <a href="/qna?lectureId=${lectureId}" style="font-weight: bold; color: #333;">목록으로</a>
+		    <div style="text-align: left; margin-top: 10px;">
+		        <a href="/qna?lectureId=${lectureId}">목록으로</a>
 		    </div>
 	    </form>
 	</main>

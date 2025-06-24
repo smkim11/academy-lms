@@ -39,7 +39,7 @@
         </table>
 
         <!-- 수정 버튼 -->
-        <div style="text-align: right; margin-top: 20px;">
+        <div style="text-align: right; margin-top: 10px;">
             <button type="submit">
                 수정 완료
             </button>
@@ -47,7 +47,7 @@
     </form>
 
     <!-- 돌아가기 링크 -->
-    <div style="text-align: right; margin-top: 15px;">
+    <div style="text-align: left; margin-top: 10px;">
         <a href="/lectureMaterialOne?materialId=${material.materialId}">
             강의자료 상세로 돌아가기
         </a>

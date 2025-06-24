@@ -38,7 +38,7 @@
 </table>
 
 <!-- 돌아가기 버튼 -->
-<div style="text-align: right; margin-top: 20px;">
+<div style="text-align: left; margin-top: 10px;">
     <a href="/lectureMaterialWeekList?lectureId=${lectureId}">
         주차별 리스트로 돌아가기
     </a>

@@ -28,7 +28,7 @@
     </ul>
 
     <!-- 뒤로가기 링크 -->
-    <div style="margin-top: 20px;">
+    <div style="margin-top: 10px;">
         <a href="/instructor/lectureOne?lectureId=${lectureId}">
             ← 강의정보로 돌아가기
         </a>

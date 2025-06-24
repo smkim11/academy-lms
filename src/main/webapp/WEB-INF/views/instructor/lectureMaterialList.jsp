@@ -20,9 +20,6 @@
 	<span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
 	<span class="lectureMaterial-title">${week}주차 강의자료</span>
 	
-	    <div style="text-align: right; margin-bottom: 10px;">
-	        <a href="/addLectureMaterial?weekId=${weekId}">강의자료 등록</a>
-	    </div>
 <table class="lectureMaterial-table">
     <tr>
         <th>자료명</th>
@@ -40,8 +37,12 @@
     </c:forEach>
 </table>
 
+<div style="text-align: right; margin-bottom: 10px;">
+    <a href="/addLectureMaterial?weekId=${weekId}" class="btn">강의자료 등록</a>
+</div>
 <!-- 돌아가기 버튼 -->
-<div style="text-align: right; margin-top: 20px;">
+<div style="text-align: left; margin-top: 10px;">
+
     <a href="/lectureMaterialWeekList?lectureId=${lectureId}">
         주차별 리스트로 돌아가기
     </a>

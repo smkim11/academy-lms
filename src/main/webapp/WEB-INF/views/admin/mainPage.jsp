@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body class="no-sidebar">
 <div>
 	<jsp:include page ="../nav/topNav.jsp"></jsp:include>
 </div>

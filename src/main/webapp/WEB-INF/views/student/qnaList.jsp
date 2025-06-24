@@ -18,8 +18,25 @@
 <main>
 	<span class="page-title">${lectureTitle}</span>
 	<span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
-
 	<span class="qna-list-title">QNA 목록</span>
+
+<!-- 내가 쓴 글 보기(학생용) -->	    
+<div style="text-align: right; margin-top: 10px;">
+		<c:choose>
+		    <c:when test="${param.view == 'my'}">
+		        <!-- 내 글만 보는 중 → 전체 글 보기 버튼 출력 -->
+		        <a href="/qna?lectureId=${lectureId}">
+		            <button type="button">전체 글 보기</button>
+		        </a>
+		    </c:when>
+		    <c:otherwise>
+		        <!-- 전체 글 보는 중 → 내 글 보기 버튼 출력 -->
+		        <a href="/myQna?lectureId=${lectureId}&view=my">
+		            <button type="button">내가 쓴 글만 보기</button>
+		        </a>
+		    </c:otherwise>
+		</c:choose>
+</div>
 <!-- QnA 게시판 테이블 -->
 	    <table class="qna-table">
 	        <tr style="background-color: #f0f0f0;">
@@ -78,22 +95,6 @@
 	    <div style="text-align: right; margin-bottom: 10px;">
 	        <a href="/addQna?lectureId=${lectureId}" class="btn">글쓰기</a>
 	    </div>
-<!-- 내가 쓴 글 보기(학생용) -->	    
-		<c:choose>
-		    <c:when test="${param.view == 'my'}">
-		        <!-- 내 글만 보는 중 → 전체 글 보기 버튼 출력 -->
-		        <a href="/qna?lectureId=${lectureId}">
-		            <button type="button">전체 글 보기</button>
-		        </a>
-		    </c:when>
-		    <c:otherwise>
-		        <!-- 전체 글 보는 중 → 내 글 보기 버튼 출력 -->
-		        <a href="/myQna?lectureId=${lectureId}&view=my">
-		            <button type="button">내가 쓴 글만 보기</button>
-		        </a>
-		    </c:otherwise>
-		</c:choose>
-	
 			<a href="/student/lectureOne?lectureId=${lectureId}">
 			    강의정보로 돌아가기
 			</a>

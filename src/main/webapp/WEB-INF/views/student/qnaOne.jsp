@@ -43,20 +43,19 @@
     </table>
 	
 <!-- 질문 작성자 수정/삭제 버튼 노출 (학생 본인만 가능) -->
-		<a href="/updateQna?qnaId=${qna.qnaId}&lectureId=${lectureId}">
-		    <button type="button">
-		        수정하기
-		    </button>
-		</a>
-	    <c:if test="${(loginRole == 'student' and loginUserId == qnaStudentId)||loginRole=='admin'}">
-	        <form action="/deleteQna" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
-	            <input type="hidden" name="qnaId" value="${qna.qnaId}" />
-	            <input type="hidden" name="lectureId" value="${lectureId}" />
-	            <button type="submit">
-	                삭제하기
-	            </button>
-	        </form>
-	    </c:if>
+<div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+    <a href="/updateQna?qnaId=${qna.qnaId}&lectureId=${lectureId}">
+        <button type="button">수정하기</button>
+    </a>
+    
+    <c:if test="${(loginRole == 'student' and loginUserId == qnaStudentId) || loginRole == 'admin'}">
+        <form action="/deleteQna" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');" style="display: inline;">
+            <input type="hidden" name="qnaId" value="${qna.qnaId}" />
+            <input type="hidden" name="lectureId" value="${lectureId}" />
+            <button type="submit">삭제하기</button>
+        </form>
+    </c:if>
+</div>
 	
 <!-- QnA 답변 표시 -->
 	    <c:forEach var="answer" items="${qnaAnswer}">
@@ -67,8 +66,8 @@
 	    </c:forEach>
 	
 <!-- 목록으로 버튼 -->
-	    <div style="text-align: right; margin-top: 20px;">
-	        <a href="/qna?lectureId=${lectureId}" style="font-weight: bold; color: #333;">목록으로</a>
+	    <div style="text-align: left; margin-top: 10px;">
+	        <a href="/qna?lectureId=${lectureId}">목록으로</a>
 	    </div>
 	</main>
 </body>

@@ -29,7 +29,7 @@
             <p><strong>파일:</strong>
                 <c:choose>
                     <c:when test="${not empty material.fileUrl}">
-                        <a href="${material.fileUrl}" download style="color: var(--primary); font-weight: bold;">📥 다운로드</a>
+                        <a href="${material.fileUrl}" download style="color: var(--primary); font-weight: bold;">📥다운로드</a>
                     </c:when>
                     <c:otherwise>없음</c:otherwise>
                 </c:choose>
@@ -38,8 +38,8 @@
     </c:if>
 
     <!-- 버튼 영역 -->
-    <div style="text-align: right; margin-top: 25px;">
-        <a href="/lectureMaterialList?weekId=${material.weekId}">📚 목록으로</a>
+    <div style="text-align: left; margin-top: 10px;">
+        <a href="/lectureMaterialList?weekId=${material.weekId}">목록으로</a>
     </div>
 </main>
 </body>
