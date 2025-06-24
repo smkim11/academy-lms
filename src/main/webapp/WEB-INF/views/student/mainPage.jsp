@@ -43,7 +43,7 @@
 	              <td style="background-color: ${color};">
 	                <div><strong>${lecture.title}</strong></div>
 	                <div style="font-size: 12px;">강의실: ${lecture.room}</div>
-	                <div style="font-size: 12px;">강사: ${lecture.instructor_id}</div>
+					<div style="font-size: 12px;">강사: ${lecture.instructor_name}</div>
 	              </td>
 	            </c:when>
 	            <c:otherwise>
