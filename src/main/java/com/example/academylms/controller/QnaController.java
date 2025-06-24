@@ -161,7 +161,6 @@ public class QnaController {
         System.out.println("==> userId = " + userId);
         System.out.println("==> lectureId = " + lectureId);
         Integer enrollmentId = qnaService.getEnrollmentId(userId, lectureId);
-       
         System.out.println("==> enrollmentId = " + enrollmentId);
         
         // 유효성 검사

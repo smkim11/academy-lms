@@ -72,7 +72,6 @@ $(document).ready(function () {
 
                 <div style="text-align: right; margin-top: 8px;">
                     <button type="button" class="remove-btn">
-                            
                         삭제
                     </button>
                 </div>
