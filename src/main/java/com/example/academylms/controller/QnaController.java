@@ -135,7 +135,6 @@ public class QnaController {
         request.setAttribute("lectureTitle", lectureInfoMap.get("title"));
         request.setAttribute("lectureDay", lectureInfoMap.get("day"));
         request.setAttribute("lectureTime", lectureInfoMap.get("time"));
-        
     	request.setAttribute("lectureId", lectureId);
     	return "student/addQna";
     }
@@ -162,7 +161,6 @@ public class QnaController {
         System.out.println("==> userId = " + userId);
         System.out.println("==> lectureId = " + lectureId);
         Integer enrollmentId = qnaService.getEnrollmentId(userId, lectureId);
-        //디버깅용
         System.out.println("==> enrollmentId = " + enrollmentId);
         
         // 유효성 검사

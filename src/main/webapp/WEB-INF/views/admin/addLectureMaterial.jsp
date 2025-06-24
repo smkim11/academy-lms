@@ -69,8 +69,7 @@ $(document).ready(function () {
                 <input type="file" name="files" required>
 
                 <div style="text-align: right; margin-top: 8px;">
-                    <button type="button" class="remove-btn"
-                            style="background-color: #f44336; color: white; border: none; padding: 6px 12px; font-weight: bold; cursor: pointer;">
+                    <button type="button" class="remove-btn">
                         삭제
                     </button>
                 </div>

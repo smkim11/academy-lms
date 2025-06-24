@@ -44,9 +44,11 @@
 	
 <!-- 질문 작성자 수정/삭제 버튼 노출 (학생 본인만 가능) -->
 <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
-    <a href="/updateQna?qnaId=${qna.qnaId}&lectureId=${lectureId}">
-        <button type="button">수정하기</button>
-    </a>
+	<c:if test="${(loginRole == 'student' and loginUserId == qnaStudentId) || loginRole == 'admin'}">
+	    <a href="/updateQna?qnaId=${qna.qnaId}&lectureId=${lectureId}">
+	        <button type="button">수정하기</button>
+	    </a>
+	</c:if>
     
     <c:if test="${(loginRole == 'student' and loginUserId == qnaStudentId) || loginRole == 'admin'}">
         <form action="/deleteQna" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');" style="display: inline;">
