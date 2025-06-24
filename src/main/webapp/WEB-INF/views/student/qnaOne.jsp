@@ -3,7 +3,7 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<link rel="stylesheet" type="text/css" href="../css/qna.css">
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
 </head>
@@ -17,8 +17,8 @@
 <main>
 	<span class="page-title">${lectureTitle}</span>
 	<span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
-    <span class="quiz-list-title">Q&A 상세보기</span>
-    <table class="quiz-table">
+    <span class="qna-list-title">Q&A 상세보기</span>
+    <table class="qna-table">
         <tr><th>제목</th><td style="text-align: left;">${qna.title}</td></tr>
         <tr><th>질문내용</th><td style="text-align: left;">${qna.question}</td></tr>
         <tr><th>공개여부</th>
@@ -44,8 +44,7 @@
 	
 <!-- 질문 작성자 수정/삭제 버튼 노출 (학생 본인만 가능) -->
 		<a href="/updateQna?qnaId=${qna.qnaId}&lectureId=${lectureId}">
-		    <button type="button"
-		            style="padding: 8px 16px; font-size: 14px; font-weight: bold; background-color: black; color: white; border: none; cursor: pointer;">
+		    <button type="button">
 		        수정하기
 		    </button>
 		</a>
@@ -53,8 +52,7 @@
 	        <form action="/deleteQna" method="post" onsubmit="return confirm('정말로 삭제하시겠습니까?');">
 	            <input type="hidden" name="qnaId" value="${qna.qnaId}" />
 	            <input type="hidden" name="lectureId" value="${lectureId}" />
-	            <button type="submit"
-	                    style="padding: 8px 16px; font-size: 14px; font-weight: bold; background-color: black; color: white; border: none; cursor: pointer;">
+	            <button type="submit">
 	                삭제하기
 	            </button>
 	        </form>

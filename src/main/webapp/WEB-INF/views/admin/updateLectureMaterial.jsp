@@ -4,7 +4,7 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<link rel="stylesheet" type="text/css" href="../css/lectureMaterial.css">
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
 </head>
@@ -16,7 +16,7 @@
 	
 </div>
 <main>
-    <span class="quiz-list-title">강의자료 수정</span>
+    <span class="lectureMaterial-title">강의자료 수정</span>
 
  
     <form action="/updateLectureMaterial" method="post" enctype="multipart/form-data" style="margin-top: 20px;">
@@ -40,8 +40,7 @@
 
         <!-- 수정 버튼 -->
         <div style="text-align: right; margin-top: 20px;">
-            <button type="submit"
-                    style="padding: 10px 20px; font-size: 15px; font-weight: bold; background-color: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+            <button type="submit">
                 수정 완료
             </button>
         </div>
@@ -49,8 +48,8 @@
 
     <!-- 돌아가기 링크 -->
     <div style="text-align: right; margin-top: 15px;">
-        <a href="/lectureMaterialOne?materialId=${material.materialId}" style="font-weight: bold; color: var(--text-dark);">
-            ← 강의자료 상세로 돌아가기
+        <a href="/lectureMaterialOne?materialId=${material.materialId}">
+            강의자료 상세로 돌아가기
         </a>
     </div>
 </main>

@@ -4,7 +4,7 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<link rel="stylesheet" type="text/css" href="../css/qna.css">
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
 </head>
@@ -17,7 +17,7 @@
 <main>
 	<span class="page-title">${lectureTitle}</span>
     <span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
-    <span class="quiz-list-title">QnA 수정</span>
+    <span class="qna-list-title">QnA 수정</span>
 
     <!-- 에러 메시지 -->
     <c:if test="${not empty errorMsg}">
@@ -30,7 +30,7 @@
         <input type="hidden" name="qnaId" value="${qna.qnaId}">
         <input type="hidden" name="lectureId" value="${lectureId}">
 
-        <table class="quiz-table">
+        <table class="qna-table">
             <tr>
                 <th style="width: 120px;">제목</th>
                 <td><input type="text" name="title" value="${qna.title}" style="width: 100%; padding: 8px;" required></td>
@@ -54,14 +54,13 @@
 
         <!-- 버튼 -->
         <div style="text-align: right; margin-top: 16px;">
-            <button type="submit"
-                    style="padding: 8px 16px; font-size: 14px; font-weight: bold; background-color: #2c7be5; color: white; border: none; cursor: pointer;">
+            <button type="submit">
                 수정 완료
             </button>
         </div>
 
         <div style="text-align: right; margin-top: 12px;">
-            <a href="/qna?lectureId=${lectureId}" style="font-weight: bold; color: var(--text-dark);">목록으로</a>
+            <a href="/qna?lectureId=${lectureId}">목록으로</a>
         </div>
     </form>
 </main>

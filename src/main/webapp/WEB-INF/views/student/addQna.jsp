@@ -3,7 +3,7 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<link rel="stylesheet" type="text/css" href="../css/qna.css">
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
 </head>
@@ -24,7 +24,7 @@
         </div>
     </c:if>
 	
-    <span class="quiz-list-title">QnA 글쓰기</span>
+    <span class="qna-list-title">QnA 글쓰기</span>
 	    <form action="/addQna" method="post" enctype="multipart/form-data">
 	        <input type="hidden" name="lectureId" value="${lectureId}">
 	
@@ -56,8 +56,7 @@
 	            </tr>
 	            <tr>
 	                <td colspan="2" style="text-align: right; padding: 8px;">
-	                    <input type="submit" value="등록"
-	                           style="padding: 8px 16px; font-size: 14px; font-weight: bold; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
+	                    <input type="submit" value="등록" class="btn">
 	                </td>
 	            </tr>
 	        </table>

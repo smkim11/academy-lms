@@ -4,9 +4,9 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<link rel="stylesheet" type="text/css" href="../css/qna.css">
 <meta charset="UTF-8">
-<title>AcademyLMS</title>
+<title>Insert title here</title>
 </head>
 <body>
 <div>
@@ -18,11 +18,10 @@
 <main>
 	<span class="page-title">${lectureTitle}</span>
 	<span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
-	
-	<span class="quiz-list-title">QNA 목록</span>
-	
+
+	<span class="qna-list-title">QNA 목록</span>
 <!-- QnA 게시판 테이블 -->
-	    <table class="quiz-table">
+	    <table class="qna-table">
 	        <tr style="background-color: #f0f0f0;">
 	            <th>번호</th>
 	            <th>제목</th>
@@ -50,9 +49,20 @@
 	        </c:forEach>
 	    </span>
 	    </table>
-	    	<a href="/admin/lectureOne?lectureId=${lectureId}">
-			    강의정보로 돌아가기
-			</a>
+	    
+	<!-- 게시글 리스트 출력 아래쪽에 페이지 버튼 -->
+	<div style="text-align: center; margin-top: 20px;">
+	    <c:forEach var="i" begin="1" end="${totalPages}">
+	        <c:choose>
+	            <c:when test="${i == currentPage}">
+	                <span style="font-weight: bold;">[${i}]</span>
+	            </c:when>
+	            <c:otherwise>
+	                <a href="/qna?lectureId=${lectureId}&page=${i}">[${i}]</a>
+	            </c:otherwise>
+	        </c:choose>
+	    </c:forEach>
+	</div>
 	</main>
 </body>
 </html>

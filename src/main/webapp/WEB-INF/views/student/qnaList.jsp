@@ -4,7 +4,7 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<link rel="stylesheet" type="text/css" href="../css/qna.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -19,9 +19,9 @@
 	<span class="page-title">${lectureTitle}</span>
 	<span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
 
-	<span class="quiz-list-title">QNA 목록</span>
+	<span class="qna-list-title">QNA 목록</span>
 <!-- QnA 게시판 테이블 -->
-	    <table class="quiz-table">
+	    <table class="qna-table">
 	        <tr style="background-color: #f0f0f0;">
 	            <th>번호</th>
 	            <th>제목</th>
@@ -76,7 +76,7 @@
 	
 <!-- 글쓰기 버튼 (학생용) -->
 	    <div style="text-align: right; margin-bottom: 10px;">
-	        <a href="/addQna?lectureId=${lectureId}" class="btn" style="font-weight: bold; color: #333;">글쓰기</a>
+	        <a href="/addQna?lectureId=${lectureId}" class="btn">글쓰기</a>
 	    </div>
 <!-- 내가 쓴 글 보기(학생용) -->	    
 		<c:choose>

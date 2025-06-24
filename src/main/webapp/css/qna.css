@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+:root {
+  --primary: #3b82f6;
+  --bg-light: #fcfcfd;
+  --bg-muted: #f8fafc;
+  --border-color: #e0e0e0;
+  --text-dark: #1e293b;
+  --text-muted: #444;
+  --btn-gray: #9ca3af;
+  --btn-gray-hover: #6b7280;
+}
+
+/* 전체 메인 영역 */
+main {
+  padding: 80px 40px 40px;
+  background-color: var(--bg-light);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-muted);
+}
+
+/* 강의 제목 */
+.page-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text-dark);
+  margin-right: 8px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* QNA 목록 타이틀 */
+.qna-list-title {
+  display: block;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--primary);
+  margin: 28px 0 12px 0;
+  border-left: 4px solid var(--primary);
+  padding-left: 10px;
+}
+
+/* 테이블 */
+.qna-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-size: 14px;
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+}
+
+.qna-table th {
+  background-color: #f1f5f9;
+  color: var(--text-dark);
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  font-weight: 600;
+  text-align: center;
+}
+
+.qna-table td {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.qna-table td a {
+  text-decoration: none;
+  color: gray;
+}
+
+.qna-table tr:nth-child(even) {
+  background-color: var(--bg-muted);
+}
+
+/* 버튼 회색 통일 */
+.btn,
+button,
+input[type="submit"] {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: var(--btn-gray);
+  color: white;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.btn:hover,
+button:hover,
+input[type="submit"]:hover {
+  background-color: var(--btn-gray-hover);
+}
+
+/* 내가 쓴 글 보기/전체 글 보기 버튼 */
+.button-toggle {
+  padding: 6px 12px;
+  background-color: #e2e8f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.button-toggle:hover {
+  background-color: #cbd5e1;
+}
+
+/* 하단 링크 */
+.back-link {
+  display: inline-block;
+  margin-top: 24px;
+  color: #1f2937;
+  font-weight: 500;
+  text-decoration: underline;
+}

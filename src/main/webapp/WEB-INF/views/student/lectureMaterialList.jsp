@@ -4,7 +4,7 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<link rel="stylesheet" type="text/css" href="../css/lectureMaterial.css">
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
 </head>
@@ -18,9 +18,9 @@
 <main>
 	<span class="page-title">${lectureTitle}</span>
 	<span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
-	<span class="quiz-list-title">${week}주차 강의자료</span>
+	<span class="lectureMaterial-title">${week}주차 강의자료</span>
 
-<table class="quiz-table">
+<table class="lectureMaterial-table">
     <tr>
         <th>자료명</th>
         <th>등록일</th>
@@ -39,8 +39,7 @@
 
 <!-- 돌아가기 버튼 -->
 <div style="text-align: right; margin-top: 20px;">
-    <a href="/lectureMaterialWeekList?lectureId=${lectureId}" 
-       style="font-weight: bold; color: var(--text-dark); text-decoration: underline;">
+    <a href="/lectureMaterialWeekList?lectureId=${lectureId}">
         주차별 리스트로 돌아가기
     </a>
 </div>

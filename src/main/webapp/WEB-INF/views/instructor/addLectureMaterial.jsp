@@ -4,7 +4,7 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<link rel="stylesheet" type="text/css" href="../css/lectureMaterial.css">
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
 </head>
@@ -18,7 +18,7 @@
 <main>
 	<span class="page-title">${lectureTitle}</span>
 	<span class="page-subtitle">[${lectureDay}/${lectureTime}]</span> &nbsp;
-    <span class="quiz-list-title">강의자료 다중 등록</span>
+    <span class="lectureMaterial-title">강의자료 다중 등록</span>
 
     <form action="/addLectureMaterial" method="post" enctype="multipart/form-data" style="margin-top: 20px;">
         <input type="hidden" name="weekId" value="${weekId}" />
@@ -32,8 +32,7 @@
                 <input type="file" name="files" required>
 
                 <div style="text-align: right; margin-top: 8px;">
-                    <button type="button" class="remove-btn" 
-                            style="background-color: #f44336; color: white; border: none; padding: 6px 12px; font-weight: bold; cursor: pointer;">
+                    <button type="button" class="remove-btn">
                         삭제
                     </button>
                 </div>
@@ -42,19 +41,17 @@
 
         <!-- 버튼 영역 -->
         <div style="margin-top: 20px; text-align: right;">
-            <button type="button" id="addRowBtn"
-                    style="padding: 8px 14px; font-weight: bold; background-color: #2c7be5; color: white; border: none; cursor: pointer;">
+            <button type="button" id="addRowBtn">
                 + 자료 추가
             </button>
-            <button type="submit"
-                    style="padding: 8px 16px; font-weight: bold; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
-                📤 업로드
+            <button type="submit">
+                업로드
             </button>
         </div>
 
         <!-- 리스트로 돌아가기 -->
         <div style="margin-top: 16px; text-align: right;">
-            <a href="/lectureMaterialList?weekId=${weekId}" style="font-weight: bold; color: var(--text-dark);">리스트로 돌아가기</a>
+            <a href="/lectureMaterialList?weekId=${weekId}">리스트로 돌아가기</a>
         </div>
     </form>
 </main>

@@ -4,7 +4,7 @@
 <html>
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../css/lmsStyle.css">
+<link rel="stylesheet" type="text/css" href="../css/lectureMaterial.css">
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
 </head>
@@ -16,12 +16,11 @@
 	
 </div>
 <main>
-  	<span class="quiz-list-title">강의자료 주차별 리스트</span>
+  	<span class="lectureMaterial-title">강의자료 주차별 리스트</span>
    <ul style="list-style-type: none; padding-left: 0; margin-top: 20px;">
         <c:forEach var="week" items="${weekList}">
             <li style="margin-bottom: 10px;">
-                <a href="/lectureMaterialList?weekId=${week.weekId}" 
-                   style="font-size: 16px; font-weight: 500; color: var(--primary);">
+                <a href="/lectureMaterialList?weekId=${week.weekId}">
                     📘 ${week.week}주차 강의자료
                 </a>
             </li>
@@ -30,8 +29,7 @@
 
     <!-- 뒤로가기 링크 -->
     <div style="margin-top: 20px;">
-        <a href="/admin/lectureOne?lectureId=${lectureId}" 
-           style="font-weight: bold; color: #333;">
+        <a href="/instructor/lectureOne?lectureId=${lectureId}">
             ← 강의정보로 돌아가기
         </a>
     </div>
