@@ -21,38 +21,40 @@
  	</div>
 	</div>
 <main>
-		<table>
-		  <thead>
-		    <tr>
-		      <th></th>
-		      <c:forEach var="day" items="${dayList}">
-		        <th>${day}</th>
-		      </c:forEach>
-		    </tr>
-		  </thead>
-		  
-		  <tbody>
-		    <c:forEach var="time" items="${timeList}">
-		      <tr>
-		        <td>${time}</td>
-		        <c:forEach var="day" items="${dayList}">
-		          <c:set var="lecture" value="${timetable[day][time]}" />
-		          <c:choose>
-		            <c:when test="${not empty lecture}">
-		              <c:set var="color" value="${lectureColorMap[lecture.lecture_id]}" />
-		              <td style="background-color: ${color};">
-		                <c:out value="${lecture.title}" />
-		              </td>
-		            </c:when>
-		            <c:otherwise>
-		              <td></td>
-		            </c:otherwise>
-		          </c:choose>
-		        </c:forEach>
-		      </tr>
-		    </c:forEach>
-		  </tbody>
-		</table>
+	<table>
+	  <thead>
+	    <tr>
+	      <th></th>
+	      <c:forEach var="day" items="${dayList}">
+	        <th>${day}</th>
+	      </c:forEach>
+	    </tr>
+	  </thead>
+	  
+	  <tbody>
+	    <c:forEach var="time" items="${timeList}">
+	      <tr>
+	        <td>${time}</td>
+	        <c:forEach var="day" items="${dayList}">
+	          <c:set var="lecture" value="${timetable[day][time]}" />
+	          <c:choose>
+	            <c:when test="${not empty lecture}">
+	              <c:set var="color" value="${lectureColorMap[lecture.lecture_id]}" />
+	              <td style="background-color: ${color};">
+	                <div><strong>${lecture.title}</strong></div>
+	                <div style="font-size: 12px;">강의실: ${lecture.room}</div>
+	                <div style="font-size: 12px;">강사: ${lecture.instructor_id}</div>
+	              </td>
+	            </c:when>
+	            <c:otherwise>
+	              <td></td>
+	            </c:otherwise>
+	          </c:choose>
+	        </c:forEach>
+	      </tr>
+	    </c:forEach>
+	  </tbody>
+	</table>
 	<hr>
 		<p>*morning : 08~12 / afternoon : 13~17 / evening : 18~22</p>
 	<hr>

@@ -41,7 +41,9 @@
 	            <c:when test="${not empty lecture}">
 	              <c:set var="color" value="${lectureColorMap[lecture.lecture_id]}" />
 	              <td style="background-color: ${color};">
-	                <c:out value="${lecture.title}" />
+	                <div><strong>${lecture.title}</strong></div>
+	                <div style="font-size: 12px;">강의실: ${lecture.room}</div>
+	                <div style="font-size: 12px;">강사: ${lecture.instructor_id}</div>
 	              </td>
 	            </c:when>
 	            <c:otherwise>

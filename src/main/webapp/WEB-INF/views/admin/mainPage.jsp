@@ -28,9 +28,6 @@
       <ul>
         <li><a href="/admin/createLecture">강의등록</a></li>
       </ul>
-      <ul>
-        <li><a href="/admin/studentList" >수강생 관리 페이지로 이동</a></li>
-      </ul>
     </div>
   </div>
 

@@ -28,7 +28,8 @@
 
 	<!-- 시간표 -->
 	<select id="selectOngoingLecturesForStudent" resultType="map">
-	  SELECT l.lecture_id, l.title, l.day, l.time, l.started_at, l.ended_at
+	  SELECT l.lecture_id, l.title, l.day, l.time, l.started_at, l.ended_at,
+	         l.room, l.instructor_id
 	  FROM lecture l
 	  JOIN lecture_enrollment e ON l.lecture_id = e.lecture_id
 	  WHERE e.student_id = #{studentId}
@@ -36,7 +37,8 @@
 	</select>
 	
 	<select id="selectOngoingLecturesForInstructor" resultType="map">
-	  SELECT lecture_id, title, day, time, started_at, ended_at
+	  SELECT lecture_id, title, day, time, started_at, ended_at,
+	         room, instructor_id
 	  FROM lecture
 	  WHERE instructor_id = #{instructorId}
 	    AND NOW() BETWEEN started_at AND ended_at
