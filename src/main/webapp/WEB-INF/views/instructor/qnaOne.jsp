@@ -57,13 +57,13 @@
         </form>
     </c:if>
 
-    <!-- 기존 답변 리스트 -->
+    <!-- 답변 리스트 -->
     <c:forEach var="answer" items="${qnaAnswer}">
         <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; margin-top: 10px; background-color: #f9fafb;">
             <p style="margin-bottom: 10px;">${answer.answer}</p>
             <p style="font-size: 12px; color: gray;">${answer.createDate}</p>
 
-            <c:if test="${loginRole == 'instructor'}">
+            <c:if test="${loginRole == 'instructor'||(loginRole == 'student' && loginUserId == qnaStudentId)}">
                 <form action="/deleteAnswer" method="post" style="display: inline;">
                     <input type="hidden" name="answerId" value="${answer.answerId}" />
                     <input type="hidden" name="qnaId" value="${qna.qnaId}" />
