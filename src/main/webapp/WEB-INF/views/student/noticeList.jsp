@@ -15,7 +15,7 @@
 
 <!-- ✅ 본문 컨텐츠 -->
 <main class="content">
-    <h2>📢 ${lecture.title} - 공지사항</h2>
+    <h2>${lecture.title} - 공지사항</h2>
     <table class="notice-table">
         <thead>
             <tr>
