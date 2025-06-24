@@ -44,7 +44,7 @@
 	
 <!-- 질문 작성자 수정/삭제 버튼 노출 (학생 본인만 가능) -->
 <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
-    <c:if test="${(loginRole == 'student' and loginUserId == qnaStudentId) || loginRole == 'admin'}">Add commentMore actions
+    <c:if test="${(loginRole == 'student' and loginUserId == qnaStudentId) || loginRole == 'admin'}">
 	    <a href="/updateQna?qnaId=${qna.qnaId}&lectureId=${lectureId}">
 	        <button type="button">수정하기</button>
 	    </a>
