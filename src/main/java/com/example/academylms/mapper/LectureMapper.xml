@@ -109,7 +109,7 @@ SELECT
              q.title,
              q.is_public AS isPublic,
              q.create_date AS createDate,
-             u.user_id AS writerName
+             u.id AS writerName
     FROM qna q
     JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
     JOIN user u ON le.student_id = u.user_id
@@ -126,9 +126,10 @@ SELECT
     p.content AS content,
     p.feedback AS feedback,
     p.create_date AS createDate,
-    g.student_id AS id
+    u.id AS id
 	FROM study_post p
-	JOIN study_group g ON p.group_id = g.group_id
+	JOIN study_group g ON p.group_id = g.group_id 
+	JOIN user u ON g.student_id = u.user_id
 	WHERE g.lecture_id = #{lectureId}
 	ORDER BY p.create_date DESC
 	LIMIT 5;
