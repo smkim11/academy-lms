@@ -302,15 +302,34 @@ public class QnaController {
     
     //QnA 답변
 //QnA 답변달기
-     @PostMapping("/addAnswer")
-     public String addAnswer(@RequestParam("lectureId") int lectureId, QnaAnswer answer, HttpServletRequest request) {
-         if (answer.getAnswer() == null || answer.getAnswer().trim().isEmpty()) {
-             request.setAttribute("errorMsg", "답변 내용을 입력해주세요");
-             return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId;
-         }
-         qnaService.insertAnswer(answer);
-         return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId;
-     }
+    @PostMapping("/addAnswer")
+    public String addAnswer(@RequestParam("lectureId") int lectureId, QnaAnswer answer, HttpServletRequest request) {
+        if (answer.getAnswer() == null || answer.getAnswer().trim().isEmpty()) {
+            request.setAttribute("errorMsg", "답변 내용을 입력해주세요");
+            return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId;
+        }
+
+        // 세션 정보
+        HttpSession session = request.getSession();
+        Object userIdObj = session.getAttribute("loginUserId");
+        if (userIdObj == null) {
+            return "redirect:/login";
+        }
+        int userId = (int) userIdObj;
+        User user = loginService.findById(userId);
+        String role = user.getRole();
+
+        // 질문 작성자 확인
+        int qnaStudentId = qnaService.getStudentIdByQna(answer.getQnaId());
+
+        // 강사이거나, 질문을 쓴 학생일 경우만 답변 허용
+        if (!"instructor".equals(role) && userId != qnaStudentId) {
+            return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId + "&error=unauthorized";
+        }
+
+        qnaService.insertAnswer(answer);
+        return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId;
+    }
       
 //QnA 답변삭제
       @PostMapping("/deleteAnswer")
