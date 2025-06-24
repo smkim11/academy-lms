@@ -49,11 +49,6 @@
 	        </c:forEach>
 	    </span>
 	    </table>
-	    
-<<<<<<< HEAD
-	   
-=======
->>>>>>> branch 'master' of https://github.com/gdj091/academy-lms.git
 	<!-- 게시글 리스트 출력 아래쪽에 페이지 버튼 -->
 	<div style="text-align: center; margin-top: 20px;">
 	    <c:forEach var="i" begin="1" end="${totalPages}">
