@@ -4,7 +4,7 @@
 <nav>
 	<div class="logo">
 		<a href="/mainPage">
-			<img src="../images/goodeeLogo.png" alt="학원 로고" style="width:150px; cursor:pointer;">
+			<img src="${pageContext.request.contextPath}/images/goodeeLogo.png" alt="학원 로고" style="width:150px; cursor:pointer;">
         </a>
 	</div>
 	<div class="top-bar">
