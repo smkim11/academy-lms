@@ -13,21 +13,27 @@
 <main class="main-container">
     <h2>게시글 수정</h2>
 
-    <form action="/student/updateStudyPost" method="post">
+    <form action="/student/updateStudyPost" method="post" class="form-container">
         <input type="hidden" name="postId" value="${post.postId}" />
         <input type="hidden" name="groupId" value="${post.groupId}" />
 
-        <p>제목: <input type="text" name="title" value="${post.title}" required /></p>
-        <p>내용:<br>
-            <textarea name="content" rows="8" cols="50" required>${post.content}</textarea>
-        </p>
+        <div class="form-group">
+            <label for="title">제목:</label>
+            <input type="text" id="title" name="title" value="${post.title}" required />
+        </div>
 
-        <button type="submit">수정하기</button>
+        <div class="form-group">
+            <label for="content">내용:</label>
+            <textarea id="content" name="content" rows="8" required>${post.content}</textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">수정하기</button>
     </form>
 
     <br>
-    <a href="/student/studyPostOne/${post.postId}">← 취소하고 돌아가기</a>
-    </main>
+    <a href="/student/studyPostOne/${post.postId}" class="back-link">← 취소하고 돌아가기</a>
+</main>
+
     <div>
     <jsp:include page ="../nav/footer.jsp"></jsp:include>
 </div>

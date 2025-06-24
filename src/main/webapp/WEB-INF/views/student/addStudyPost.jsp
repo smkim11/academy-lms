@@ -11,26 +11,33 @@
 <div>
     <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
 </div>
+
 <main class="main-container">
     <h2>조 ${groupId} - 새 게시글 작성</h2>
 
-    <form action="/student/addStudyPost" method="post">
+    <form action="/student/addStudyPost" method="post" class="form-container">
         <input type="hidden" name="groupId" value="${groupId}" />
-        <p>
-            제목: <input type="text" name="title" required />
-        </p>
-        <p>
-            내용:<br>
-            <textarea name="content" rows="8" cols="50" required></textarea>
-        </p>
-        <button type="submit">작성</button>
+
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" required />
+        </div>
+
+        <div class="form-group">
+            <label for="content">내용</label>
+            <textarea id="content" name="content" rows="8" required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">작성</button>
     </form>
 
     <br>
-    <a href="/student/studyPost/${lectureId}">← 목록으로 돌아가기</a>
-    </main>
-    <div>
+    <a href="/student/studyPost/${lectureId}" class="back-link">← 목록으로 돌아가기</a>
+</main>
+
+<div>
     <jsp:include page ="../nav/footer.jsp"></jsp:include>
 </div>
+
 </body>
 </html>

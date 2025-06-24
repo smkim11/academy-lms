@@ -13,7 +13,7 @@
 
 <!-- ✅ 본문 영역 -->
 <main class="content">
-    <h1>📌 공지사항 등록 - ${lecture.title}</h1>
+    <h1>공지사항 등록 - ${lecture.title}</h1>
 
     <form action="${pageContext.request.contextPath}/instructor/addNotice" method="post" class="notice-form">
         <input type="hidden" name="lectureId" value="${lecture.lectureId}" />

@@ -13,7 +13,7 @@
 <main class="main-container">
 <h2>게시글 상세보기</h2>
 
-<table border="1">
+<table class="post-table">
     <tr>
         <th>조</th>
         <td>${post.groupId}</td>
@@ -37,7 +37,7 @@
 </table>
 
 <br>
-<a href="/student/studyPost/${lectureId}">← 목록으로 돌아가기</a>
+<a href="/student/studyPost/${lectureId}" class="back-link">← 목록으로 돌아가기</a>
 </main>
 <div>
     <jsp:include page ="../nav/footer.jsp"></jsp:include>

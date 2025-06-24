@@ -8,39 +8,58 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
+
+<!-- 사이드 내비 -->
 <div>
-    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+    <jsp:include page="../nav/sideNav.jsp"></jsp:include>
 </div>
+
+<!-- 메인 콘텐츠 -->
 <main class="main-container">
-<h2>스터디 그룹 생성(관리자)</h2>
+    <h2>스터디 그룹 생성</h2>
 
-<form action="/admin/studyGroup/create" method="post">
-    <input type="hidden" name="lectureId" value="${lectureId}" />
-	
-	<label>스터디 그룹 이름: </label>
-    <input type="text" name="groupName" required placeholder="예: 프론트엔드 조" />
-    <br/><br/>
-	
-    <label>조장 선택 (선택): </label>
-    <select name="studentId" required>
-        <option value="">-- 선택 안함 --</option>
-        <c:forEach var="student" items="${students}">
-            <option value="${student.studentId}">${student.name} (${student.email})</option>
-        </c:forEach>
-    </select>
-    <c:if test="${not empty errorMsg}">
-	    <p style="color: red;">${errorMsg}</p>
-	</c:if>
-    <br/><br/>
+    <!-- ✅ 폼 박스 -->
+    <div class="form-box">
+        <form action="/admin/studyGroup/create" method="post">
+            <input type="hidden" name="lectureId" value="${lectureId}" />
 
-    <button type="submit">그룹 생성</button>
-</form>
+            <!-- ✅ 그룹 이름 입력 -->
+            <div class="form-group">
+                <label for="groupName">스터디 그룹 이름</label>
+                <input type="text" id="groupName" name="groupName" placeholder="예: 프론트엔드 조" required />
+            </div>
 
-<br/>
-<a href="/admin/studentList/${lectureId}">← 수강생 목록으로 돌아가기</a>
+            <!-- ✅ 조장 선택 -->
+            <div class="form-group">
+                <label for="studentId">조장 선택 (선택)</label>
+                <select name="studentId" id="studentId">
+                    <option value="">-- 선택 안함 --</option>
+                    <c:forEach var="student" items="${students}">
+                        <option value="${student.studentId}">
+                            ${student.name} (${student.email})
+                        </option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <!-- 에러 메시지 -->
+            <c:if test="${not empty errorMsg}">
+                <p class="error-msg">${errorMsg}</p>
+            </c:if>
+
+            <!-- 제출 버튼 -->
+            <button type="submit" class="submit-btn">그룹 생성</button>
+        </form>
+    </div>
+
+    <!-- 돌아가기 링크 -->
+    <a href="/admin/studentList/${lectureId}" class="back-link">← 수강생 목록으로 돌아가기</a>
 </main>
+
+<!-- 푸터 -->
 <div>
-    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+    <jsp:include page="../nav/footer.jsp"></jsp:include>
 </div>
+
 </body>
 </html>

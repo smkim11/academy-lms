@@ -17,18 +17,23 @@
         <input type="hidden" name="postId" value="${post.postId}" />
         <input type="hidden" name="groupId" value="${post.groupId}" />
 
-        <p>제목: <input type="text" name="title" value="${post.title}" required /></p>
-        <p>내용:<br>
-            <textarea name="content" rows="8" cols="50" required>${post.content}</textarea>
-        </p>
+        <label for="title">제목:</label><br/>
+        <input type="text" id="title" name="title" value="${post.title}" required style="width: 100%; max-width: 600px;" />
+
+        <br/><br/>
+
+        <label for="content">내용:</label><br/>
+        <textarea id="content" name="content" rows="10" cols="60" required style="width: 100%; max-width: 600px;">${post.content}</textarea>
+
+        <br/><br/>
 
         <button type="submit">수정하기</button>
     </form>
 
-    <br>
-    <a href="/admin/studyPostOne/${post.postId}">← 취소하고 돌아가기</a>
-    </main>
-    <div>
+    <br/>
+    <a href="/admin/studyPostOne/${post.postId}" class="back-link">← 취소하고 돌아가기</a>
+</main>
+<div>
     <jsp:include page ="../nav/footer.jsp"></jsp:include>
 </div>
 </body>

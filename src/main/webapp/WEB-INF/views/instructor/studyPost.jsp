@@ -24,7 +24,7 @@
 <!-- 조별 게시글 테이블 -->
 <c:forEach var="entry" items="${groupPostMap}">
     <div id="group-${entry.key}" class="post-table" style="display:none;">
-        <h3>조 ${groupNameMap[entry.key]}의 게시글</h3>
+        <h3>${groupNameMap[entry.key]}의 게시글</h3>
         
         <table>
             <thead>
@@ -72,7 +72,7 @@
 
         // 선택된 버튼 스타일 강조 (간단한 인라인 예시)
         const selectedBtn = Array.from(document.querySelectorAll('.tag-btn'))
-            .find(btn => btn.textContent.includes(groupId));
+            .find(btn => btn.getAttribute('onclick').includes(groupId));
         if (selectedBtn) {
             selectedBtn.style.backgroundColor = '#4CAF50';
             selectedBtn.style.color = '#fff';

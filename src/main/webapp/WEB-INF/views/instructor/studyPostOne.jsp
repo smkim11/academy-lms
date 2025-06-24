@@ -8,52 +8,57 @@
 </head>
 <body>
 <div>
-    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+    <jsp:include page="../nav/sideNav.jsp" />
 </div>
+
 <main class="main-container">
-<h2>게시글 상세보기</h2>
+    <h2>스터디 게시글 상세보기</h2>
 
-<c:if test="${not empty message}">
-    <p style="color: green;">${message}</p>
-</c:if>
-<form action="/instructor/studyPostOne" method="post">
-	<input type="hidden" name="postId" value="${postId}" />
-    <input type="hidden" name="groupId" value="${groupId}" />
+    <c:if test="${not empty message}">
+        <div style="margin: 10px 0; color: green; font-weight: bold;">
+            ${message}
+        </div>
+    </c:if>
 
-<table border="1">
-    <tr>
-        <th>조 번호</th>
-        <td>${post.groupId}</td>
-    </tr>
-    <tr>
-        <th>제목</th>
-        <td>${post.title}</td>
-    </tr>
-    <tr>
-        <th>내용</th>
-        <td>${post.content}</td>
-    </tr>
-    <tr>
-        <th>피드백</th>
-        <td>
-	        <textarea name="feedback" rows="5" cols="50">${post.feedback}</textarea>
-	    </td>
-    </tr>
-    <tr>
-        <th>작성일</th>
-        <td>${post.createDate}</td>
-    </tr>
-</table>
+    <form action="/instructor/studyPostOne" method="post">
+        <input type="hidden" name="postId" value="${postId}" />
+        <input type="hidden" name="groupId" value="${groupId}" />
 
-<br>
-    <button type="submit">피드백 저장</button>
-</form>
+        <table class="detail-table">
+            <tr>
+                <th>조번호</th>
+                <td>${post.groupId}</td>
+            </tr>
+            <tr>
+                <th>제목</th>
+                <td>${post.title}</td>
+            </tr>
+            <tr>
+                <th>내용</th>
+                <td style="white-space: pre-wrap;">${post.content}</td>
+            </tr>
+            <tr>
+                <th>피드백</th>
+                <td>
+                    <textarea name="feedback" class="feedback-textarea">${post.feedback}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <th>작성일</th>
+                <td>${post.createDate}</td>
+            </tr>
+        </table>
 
-<br>
-<a href="/instructor/studyPost/${lectureId}">← 목록으로 돌아가기</a>
+        <br>
+        <button type="submit" class="tag-btn">피드백 저장</button>
+    </form>
+
+    <br>
+    <a href="/instructor/studyPost/${lectureId}" class="back-link">← 목록으로 돌아가기</a>
 </main>
+
 <div>
-    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+    <jsp:include page="../nav/footer.jsp" />
 </div>
 </body>
 </html>

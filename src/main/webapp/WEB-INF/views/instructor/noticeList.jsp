@@ -34,10 +34,10 @@
 <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
 </div>
 <main class="content">
-    <h1>📚 ${lecture.title} - 공지사항 목록</h1>
+    <h1>${lecture.title} - 공지사항 목록</h1>
 
     <!-- 새 공지 등록 버튼 -->
-    <a href="/instructor/addNotice?lectureId=${lecture.lectureId}">➕ 새 공지 등록</a>
+    <a href="/instructor/addNotice?lectureId=${lecture.lectureId}" class="back-link">새 공지 등록</a>
 
     <!-- 공지 목록 테이블 -->
     <table class="notice-table">

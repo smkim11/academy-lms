@@ -62,7 +62,7 @@
 </c:forEach>
 
 <br>
-<a href="/admin/lectureOne?lectureId=${lectureId}">← 강의페이지로 돌아가기</a>
+<a href="/admin/lectureOne?lectureId=${lectureId}" class="back-link">← 강의페이지로 돌아가기</a>
 <script>
     function showGroup(groupId) {
         // 모든 테이블 숨김
@@ -82,7 +82,7 @@
 
         // 선택된 버튼 스타일 강조 (간단한 인라인 예시)
         const selectedBtn = Array.from(document.querySelectorAll('.tag-btn'))
-            .find(btn => btn.textContent.includes(groupId));
+            .find(btn => btn.getAttribute('onclick').includes(groupId));
         if (selectedBtn) {
             selectedBtn.style.backgroundColor = '#4CAF50';
             selectedBtn.style.color = '#fff';

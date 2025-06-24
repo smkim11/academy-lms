@@ -3,41 +3,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>수강생 정보 수정</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <meta charset="UTF-8">
+    <title>수강생 정보 수정</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
+
+<!-- 사이드바 -->
 <div>
     <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
 </div>
-<main class="main-container">
-    <h1>수강생 정보 수정</h1>
 
-    <form id="updateForm" action="/admin/updateStudent" method="post">
-        <input type="hidden" name="studentId" value="${student.studentId}" />
-        <input type="hidden" name="lectureId" value="${lectureId}" />
-        <table border="1">
-            <tr>
-                <th>이름</th>
-                <td><input type="text" name="name" value="${student.name}" required /></td>
-            </tr>
-            <tr>
-                <th>이메일</th>
-                <td><input type="email" id="email" name="email" value="${student.email}" required /></td>
-            </tr>
-            <tr>
-                <th>전화번호</th>
-                <td><input type="text" id="phone" name="phone" value="${student.phone}" required /></td>
-            </tr>
-        </table>
-        <br />
-        <button type="submit">수정 완료</button>
-        <a href="/admin/studentList/${lectureId}">← 목록으로</a>
-    </form>
-    
+<!-- 메인 콘텐츠 -->
+<main class="main-container">
+    <h2>수강생 정보 수정</h2>
+
+    <!-- ✅ 폼 박스 -->
+    <div class="form-box">
+        <form id="updateForm" action="/admin/updateStudent" method="post">
+            <input type="hidden" name="studentId" value="${student.studentId}" />
+            <input type="hidden" name="lectureId" value="${lectureId}" />
+
+            <!-- 이름 -->
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input type="text" id="name" name="name" value="${student.name}" required />
+            </div>
+
+            <!-- 이메일 -->
+            <div class="form-group">
+                <label for="email">이메일</label>
+                <input type="email" id="email" name="email" value="${student.email}" required />
+            </div>
+
+            <!-- 전화번호 -->
+            <div class="form-group">
+                <label for="phone">전화번호</label>
+                <input type="text" id="phone" name="phone" value="${student.phone}" required />
+            </div>
+
+            <!-- 버튼 -->
+            <div class="form-group" style="margin-top: 20px;">
+                <button type="submit" class="submit-btn">수정 완료</button>
+                <a href="/admin/studentList/${lectureId}" class="back-link">← 목록으로</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- ✅ JS 유효성 검사 -->
     <script>
         $('#updateForm').on('submit', function(e) {
             const email = $('#email').val().trim();
@@ -59,8 +74,10 @@
             }
         });
     </script>
-    </main>
-    <div>
+</main>
+
+<!-- 푸터 -->
+<div>
     <jsp:include page ="../nav/footer.jsp"></jsp:include>
 </div>
 </body>

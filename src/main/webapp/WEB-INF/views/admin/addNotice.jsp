@@ -7,45 +7,50 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/notice.css">
 </head>
 <body>
+<!-- 사이드바 -->
 <div>
-    <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
+    <jsp:include page="../nav/sideNav.jsp" />
 </div>
+
+<!-- 메인 -->
 <main class="main-container">
-    <h1>📌 공지사항 등록 - ${lecture.title}</h1>
+    <h2>${lecture.title} - 공지사항 등록</h2>
 
-    <form action="/admin/addNotice" method="post">
-        <input type="hidden" name="lectureId" value="${lecture.lectureId}" />
+    <div class="form-container">
+        <form action="/admin/addNotice" method="post">
+            <input type="hidden" name="lectureId" value="${lecture.lectureId}" />
 
-        <table border="1">
-            <tr>
-                <th>제목</th>
-                <td><input type="text" name="title" required style="width: 400px;"></td>
-            </tr>
-            <tr>
-                <th>유형</th>
-                <td>
-                    <select name="noticeType" required>
-                        <option value="">-- 선택 --</option>
-                        <option value="general">일반</option>
-                        <option value="schedule">일정</option>
-                        <option value="exam">시험</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th>내용</th>
-                <td><textarea name="content" rows="8" cols="60" required></textarea></td>
-            </tr>
-        </table>
+            <div class="form-group">
+                <label for="title">제목</label>
+                <input type="text" id="title" name="title" required placeholder="공지 제목을 입력하세요">
+            </div>
 
-        <br>
-        <button type="submit">등록</button>
-        <a href="/admin/noticeList/${lecture.lectureId}">← 목록으로</a>
-        
-    </form>
-    </main>
-    <div>
-    <jsp:include page ="../nav/footer.jsp"></jsp:include>
+            <div class="form-group">
+                <label for="noticeType">공지 유형</label>
+                <select id="noticeType" name="noticeType" required>
+                    <option value="">-- 선택 --</option>
+                    <option value="general">일반</option>
+                    <option value="schedule">일정</option>
+                    <option value="exam">시험</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="content">내용</label>
+                <textarea id="content" name="content" rows="8" class="feedback-textarea" required></textarea>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <button type="submit" class="submit-btn">등록</button>
+                <a href="/admin/noticeList/${lecture.lectureId}" class="back-link">← 목록으로</a>
+            </div>
+        </form>
+    </div>
+</main>
+
+<!-- 푸터 -->
+<div>
+    <jsp:include page="../nav/footer.jsp" />
 </div>
 </body>
 </html>
