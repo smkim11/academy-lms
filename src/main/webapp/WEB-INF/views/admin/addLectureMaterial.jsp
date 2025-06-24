@@ -50,7 +50,7 @@
         </div>
 
         <!-- 리스트로 돌아가기 -->
-        <div style="margin-top: 16px; text-align: right;">
+        <div style="margin-top: 16px; text-align: left;">
             <a href="/lectureMaterialList?weekId=${weekId}">리스트로 돌아가기</a>
         </div>
     </form>

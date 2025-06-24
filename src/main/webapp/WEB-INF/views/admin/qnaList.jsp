@@ -49,6 +49,9 @@
 	        </c:forEach>
 	    </span>
 	    </table>
+	    <div>
+			<a href="/admin/lectureOne?lectureId=${lectureId }">돌아가기</a>
+		</div>
 	    
 	<!-- 게시글 리스트 출력 아래쪽에 페이지 버튼 -->
 	<div style="text-align: center; margin-top: 20px;">
