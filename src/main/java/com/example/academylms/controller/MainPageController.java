@@ -106,7 +106,9 @@ public class MainPageController {
             if (now.isBefore(startedAt)) {
                 upcomingLectures.add(lecture);
             } else if (now.isAfter(endedAt)) {
-                endedLectures.add(lecture);
+            	if (endedAt.plusDays(14).isAfter(now)) {
+                    endedLectures.add(lecture);
+                }
             } else {
                 ongoingLectures.add(lecture);
             }

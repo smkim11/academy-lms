@@ -102,7 +102,7 @@
 
   <!-- 종료된 강의 -->
   <div class="lecture-box">
-    <h4 onclick="toggleSection('ended')">▸ 종료된 강의</h4>
+    <h4 onclick="toggleSection('ended')">▸ 종료된 강의(최근 2주만 출력)</h4>
     <div id="ended">
       <c:if test="${empty endedLectures}">
         <p>종료된 강의가 없습니다.</p>
