@@ -206,6 +206,16 @@
     <jsp:include page="../nav/topNav.jsp" />
 
     <main>
+    
+    	<c:if test="${not empty errors}">
+    		<ul style="color: red; margin-bottom: 16px; padding-left: 1rem;">
+    		<c:forEach var="error" items="${errors.allErrors}">
+    			<li>${error.defaultMessage}</li>
+    		
+    		</c:forEach> 
+    		</ul>
+    	</c:if>
+    
       <div class="main-content">
         <h2>강의 개설</h2>
         <form action="/admin/createLecture" method="post" id="form">

@@ -31,6 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
 	                "/api/mainPage/**",
 	                "/validateEmail",
 	                "/api/lectureMaterial"
+	               
 	            );
 	}
 

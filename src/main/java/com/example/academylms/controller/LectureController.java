@@ -12,7 +12,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,6 +30,7 @@ import com.example.academylms.dto.StudyPostList;
 import com.example.academylms.service.LectureService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -49,8 +52,17 @@ public class LectureController {
 	}
 	
 	@PostMapping("/admin/createLecture") // 관리자 강의 개설완료
-	public String createLecture(Lecture lecture , Model model){
+	public String createLecture(@Valid @ModelAttribute("lecture") Lecture lecture , BindingResult bindingResult, Model model){
+			if(bindingResult.hasErrors()) {
+				model.addAttribute("instructorList", lectureService.findInstructorInfo());
+				model.addAttribute("errors", bindingResult);
+				return "/admin/createLecture";
+			}
+			
+		
+		
 			lecture.setDayList(Arrays.asList(lecture.getDay().split(",")));	
+				
 			if(lectureService.isScheduleConflict(lecture) == false) {
 				 model.addAttribute("message", "해당 시간과 요일에 이미 강의가 존재합니다. 다른 시간이나 요일을 선택해주세요.");
 				 model.addAttribute("redirectUrl", "/admin/createLecture");

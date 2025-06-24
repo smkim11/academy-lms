@@ -162,6 +162,14 @@ $(function() {
   <form id="findPwForm" action="/findPassword" method="post">
     <h1>비밀번호 찾기</h1>
 
+	<c:if test="${not empty errors}">
+	  <ul style="color: red; margin-bottom: 16px; padding-left: 1rem;">
+	  	<c:forEach var="error" items="${errors.allErrors}">
+	  		<li>${error.defaultMessage}</li>
+	  	</c:forEach>
+	  </ul>
+	</c:if>
+
     <label for="userId">아이디</label>
     <input type="text" id="userId" name="id" placeholder="아이디를 입력하세요" required>
 

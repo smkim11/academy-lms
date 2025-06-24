@@ -7,6 +7,16 @@
   <title>비밀번호 변경</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="/css/updatePw.css">  <%-- 외부 CSS 연결 --%>
+  <script type="text/javascript">
+	  $(function(){ 
+		  const password = $('#newPw').val().trim();
+		  
+		  if(password.length < 3){
+			  alert("비밀번호는 4자이상이여야 합니다.");
+		  }
+		  
+	  })
+  </script>
 </head>
 <body>
 
