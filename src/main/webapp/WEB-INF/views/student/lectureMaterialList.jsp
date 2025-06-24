@@ -46,6 +46,6 @@
 	</main>
 <div>
 	<jsp:include page ="../nav/footer.jsp"></jsp:include>
-</div>
-</body>
+</div> 
+</body> 
 </html>

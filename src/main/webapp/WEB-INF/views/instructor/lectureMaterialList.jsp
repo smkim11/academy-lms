@@ -50,6 +50,6 @@
 	</main>
 <div>
 	<jsp:include page ="../nav/footer.jsp"></jsp:include>
-</div>
+</div> 
 </body>
 </html>

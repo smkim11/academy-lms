@@ -57,7 +57,7 @@
 </main>
 <div>
 	<jsp:include page ="../nav/footer.jsp"></jsp:include>
-</div>
+</div> 
 <script>
 $(document).ready(function () {
     // 추가 버튼
