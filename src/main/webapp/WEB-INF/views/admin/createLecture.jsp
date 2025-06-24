@@ -108,9 +108,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script type="text/javascript">
     const subjectMap = {
-      "중국어": ["중국어 초급", "중국어 중급", "중국어 고급"],
-      "영어": ["영어 초급", "영어 중급", "영어 고급"],
-      "일본어": ["일본어 초급", "일본어 중급", "일본어 고급"]
+      "중국어": ["HSK 3급 대비반", "HSK 4급 대비반", "HSK 5~6급 대비반"],
+      "영어": ["TOEIC Starter", "TOEIC Intermediate", "TOEIC Advanced"],
+      "일본어": ["JLPT N5 대비반", "JLPT N3 대비반", "JLPT N1 대비반"]
     };
 
     $(function () {
