@@ -11,7 +11,7 @@
 <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
 </div>
 <main class="content">
-<h2>강의 ID: ${lectureId} - 스터디 게시판</h2>
+<h2>스터디 게시판</h2>
 
 <!-- 조별 태그 버튼 -->
 <div>

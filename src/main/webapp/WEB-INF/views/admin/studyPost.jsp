@@ -12,7 +12,7 @@
     <jsp:include page ="../nav/sideNav.jsp"></jsp:include>
 </div>
 <main class="main-container">
-<h2>강의 ID: ${lectureId} - 스터디 게시판</h2>
+<h2>스터디 게시판</h2>
 
 <!-- 조별 태그 버튼 -->
 <div>
@@ -25,7 +25,7 @@
 <!-- 조별 게시글 테이블 -->
 <c:forEach var="entry" items="${groupPostMap}">
     <div id="group-${entry.key}" class="post-table" style="display:none;">
-        <h3>조 ${groupNameMap[entry.key]}의 게시글</h3>
+        <h3>${groupNameMap[entry.key]}의 게시글</h3>
         
         <!-- 새글 등록 -->
         <a href="/admin/addStudyPost/${entry.key}">새글등록</a>

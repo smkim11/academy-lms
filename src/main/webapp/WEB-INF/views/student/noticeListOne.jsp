@@ -13,13 +13,13 @@
 <main class="main-container">
     <h2>${lecture.title} - 공지 상세</h2>
 
-    <div class="notice-detail">
-        <h3 class="notice-title">${notice.title}</h3>
+    <div class="notice-detail-box">
+        <h3>${notice.title}</h3>
         <p><strong>유형:</strong> ${notice.noticeType}</p>
         <p><strong>작성일:</strong> ${notice.createDate}</p>
         <hr>
         <div class="notice-content">
-            ${notice.content}
+            <p>${notice.content}</p>
         </div>
     </div>
 
