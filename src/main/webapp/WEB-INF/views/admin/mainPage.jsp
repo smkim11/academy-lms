@@ -101,23 +101,46 @@
   </div>
 </div>
 
+<!-- 법적 의무 안내 -->
 <div class="admin-section">
-  <h2 onclick="toggleSection('legalNotice')" style="cursor: pointer;">▸ 운영자 법적 의무 및 안내</h2>
+  <h3 onclick="toggleSection('legalNotice')" style="cursor: pointer;">▸ 관리자 법적 의무사항</h3>
   <div id="legalNotice" style="display: none; padding: 10px; border: 1px solid #ccc; background: #f9f9f9; border-radius: 6px;">
-    <h3>불법 게시물 관리 안내</h3>
+    <h4>불법 게시물 관리 안내</h4>
     <ul>
       <li>명예훼손·음란물·혐오 표현 등 불법 정보는 인지 즉시 조치합니다.</li>
       <li>삭제 요청이 없더라도 명백한 불법 정보는 선제적으로 제거합니다.</li>
       <li>이를 방치할 경우, 민·형사상 책임이 발생할 수 있습니다.</li>
     </ul>
 
-    <h3>저작권 보호 안내</h3>
+    <h4>저작권 보호 안내</h4>
     <p>불법 저작물 링크가 포함된 게시물은 운영자 인지 시 즉시 삭제 처리합니다.</p>
 
-    <h3>개인정보처리방침 및 쿠키 정책</h3>
-    <p><a href="/privacy.jsp" style="color: blue;">개인정보처리방침</a>을 통해 수집 항목, 목적, 동의 및 파기 정책을 확인하세요.</p>
+    <h4>개인정보처리방침 및 쿠키 정책</h4>
+    <p style="cursor: pointer; color: blue;" onclick="toggleSection('privacyPolicy')">
+ 	 개인정보처리방침
+	</p>
+		<div id="privacyPolicy" style="display: none; padding: 10px; margin-top: 5px; border: 1px solid #ccc; background: #f9f9f9;">
+		  <h4>📄 개인정보처리방침</h4>
+		  <p>본 사이트는 개인정보 보호법에 따라 이용자의 개인정보를 보호하고 관련 법규를 준수합니다.</p>
+		
+		  <h5>1. 수집 항목</h5>
+		  <ul>
+		    <li>필수: 이름, 아이디, 이메일, 전화번호 등</li>
+		    <li>선택: 프로필 이미지, 추가 연락처 등</li>
+		  </ul>
+		
+		  <h5>2. 수집 목적</h5>
+		  <p>회원 관리, 강의 신청·관리, 민원 처리 등을 위해 사용됩니다.</p>
+		
+		  <h5>3. 보유 및 파기</h5>
+		  <p>관련 법령에 따른 보관 기간 후 즉시 안전하게 파기됩니다.</p>
+		
+		  <h5>4. 동의 철회</h5>
+		  <p>회원은 언제든지 개인정보 수집 및 이용 동의를 철회할 수 있습니다.</p>
+		</div>
+	위 내용을 참고하여 수집 항목, 목적, 동의 및 파기 정책을 확인하세요.
 
-    <h3>면책 조항</h3>
+    <h4>면책 조항</h4>
     <p>게시된 정보의 정확성은 보장하지 않으며, 고의·중대한 과실이 없는 경우 법적 책임은 없습니다.</p>
   </div>
 </div>
