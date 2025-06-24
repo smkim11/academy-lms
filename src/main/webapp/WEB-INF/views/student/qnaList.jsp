@@ -67,10 +67,7 @@
 	    </span>
 	    </table>
 	    
-	    <div>
-			<a href="/admin/lectureOne?lectureId=${lectureId }">돌아가기</a>
-		</div>
-	    
+
 	<!-- 게시글 리스트 출력 아래쪽에 페이지 버튼 -->
 	<div style="text-align: center; margin-top: 20px;">
 	    <c:forEach var="i" begin="1" end="${totalPages}">
@@ -103,5 +100,8 @@
 			    강의정보로 돌아가기
 			</a>
 	</main>
+<div>
+	<jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>

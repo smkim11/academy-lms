@@ -43,7 +43,7 @@ public class LectureMaterialController {
 // 강의자료리스트    
     @GetMapping("/lectureMaterialList")
     public String lectureMaterialList(@RequestParam int weekId, Model model, HttpSession session, HttpServletRequest request) {
-    	// 세션정보(필터 추가시 object~if(userIdObj까지삭제해도될듯))
+    	// 세션정보
     	Object userIdObj = session.getAttribute("loginUserId");
     	if (userIdObj == null) {
     		return "redirect:/login";

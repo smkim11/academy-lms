@@ -83,6 +83,9 @@
 	        <a href="/qna?lectureId=${lectureId}">목록으로</a>
 	    </div>
 	</main>
+<div>
+	<jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </main>
 </body>
 </html>

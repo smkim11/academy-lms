@@ -34,5 +34,8 @@
         </a>
     </div>
 </main>
+<div>
+	<jsp:include page ="../nav/footer.jsp"></jsp:include>
+</div>
 </body>
 </html>
