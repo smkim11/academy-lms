@@ -100,7 +100,7 @@ public class MyPageController {
 			log.info("변경실패");
 		}
 		
-		return "redirect:/admin/myPage";
+		return "redirect:/admin/mypage";
 	}
 	
 	@PostMapping("/instructor/updateInfo") // 강사 개인정보 수정
@@ -114,7 +114,7 @@ public class MyPageController {
 			log.info("변경실패");
 		}
 		
-		return "redirect:/instructor/myPage";
+		return "redirect:/instructor/mypage";
 	}
 	
 	@PostMapping("/student/updateInfo") // 학생 개인정보 수정
@@ -128,7 +128,7 @@ public class MyPageController {
 			log.info("변경실패");
 		}
 		
-		return "redirect:/student/myPage";
+		return "redirect:/student/mypage";
 	}
 
 	

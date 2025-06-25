@@ -31,7 +31,7 @@ SELECT i.major AS major FROM user u INNER JOIN instructor i ON u.user_id = i.ins
 </select>
 
 <insert id="createLecture" parameterType="com.example.academylms.dto.Lecture" useGeneratedKeys="true" keyProperty="lectureId" > 
-INSERT INTO lecture  (admin_id, instructor_id, title, DESCRIPTION, DAY, TIME , started_at, ended_at) VALUES (#{adminId},#{instructorId},#{title},#{description},#{day},#{time},#{startedAt},#{endedAt});
+INSERT INTO lecture  (admin_id, instructor_id, title, DESCRIPTION, DAY, TIME, room,  started_at, ended_at) VALUES (#{adminId},#{instructorId},#{title},#{description},#{day},#{time},#{room},#{startedAt},#{endedAt});
 </insert>
 
 <insert id="createLectureWeek">
@@ -39,7 +39,7 @@ INSERT INTO lecture_week (lecture_id, week) VALUES(#{lectureId},#{week});
 </insert>
 
 <select id="lectureOneBylectureId" resultType="com.example.academylms.dto.Lecture" parameterType="int">
-SELECT i.major AS major, i.name AS name , l.title AS title, l.DESCRIPTION AS description, l.DAY AS day, l.TIME AS time, l.started_at  AS startedAt, l.ended_at AS endedAt , l.instructor_id AS instructorId, l.lecture_id AS lectureId FROM lecture l
+SELECT i.major AS major, i.name AS name , l.title AS title, l.DESCRIPTION AS description, l.DAY AS day, l.TIME AS time, l.room AS room , l.started_at  AS startedAt, l.ended_at AS endedAt , l.instructor_id AS instructorId, l.lecture_id AS lectureId FROM lecture l
 INNER JOIN instructor i ON l.instructor_id = i.instructor_id   WHERE lecture_id = #{lectureId};   
 </select>
 
@@ -48,7 +48,7 @@ Delete From lecture_week where lecture_id = #{lectureId};
 </delete>
 
 <update id="updateLecture" parameterType="com.example.academylms.dto.Lecture">
-UPDATE lecture SET admin_id = #{adminId}, instructor_id = #{instructorId}, title = #{title}, DESCRIPTION = #{description}, DAY = #{day},  TIME = #{time},  started_at = #{startedAt}, ended_at = #{endedAt}  WHERE lecture_id = #{lectureId};
+UPDATE lecture SET admin_id = #{adminId}, instructor_id = #{instructorId}, title = #{title}, DESCRIPTION = #{description}, DAY = #{day},  TIME = #{time}, room = #{room}, started_at = #{startedAt}, ended_at = #{endedAt}  WHERE lecture_id = #{lectureId};
 </update>
 
 <delete id="deleteLecture" parameterType="int">

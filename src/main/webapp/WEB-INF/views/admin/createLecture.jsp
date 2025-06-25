@@ -250,6 +250,17 @@
             <option value="EVENING">야간반</option>
           </select>
 
+		<label for="room">강의실 선택</label>
+		<select name="room" id="room" required>
+		  <option value="미배정" disabled selected>강의실을 선택하세요</option>
+		  <option value="B201">B201</option>
+		  <option value="B202">B202</option>
+		  <option value="B203">B203</option>
+		  <option value="B204">B204</option>
+		  <option value="B205">B205</option>
+	 	</select>
+				
+
           <label for="title">과목 선택</label>
           <select name="title" id="title" required>
             <option value="" disabled selected>과목을 선택하세요</option>

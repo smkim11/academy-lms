@@ -34,6 +34,7 @@ public class Lecture {
 	@NotBlank(message = "종료 날짜 입력은 필수입니다.")
 	private String endedAt;
 	private String createDate;
+	private String room;
 	private String name; // dto에만 받을 내용
 	private int week;  // dto에만 받을 내용
 	private String major; // dto에만 받을 내용

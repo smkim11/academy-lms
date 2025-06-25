@@ -30,6 +30,7 @@
       </div>
       <p><strong>강사:</strong> ${lecture.name}</p>
       <p><strong>시간:</strong> ${lecture.day} / ${lecture.time}</p>
+      <p><strong>강의실:</strong> ${lecture.room}
       <p><strong>기간:</strong> ${lecture.startedAt} ~ ${lecture.endedAt}</p>
 
       <div class="mt-25">
