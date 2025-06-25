@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.academylms.mapper.QnaMapper">
-	<select id="selectQnaListByPage" resultType="map">
-	    SELECT q.qna_id AS qnaId,
-	           q.title,
-	           q.is_public AS isPublic,
-	           q.create_date AS createDate,
-	           u.user_id AS writerName
-	    FROM qna q
-	    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
-	    JOIN user u ON le.student_id = u.user_id
-	    WHERE le.lecture_id = #{lectureId}
-	    ORDER BY q.create_date DESC
-	    LIMIT #{offset}, #{limit}
-	</select>
-	
+<select id="selectQnaListByPage" resultType="map">
+    SELECT q.qna_id AS qnaId,
+           q.title,
+           q.is_public AS isPublic,
+           q.create_date AS createDate,
+           s.name AS writerName
+    FROM qna q
+    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
+    JOIN student s ON le.student_id = s.student_id
+    WHERE le.lecture_id = #{lectureId}
+    ORDER BY q.create_date DESC
+    LIMIT #{offset}, #{limit}
+</select>
 	<select id="selectQnaCount" resultType="int">
 	    SELECT COUNT(*)
 	    FROM qna q
@@ -104,19 +103,19 @@
 	    WHERE qna_id = #{qnaId}
 	</update>
 	
-	<select id="selectMyQnaList" resultType="map">
-	    SELECT q.qna_id AS qnaId,
-	           q.title,
-	           q.is_public AS isPublic,
-	           q.create_date AS createDate,
-	           u.user_id AS writerName
-	    FROM qna q
-	    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
-	    JOIN user u ON le.student_id = u.user_id
-	    WHERE le.lecture_id = #{lectureId}
-	      AND le.student_id = #{studentId}
-	    ORDER BY q.create_date DESC
-	</select>
+<select id="selectMyQnaList" resultType="map">
+    SELECT q.qna_id AS qnaId,
+           q.title,
+           q.is_public AS isPublic,
+           q.create_date AS createDate,
+           s.name AS writerName
+    FROM qna q
+    JOIN lecture_enrollment le ON q.enrollment_id = le.enrollment_id
+    JOIN student s ON le.student_id = s.student_id
+    WHERE le.lecture_id = #{lectureId}
+      AND le.student_id = #{studentId}
+    ORDER BY q.create_date DESC
+</select>
 	
 	<select id="getLectureInfoByLectureId" parameterType="int" resultType="map">
 	    SELECT title, day, time
