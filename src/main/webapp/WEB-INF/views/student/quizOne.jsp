@@ -66,7 +66,9 @@
   flex: 1; /* 남은 공간 다 사용하게 */
   max-width: 200px;
 }
-
+.shift-right {
+  margin-left: 340px; 
+}
 </style>
 <meta charset="UTF-8">
 <title>AcademyLMS</title>
@@ -86,7 +88,7 @@
 			<input type="hidden" name="currentPage" value="${p.currentPage}">
 				
 				<!-- 문제 -->
-			    <div class="form-wrapper form-group">
+			    <div class="form-wrapper form-group shift-right">
 			    	<input type="hidden" name="quizNo" value="${quiz.quizNo}">
 			        <p><label for="No">${quiz.quizNo}번</label> ${quiz.question}</p>
 			    </div>
@@ -95,7 +97,7 @@
 			<c:if test="${not empty options}">
 				<c:if test="${answer != null}">
 				    <c:forEach var="opt" items="${options}">
-				        <div class="form-radio-group">
+				        <div class="form-radio-group shift-right">
 				            <label>
 				            	<!-- 객관식 답을 저장할때 optionNo는 숫자형이므로 문자형으로 형변환 -->
 				            	<c:if test="${answer == opt.optionNo.toString()}">
@@ -110,7 +112,7 @@
 				</c:if>
 				<c:if test="${answer == null}">
 					<c:forEach var="opt" items="${options}">
-				        <div class="form-radio-group">
+				        <div class="form-radio-group shift-right">
 				            <label>
 				            	<input type="radio" name="answer" value="${opt.optionNo.toString()}"> ${opt.option}
 				            </label>
@@ -120,13 +122,13 @@
 			</c:if>
 			<c:if test="${empty options}">
 				<c:if test="${answer != null}">
-					<div class="form-group-horizontal">
+					<div class="form-group-horizontal shift-right">
 						<label for="answer">답:</label>
 						<input type="text" name="answer" id="answer" class="form-control" value="${answer}">
 					</div>
 				</c:if>
 				<c:if test="${answer == null}">
-					<div class="form-group-horizontal">
+					<div class="form-group-horizontal shift-right">
 						<label for="answer">답:</label>
 						<input type="text" name="answer" id="answer" class="form-control">
 					</div>
