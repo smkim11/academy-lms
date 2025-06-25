@@ -77,6 +77,7 @@ public class QnaController {
         Qna qna = qnaService.getQnaOne(qnaId);
         request.setAttribute("qna", qna);
         request.setAttribute("lectureId", lectureId);
+
         //세션정보
         HttpSession session = request.getSession();
         Object userIdObj = session.getAttribute("loginUserId");
@@ -84,8 +85,13 @@ public class QnaController {
             return "redirect:/login";
         }
         int userId = (int) userIdObj;
+        request.setAttribute("loginUserId", userId); 
         User user = loginService.findById(userId); 
         String role = user.getRole(); //user에 담겨있는정보로 role 역할 분리
+        
+        // 세션에 login 정보 강제로 다시 저장
+        session.setAttribute("loginUserId", userId);
+        session.setAttribute("loginRole", role);
         
         // 리스트 상단 강의정보표시
         Map<String, Object> lectureInfoMap = qnaMapper.getLectureInfoByLectureId(lectureId);
@@ -308,22 +314,18 @@ public class QnaController {
             request.setAttribute("errorMsg", "답변 내용을 입력해주세요");
             return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId;
         }
-
         // 세션 정보
         HttpSession session = request.getSession();
         Object userIdObj = session.getAttribute("loginUserId");
         if (userIdObj == null) {
-            return "redirect:/login";
+        	return "redirect:/login";
         }
         int userId = (int) userIdObj;
         User user = loginService.findById(userId);
         String role = user.getRole();
 
-        // 질문 작성자 확인
-        int qnaStudentId = qnaService.getStudentIdByQna(answer.getQnaId());
-
-        // 강사이거나, 질문을 쓴 학생일 경우만 답변 허용
-        if (!"instructor".equals(role) && userId != qnaStudentId) {
+        // 강사만 답변 허용
+        if (!"instructor".equals(role)) {
             return "redirect:/qnaOne?id=" + answer.getQnaId() + "&lectureId=" + lectureId + "&error=unauthorized";
         }
 

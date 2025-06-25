@@ -60,32 +60,14 @@
 </div>
 	
 	    
-<!-- 답변 리스트 -->
-<c:forEach var="answer" items="${qnaAnswer}">
-    <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; margin-top: 10px; background-color: #f9fafb;">
-        <div style="display: flex; justify-content: space-between;">
-            <p style="margin-bottom: 10px;">
-                ${answer.answer}
-            </p>
-            <c:if test="${answer.studentId == qnaStudentId}">
-                <span style="color: #007bff; font-weight: bold;">[작성자]</span>
-            </c:if>
-        </div>
-        <p style="font-size: 12px; color: gray;">${answer.createDate}</p>
-    </div>
-</c:forEach>
 
-<!-- 답변 입력 폼 (강사 또는 질문 작성자만 보임) -->
-<c:if test="${loginRole == 'instructor' || (loginRole == 'student' && loginUserId == qnaStudentId)}">
-    <form action="/addAnswer" method="post" style="margin-top: 20px;">
-        <input type="hidden" name="qnaId" value="${qna.qnaId}" />
-        <input type="hidden" name="lectureId" value="${lectureId}" />
-        <textarea name="answer" style="width: 100%; height: 100px; padding: 8px; font-size: 14px;" placeholder="답변 내용을 입력하세요"></textarea>
-        <div style="text-align: right; margin-top: 10px;">
-            <button type="submit">답변 등록</button>
+    <!-- 답변 리스트 -->
+    <c:forEach var="answer" items="${qnaAnswer}">
+        <div style="border: 1px solid #ddd; border-radius: 10px; padding: 10px; margin-top: 10px; background-color: #f9fafb;">
+            <p style="margin-bottom: 10px;">${answer.answer}</p>
+            <p style="font-size: 12px; color: gray;">${answer.createDate}</p>
         </div>
-    </form>
-</c:if>
+    </c:forEach>
 	
 <!-- 목록으로 버튼 -->
 	    <div style="text-align: left; margin-top: 10px;">
