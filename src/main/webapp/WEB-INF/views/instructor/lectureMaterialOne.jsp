@@ -25,7 +25,6 @@
     <c:if test="${not empty material}">
         <div style="margin-top: 20px; line-height: 1.8; font-size: 15px;">
             <p><strong>자료명:</strong> ${material.title}</p>
-            <p><strong>등록일:</strong> ${material.createDate}</p>
             <p><strong>파일:</strong>
                 <c:choose>
                     <c:when test="${not empty material.fileUrl}">
